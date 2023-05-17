@@ -1,17 +1,18 @@
 import React from 'react';
 import './Navbar.css';
 import logo from '../../assets/images/logo.png';
+import { Link } from 'react-router-dom';
 
 function Navbar() {
     return (
       <div className='navbar'>
         <img src={logo} alt="Logo" className='logo'/>
         <div className='nar-tag'>
-          <h3 className='home-page bold-text'>Trang chủ</h3>
-          <h3 className='developers'>Nhà phát triển</h3>
-          <h3 className='services'>Dịch vụ</h3>
-          <h3 class='news'>Tin tức</h3>
-          <h3 className='search'>Tra cứu</h3>
+          <Link to='/' className='link home bold-text'>Trang chủ</Link>
+          <Link to='/developers' className='link developers'>Nhà phát triển</Link>
+          <Link to='/services' className='link services'>Dịch vụ</Link>
+          <Link to='/news' className='link news'>Tin tức</Link>
+          <Link to='/search' className='link search'>Tra cứu</Link>
         </div>
         <button className='login-btn'>Đăng nhập</button>
       </div>

@@ -22,9 +22,9 @@ function Home() {
         className="home-slide"
         style={{ transform: `translateX(-${activeIndex * 100}vw)` }}
       >
-        <Home1 navbar={Navbar}/>
-        <Home2 navbar={Navbar}/>
-        <Home3 navbar={Navbar}/>
+        <Home1 />
+        <Home2 />
+        <Home3 />
       </div>
     </div>
   );
