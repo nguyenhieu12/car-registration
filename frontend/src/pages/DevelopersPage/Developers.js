@@ -2,7 +2,7 @@ import Navbar from "../../components/Navbar/Navbar";
 
 function Developers() {
     return(
-        <div>
+        <div className="developers-container">
             <Navbar />
             <h1>Hello form Developers</h1>
         </div>

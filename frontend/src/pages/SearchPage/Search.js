@@ -1,10 +1,11 @@
 import Navbar from "../../components/Navbar/Navbar";
+// import background from '../../assets/images/search-background.png';
 
 function Search() {
     return(
-        <div>
+        <div className="search-container">
             <Navbar />
-            <h1>Hello from Search!</h1>
+            {/* <img src={background} alt="background" /> */}
         </div>
     );
 }

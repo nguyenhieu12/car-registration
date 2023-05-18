@@ -33,6 +33,13 @@ function Home() {
 function Home1() {
   return (
     <div className="home1">
+      <div id="page1" className="page-content">
+        <h1>Đảm bảo an toàn</h1>
+        <h1>phương tiện</h1>
+        <p>Đảm bảo phương tiện luôn được kiểm tra</p>
+        <p>đúng hạn trước những hành trình dài</p>
+        <button>Xem thêm</button>
+      </div>
       <img src={homeBackground1} alt="Home 1" />
     </div>
   );
@@ -41,6 +48,13 @@ function Home1() {
 function Home2() {
   return (
     <div className="home2">
+      <div id="page2" className="page-content">
+        <h1>Truy xuất thông tin</h1>
+        <h1>dễ dàng</h1>
+        <p>Truy xuất dữ liệu đăng kiểm theo quý, năm</p>
+        <p>một cách nhanh chóng và dễ dàng</p>
+        <button>Xem thêm</button>
+      </div>
       <img src={homeBackground2} alt="Home 2" />
     </div>
   );
@@ -49,13 +63,14 @@ function Home2() {
 function Home3() {
   return (
     <div className="home3">
-      <img src={homeBackground3} alt="Home 3" />
-      <div className='page-content'>
+      <div id="page3" className="page-content">
         <h1>Lưu trữ dữ liệu</h1>
-        <h1>Hiệu quả</h1>
+        <h1>hiệu quả</h1>
         <p>Dữ liệu được lưu trữ an toàn trong cơ sở</p>
         <p>dữ liệu của cục đăng kiểm</p>
+        <button>Xem thêm</button>
       </div>
+      <img src={homeBackground3} alt="Home 3" />
     </div>
   );
 }
