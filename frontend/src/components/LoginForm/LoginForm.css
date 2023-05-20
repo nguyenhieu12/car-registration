@@ -1,0 +1,30 @@
+.login-container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.login-content {
+  position: absolute;
+  top: 100px;
+  left: 300px;
+  width: 60vw;
+  height: 70vh;
+  background-color: white;
+  background-image: url('../../assets/images/login.png');
+  background-size: cover;
+}
+
+.login-container:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(4px);
+}
+
+
+ 

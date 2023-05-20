@@ -4,6 +4,7 @@ import homeBackground1 from '../../assets/images/home-background1.png';
 import homeBackground2 from '../../assets/images/home-background2.png';
 import homeBackground3 from '../../assets/images/home-background3.png';
 import Navbar from '../../components/Navbar/Navbar';
+import LoginForm from '../../components/LoginForm/LoginForm';
 
 function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -15,9 +16,18 @@ function Home() {
     return () => clearInterval(interval);
   }, []);
 
+  const [isFormOpened, setisFormOpened] = useState(false); 
+
+  const handleOpenForm = () => {
+    setisFormOpened(true)
+  }
+
+  const handleCloseForm = () => {
+    setisFormOpened(false)
+  }
+
   return (
-    <div className="home-container">
-      <Navbar />
+    <div className='home-container' >
       <div
         className="home-slide"
         style={{ transform: `translateX(-${activeIndex * 100}vw)` }}
@@ -26,6 +36,7 @@ function Home() {
         <Home2 />
         <Home3 />
       </div>
+      <Navbar isOpen={isFormOpened} handleLoginClick={handleOpenForm} handleOutsideClick={handleCloseForm}/>
     </div>
   );
 };
@@ -76,3 +87,4 @@ function Home3() {
 }
 
 export default Home;
+
