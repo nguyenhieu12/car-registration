@@ -29,10 +29,6 @@
   object-fit: cover;
 }
 
-h1 {
-  z-index: 999;
-}
-
 .page-content {
   position: absolute;
   margin-top: 120px;
