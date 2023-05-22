@@ -4,7 +4,10 @@ import homeBackground1 from '../../assets/images/home-background1.png';
 import homeBackground2 from '../../assets/images/home-background2.png';
 import homeBackground3 from '../../assets/images/home-background3.png';
 import Navbar from '../../components/Navbar/Navbar';
-import LoginForm from '../../components/LoginForm/LoginForm';
+import Developers from '../DevelopersPage/Developers';
+import Services from '../ServicesPage/Services';
+import News from '../NewsPage/News';
+import Search from '../SearchPage/Search';
 
 function Home() {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -26,6 +29,25 @@ function Home() {
     setisFormOpened(false)
   }
 
+  const [tabSelected, setTabSelected] = useState(1);
+
+  function handleTabSelected(tab) {
+    setTabSelected(tab);
+  }
+
+  const pages = [
+    '',
+    [
+      <Home1 />,
+      <Home2 />,
+      <Home3 />
+    ],
+    <Developers style={2}/>,
+    <Services style={3}/>,
+    <News style={4}/>,
+    <Search style={5}/>
+  ];
+
   return (
     <div className='home-container' >
       <div
@@ -36,7 +58,7 @@ function Home() {
         <Home2 />
         <Home3 />
       </div>
-      <Navbar isOpen={isFormOpened} handleLoginClick={handleOpenForm} handleOutsideClick={handleCloseForm}/>
+      <Navbar style={1} isOpen={isFormOpened} handleLoginClick={handleOpenForm} handleOutsideClick={handleCloseForm}/>
     </div>
   );
 };

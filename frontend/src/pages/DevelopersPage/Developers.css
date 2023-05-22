@@ -10,6 +10,11 @@
     margin-top: 140px;
     text-align: center;
     font-size: 40px;
+    /* background-image: linear-gradient(to right, #8800ff, #006aff);
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    background-clip: text;
+    color: transparent; */
     color: white;
 }
 
@@ -54,4 +59,24 @@ h1 {
 
 h1 + p {
     margin-top: 0;
+}
+
+.contact > span {
+    color: white;
+    font-size: 20px;
+}
+
+.contact {
+    /* position: absolute;
+    left: 50%;
+    top: 90%; */
+    margin-top: 30%;
+    text-align: center;
+}
+
+.contact img {
+    position: absolute;
+    margin-left: 10px;
+    width: 24px;
+    height: 24px;
 }

@@ -64,13 +64,11 @@
   max-height: 18px;
 }
 
-
-.selected {
-  font-weight: bold;
+.white-text {
   color: white;
 }
 
-.link:not(.selected) {
+.white-normal {
   font-weight: normal;
   color: white;
 }

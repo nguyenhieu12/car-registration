@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, {useRef, useEffect } from 'react';
 import './LoginForm.css';
 import userIcon from '../../assets/icons/user-icon.png';
 import passwordIcon from '../../assets/icons/password-icon.png';
@@ -24,23 +24,13 @@ function LoginForm({ closeForm }) {
     event.stopPropagation();
   };
 
-  // const [isFocused, setIsFocused] = useState(false);
-
-  // const handleFocus = () => {
-  //   setIsFocused(true);
-  // };
-
-  // const handleBlur = () => {
-  //   setIsFocused(false);
-  // };
-
   return (
     <div className='login-container' ref={formRef} onClick={closeForm}>
       <div className="login-background" onClick={handleClickInside}>
         <div className='login-form'>
           <h2>Chào mừng</h2>
           <div className='input-wrapper'>
-            <img src={userIcon} />
+            <img src={userIcon} alt='user'/>
             <input 
               type='text'
               className='input-field'
@@ -49,7 +39,7 @@ function LoginForm({ closeForm }) {
           </div>
           <hr/>
           <div className='input-wrapper'>
-            <img src={passwordIcon} />
+            <img src={passwordIcon} alt='password'/>
             <input 
               type='password'
               className='input-field'
@@ -70,7 +60,3 @@ function LoginForm({ closeForm }) {
 }
 
 export default LoginForm;
-
-
-
-

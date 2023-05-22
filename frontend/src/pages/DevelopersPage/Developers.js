@@ -4,6 +4,7 @@ import './Developers.css';
 import dev1 from '../../assets/images/dev1.jpg';
 import dev2 from '../../assets/images/dev2.jpg';
 import dev3 from '../../assets/images/dev3.jpg';
+import fbIcon from '../../assets/icons/facebook-icon.png'
 
 function Developers() {
     const [isFormOpened, setisFormOpened] = useState(false); 
@@ -18,7 +19,6 @@ function Developers() {
 
     return(
         <div className='container'>
-            
             <h1 className="dev-heading">Đội ngũ phát triển</h1>
             <div className='developers'>
                 <div className="developer1">
@@ -37,7 +37,13 @@ function Developers() {
                     <p className="dev-desc">Kẻ hủy diệt Frontend</p>
                 </div>
             </div>
-            <Navbar className='navbar'
+            <div className="contact">
+                <span>Liên hệ chúng tôi: </span>
+                <a href="https://www.facebook.com/dd.gnad" target="_blank" rel="noopener">
+                    <img src={fbIcon} alt='fbIcon'/>
+                </a>
+            </div>
+            <Navbar style={2}
              isOpen={isFormOpened}
              handleLoginClick={handleOpenForm}
              handleOutsideClick={handleCloseForm}
