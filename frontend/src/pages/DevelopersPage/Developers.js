@@ -18,7 +18,7 @@ function Developers() {
     }
 
     return(
-        <div className='container'>
+        <div className='dev-container'>
             <h1 className="dev-heading">Đội ngũ phát triển</h1>
             <div className='developers'>
                 <div className="developer1">

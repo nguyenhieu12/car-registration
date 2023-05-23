@@ -1,7 +1,7 @@
-.container {
+.dev-container {
     width: 100vw;
     height: 100vh;
-    background-image: linear-gradient(to right top, #3494E6, #EC6EAD);
+    background-image: linear-gradient(to right top, #45a8ff, #fb5dac);
     display: flex;
     flex-direction: column;
 }

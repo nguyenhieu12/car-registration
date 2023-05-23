@@ -1,0 +1,58 @@
+.services-container {
+    width: 100vw;
+    height: 100vh;
+    background-image: linear-gradient(to bottom right, #31cfda, #1453dc);
+    display: flex;
+    flex-direction: column;
+}
+
+.services-heading {
+    margin-top: 140px;
+    text-align: center;
+    color: white;
+    font-size: 40px;
+}
+
+.services-options {
+    width: 90%;
+    height: 300px;
+    margin: auto;
+    display: flex;
+    gap: 20px;
+}
+
+.options {
+    border-radius: 20px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.options > h2 {
+    font-size: 22px;
+}
+
+.options > img {
+    width: 80px;
+    height: 80px;
+    margin-top: 10px;
+}
+
+.option1 {
+    /* background-image: linear-gradient(to right bottom, #96d3ff, #9299ff); */
+}
+
+.option2 {
+
+}
+
+.option3 {
+    background-image: linear-gradient(to right bottom, #faadff, #c685ff);
+}
+
+.option4 {
+
+}

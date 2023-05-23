@@ -35,19 +35,6 @@ function Home() {
     setTabSelected(tab);
   }
 
-  const pages = [
-    '',
-    [
-      <Home1 />,
-      <Home2 />,
-      <Home3 />
-    ],
-    <Developers style={2}/>,
-    <Services style={3}/>,
-    <News style={4}/>,
-    <Search style={5}/>
-  ];
-
   return (
     <div className='home-container' >
       <div
