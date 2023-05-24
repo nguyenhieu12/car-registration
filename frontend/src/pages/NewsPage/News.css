@@ -1,0 +1,25 @@
+.news-header {
+    padding-top: 100px;
+    text-align: center;
+}
+
+.news-header h2 {
+    color: #0080ff;
+    font-size: 2rem;
+    margin-bottom: -15px;
+}
+
+.news-header h1 {
+    font-size: 3rem;
+    color: #0f52ba;
+    margin-bottom: 1rem;
+}
+
+.news-header h1 strong {
+    color: #b0c4de;
+}
+
+.news-header p {
+    color: #a9a9a9;
+    font-weight: 500;
+}
