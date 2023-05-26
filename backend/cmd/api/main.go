@@ -1,8 +1,8 @@
 package main
 
 import (
+	"database/sql"
 	redis2 "github.com/go-redis/redis/v8"
-	"github.com/jmoiron/sqlx"
 	"io"
 	"log"
 	"os"
@@ -30,7 +30,7 @@ import (
 // @contact.email alexander.bryksin@yandex.ru
 // @BasePath /api/v1
 func main() {
-	log.Println("Starting api server")
+	log.Println("Starting API server")
 
 	configPath := utils.GetConfigPath(os.Getenv("config"))
 
@@ -53,14 +53,22 @@ func main() {
 	if err != nil {
 		appLogger.Fatalf("Postgresql init: %s", err)
 	} else {
-		appLogger.Infof("Postgres connected, Status: %#v", psqlDB.Stats())
-	}
-	defer func(psqlDB *sqlx.DB) {
-		err := psqlDB.Close()
+		sqlDB, err := psqlDB.DB()
 		if err != nil {
+			appLogger.Fatalf("Postgresql to sql.DB error: %s", err)
+		}
+
+		if sqlDB != nil {
+			appLogger.Infof("Postgres connected, Status: %#v", sqlDB.Stats())
+			defer func(sqlDB *sql.DB) {
+				err := sqlDB.Close()
+				if err != nil {
+
+				}
+			}(sqlDB)
 
 		}
-	}(psqlDB)
+	}
 
 	redisClient := redis.NewRedisClient(cfg)
 	defer func(redisClient *redis2.Client) {
