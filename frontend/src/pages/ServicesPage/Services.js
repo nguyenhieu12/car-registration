@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Navbar from "../../components/Navbar/Navbar";
 import './Services.css'
 import carIcon from '../../assets/icons/car.png';
@@ -6,7 +6,9 @@ import certifiIcon from '../../assets/icons/certification.png';
 import dbIcon from '../../assets/icons/database.png';
 import easyIcon from '../../assets/icons/easy.png';
 import {useNavigate, useLocation} from "react-router-dom";
-
+import optionImg1 from '../../assets/images/option1-img.png'
+import optionImg2 from '../../assets/images/option2-img.png'
+import optionImg3 from '../../assets/images/option3-img.png'
 function Services() {
     const [isFormOpened, setIsFormOpened] = useState(false);
 
@@ -75,17 +77,58 @@ function Services() {
                     handleOutsideClick={handleCloseForm}
                 />
             </div>
-            <div className="safe" id="safe">
-                Hello 1
+            <div className="safe-container" id="safe">
+                <div className='content-container container1'>
+                    <div className='content'>
+                        <h1>Đảm bảo an toàn</h1>
+                        <p>&#x2022; Tổng số xe cơ giới đang lưu hành là 4,554,590 xe</p>
+                        <p>&#x2022; Cần đảm bảo an toàn khi tham gia giao thông</p>
+                        <p>&#x2022; Số phương tiện không được kiểm định gia tăng</p>
+                        <p>&#x2022; Trang web hỗ trợ các tác vụ đăng kiểm dễ dàng</p>
+                        <p>&#x2022; Quyền quản trị, sử dụng được phân chia rõ ràng</p>
+                    </div>
+                    <div className='illus-img'>
+                        <img src={optionImg1} alt='option1'/>
+                    </div>
+                </div>
             </div>
-            <div className="certificate" id="certificate">
-                Hello 2
+            <div className="certificate-container" id="certificate">
+                <div className='content-container container2'>
+                    <div className='illus-img'>
+                        <img src={optionImg2} alt='option2'/>
+                    </div>
+                    <div className='content'>
+                        <h1>Chứng nhận nhanh chóng</h1>
+                        <p>&#x2022; Nhập dữ liệu một cách gọn gàng</p>
+                        <p>&#x2022; Xử lí thông tin đăng ký dễ dàng</p>
+                        <p>&#x2022; Cấp giấy chứng nhận nhanh chóng</p>
+                        <p>&#x2022; Kết quả đăng ký được ghi nhận chính xác</p>
+                    </div>
+                </div>
             </div>
-            <div className="storage" id="storage">
-                Hello 3
+            <div className="storage-container" id="storage">
+                <div className='content-container container3'>
+                    <div className='content'>
+                        <h1>Lưu trữ dữ liệu hiệu quả</h1>
+                        <p>&#x2022; Dữ liệu được lưu trữ một cách an toàn</p>
+                        <p>&#x2022; Hỗ trợ người dùng tra cứu lịch sử đăng kiểm</p>
+                        <p>&#x2022; Giúp các cơ quan dễ dàng thống kê số liệu</p>
+                        <p>&#x2022; Tạo mô hình dự đoán lượng xe trong tương lai</p>
+                    </div>
+                    <div className='illus-img'>
+                        <img src={optionImg3} alt='option3'/>
+                    </div>
+                </div>
             </div>
-            <div className="tutorial" id="tutorial">
-                Hello 4
+            <div className="tutorial-container" id="tutorial">
+                <div className='content-container container4'>
+                    <div className='content'>
+                        Hi
+                    </div>
+                    <div className='illus-img'>
+
+                    </div>
+                </div>
             </div>
         </div>
     );
