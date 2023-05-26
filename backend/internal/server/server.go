@@ -3,6 +3,7 @@ package server
 import (
 	"context"
 	"github.com/gofiber/fiber/v2"
+	"gorm.io/gorm"
 	"net/http"
 	_ "net/http/pprof"
 	"os"
@@ -14,7 +15,6 @@ import (
 	_ "backend/docs"
 	"backend/pkg/logger"
 	"github.com/go-redis/redis/v8"
-	"github.com/jmoiron/sqlx"
 )
 
 const (
@@ -28,14 +28,14 @@ const (
 type Server struct {
 	fiber       *fiber.App
 	cfg         *config.Config
-	db          *sqlx.DB
+	db          *gorm.DB
 	redisClient *redis.Client
 	//awsClient   *minio.Client
 	logger logger.Logger
 }
 
 // NewServer New Server constructor
-func NewServer(cfg *config.Config, db *sqlx.DB, redisClient *redis.Client, logger logger.Logger) *Server {
+func NewServer(cfg *config.Config, db *gorm.DB, redisClient *redis.Client, logger logger.Logger) *Server {
 	return &Server{fiber: fiber.New(), cfg: cfg, db: db, redisClient: redisClient, logger: logger}
 }
 
