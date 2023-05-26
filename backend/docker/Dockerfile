@@ -7,7 +7,8 @@ WORKDIR /app
 
 COPY ./ /app
 
-RUN go version
+RUN go install github.com/githubnemo/CompileDaemon@latest
+
 RUN go mod download
 
 
@@ -16,7 +17,7 @@ FROM golang:1.20.4-alpine as runner
 
 COPY --from=builder ./app ./app
 
-RUN go get github.com/githubnemo/CompileDaemon
+RUN go install github.com/githubnemo/CompileDaemon@latest
 
 WORKDIR /app
 ENV config=docker
