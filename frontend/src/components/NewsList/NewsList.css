@@ -1,4 +1,4 @@
-article {
+.news-wrapper {
   --img-scale: 1.001;
   --title-color: black;
   --link-icon-translate: -20px;
@@ -13,7 +13,7 @@ article {
   height: 510px;
 }
 
-article a::after {
+.news-wrapper a::after {
   position: absolute;
   inset-block: 0;
   inset-inline: 0;
@@ -21,7 +21,7 @@ article a::after {
   content: "";
 }
 
-article h2 {
+.news-wrapper h2 {
   margin: 10px 0 18px 0;
   font-size: 24px;
   color: var(--title-color);
@@ -32,25 +32,25 @@ article h2 {
   overflow: hidden;
 }
 
-figure {
+.news-figure {
   margin: 0;
   padding: 0;
   aspect-ratio: 16 / 9;
   overflow: hidden;
 }
 
-article img {
+.news-wrapper img {
   max-width: 100%;
   transform-origin: center;
   transform: scale(var(--img-scale));
   transition: transform 0.4s ease-in-out;
 }
 
-.article-body {
+.news-body {
   padding: 24px 24px 0px 24px;
 }
 
-.description {
+.news-description {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
@@ -58,7 +58,7 @@ article img {
   text-overflow: ellipsis;
 }
 
-article a {
+.news-wrapper a {
   display: inline-block;
   align-items: center;
   text-decoration: none;
@@ -68,16 +68,16 @@ article a {
   bottom: 10px;
 }
 
-article a:focus {
+.news-wrapper a:focus {
   outline: 1px dotted #0f52ba;
 }
 
-article .read-more {
+.news-wrapper .news-read-more {
   display: flex;
   align-items: center;
 }
 
-article a .icon {
+.news-wrapper a .news-icon {
   min-width: 20px;
   width: 20px;
   height: 20px;
@@ -88,7 +88,7 @@ article a .icon {
   transition: all 0.3s;
 }
 
-article:has(:hover, :focus) {
+.news-wrapper:has(:hover, :focus) {
   --img-scale: 1.1;
   --title-color: #0f52ba;
   --link-icon-translate: 0;
@@ -96,7 +96,7 @@ article:has(:hover, :focus) {
   box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 }
 
-.articles {
+.news-container {
   display: grid;
   max-width: 1200px;
   margin-inline: auto;
@@ -106,21 +106,21 @@ article:has(:hover, :focus) {
 }
 
 @media screen and (max-width: 960px) {
-  article {
+  .news-wrapper {
     container: card/inline-size;
   }
-  .article-body p {
+  .news-body p {
     display: none;
   }
 }
 
 @container card (min-width: 380px) {
-  .article-wrapper {
+  .news-wrapper {
     display: grid;
     grid-template-columns: 100px 1fr;
     gap: 16px;
   }
-  .article-body {
+  .news-body {
     padding-left: 0;
   }
   figure {

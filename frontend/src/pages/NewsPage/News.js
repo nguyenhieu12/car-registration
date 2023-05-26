@@ -3,7 +3,7 @@ import Navbar from "../../components/Navbar/Navbar";
 import SearchBar from '../../components/SearchBar/SearchBar';
 import NewsList from '../../components/NewsList/NewsList';
 import axios from 'axios';
-import './News.css';
+import HeaderNews from '../../components/HeaderNews/HeaderNews';
 
 function News(props) {
     const [isFormOpened, setisFormOpened] = useState(false);
@@ -46,20 +46,12 @@ function News(props) {
                 handleOutsideClick={handleCloseForm}
             />
 
-            <div className='news-header'>
-                <h2>Tin tức mới nhất về</h2>
-                <h1>
-                    <strong>"</strong>Đăng kiểm<strong>"</strong>
-                </h1>
-                <p>
-                    Nơi cập nhật các thông tin mới nhất về đăng kiểm ô tô <br /> các lịch thông báo từ phía trung tâm đăng kiểm,
-                    cục đăng kiểm.
-                </p>
-            </div>
+            <HeaderNews />
 
             <SearchBar />
 
             <NewsList newsList={newsList} />
+
         </div>
     );
 }

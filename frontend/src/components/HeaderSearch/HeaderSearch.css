@@ -1,0 +1,104 @@
+.search-container {
+    height: 65vh;
+    background: linear-gradient(rgba(33, 33, 33, 0.522), rgba(33, 33, 33, 0.522)), url('../../assets/images/search-background2.jpg');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    position: relative;
+    margin-bottom: 16.5rem;
+  
+    .layout {
+      .layout-text {
+        text-align: center;
+  
+        .title {
+          color: white;
+          font-size: 50;
+          font-weight: bold;
+          margin-bottom: 30px;
+        }
+  
+        .subTitle {
+          color: white;
+          font-size: 20;
+          font-weight: 300;
+          max-width: 70%;
+          opacity: 0.8;
+          text-align: center;
+          margin: auto;
+          margin-bottom: 15%;
+        }
+      }
+  
+      .card {
+        width: 60%;
+        border-radius: 1rem;
+        padding: 2rem;
+        background-color: white;
+        position: absolute;
+        gap: 1rem;
+        justify-content: center;
+        bottom: -27%;
+        transform: translate(-50%);
+        left: 50%;
+        box-shadow: 0 2px 8px 4px rgba(178, 178, 178, 0.45);
+  
+        .cccdDiv, .carNumberDiv {
+          width: 100%
+        }
+      }
+    }
+  }
+    
+  .cccdDiv label, .carNumberDiv label {
+    display: block;
+    color: hsl(0, 0%, 26%);
+    font-weight: 500;
+    font-size: 13px;
+    padding-bottom: .5rem;
+  }
+  
+  .cccdDiv input, .carNumberDiv input {
+    width: 100%;
+    box-sizing: border-box;
+    background: hsl(330, 12%, 97%);
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    outline: none;
+  
+    &::placeholder {
+      font-size: 13px;
+      opacity: .5;
+      font-weight: 400;
+    }
+  
+    &::focus {
+      outline: none;
+    }
+  }
+  .carNumberDiv label {
+    margin-top: 15px;
+  }
+  
+  .carNumberDiv input {
+    margin-bottom: 20px;
+  }
+  
+  .btn {
+    padding: 0.4rem 1.5rem;
+    margin-top: auto;
+    outline: none;
+    border: none;
+    width: fit-content;
+    border-radius: 5px;
+    background-color: #0f52ba;
+    color: #fff;
+    cursor: pointer;
+  }
