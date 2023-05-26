@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-// App config struct
+// Config App config struct
 type Config struct {
 	Server   ServerConfig
 	Postgres PostgresConfig
@@ -23,7 +23,7 @@ type Config struct {
 	Jaeger   Jaeger
 }
 
-// Server config struct
+// ServerConfig Server config struct
 type ServerConfig struct {
 	AppVersion        string
 	Port              string
@@ -48,7 +48,7 @@ type Logger struct {
 	Level             string
 }
 
-// Postgresql config
+// PostgresConfig Postgresql config
 type PostgresConfig struct {
 	PostgresqlHost     string
 	PostgresqlPort     string
@@ -59,7 +59,7 @@ type PostgresConfig struct {
 	PgDriver           string
 }
 
-// Redis config
+// RedisConfig Redis config
 type RedisConfig struct {
 	RedisAddr      string
 	RedisPassword  string
@@ -112,14 +112,14 @@ type AWS struct {
 	MinioEndpoint  string
 }
 
-// AWS S3
+// Jaeger jaeger config
 type Jaeger struct {
 	Host        string
 	ServiceName string
 	LogSpans    bool
 }
 
-// Load config file from given path
+// LoadConfig Load config file from given path
 func LoadConfig(filename string) (*viper.Viper, error) {
 	v := viper.New()
 
@@ -136,7 +136,7 @@ func LoadConfig(filename string) (*viper.Viper, error) {
 	return v, nil
 }
 
-// Parse config file
+// ParseConfig Parse config file
 func ParseConfig(v *viper.Viper) (*Config, error) {
 	var c Config
 
