@@ -1,17 +1,20 @@
-FROM golang:1.20.4
+FROM golang:1.20.4-alpine
 
 #ENV TZ=Europe/Moscow
 #RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 ENV config=docker
 
-WORKDIR /app
+#WORKDIR /app
 
-COPY ./ /app
+COPY . .
+
+RUN go install github.com/githubnemo/CompileDaemon@latest
+
+RUN go mod init
 
 RUN go mod download
 
-RUN go get github.com/githubnemo/CompileDaemon
 
 EXPOSE 5000
 
