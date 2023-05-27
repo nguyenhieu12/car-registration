@@ -6,14 +6,14 @@ import axios from 'axios';
 import HeaderNews from '../../components/HeaderNews/HeaderNews';
 
 function News(props) {
-    const [isFormOpened, setisFormOpened] = useState(false);
+    const [isFormOpened, setIsFormOpened] = useState(false);
 
     const handleOpenForm = () => {
-        setisFormOpened(true)
+        setIsFormOpened(true)
     }
 
     const handleCloseForm = () => {
-        setisFormOpened(false)
+        setIsFormOpened(false)
     }
 
     const [newsList, setNewsList] = useState([]);

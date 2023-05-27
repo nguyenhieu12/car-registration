@@ -17,6 +17,7 @@
 }
 
 .content-container {
+    margin-top: 5%;
     background-color: white;
     width: 80vw;
     height: 75vh;
@@ -168,12 +169,12 @@
 
 @keyframes moveUpDown {
     0% {
-      transform: translateY(0);
+        transform: translateY(0);
     }
     50% {
-      transform: translateY(-20px);
+        transform: translateY(-20px);
     }
     100% {
-      transform: translateY(0);
+        transform: translateY(0);
     }
 }

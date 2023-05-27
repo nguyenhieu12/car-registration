@@ -25,49 +25,48 @@
   gap: 80px;
 }
 
-.login-btn-style1 {
+.login-btn {
   flex: 1;
   max-width: 120px;
   max-height: 35px;
   margin-top: 22px;
   margin-right: 50px;
   border-radius: 30px;
-  color: white;
   font-size: 14px;
   font-weight: 600;
+  box-shadow: none;
+}
+
+.btn-style1 {
+  color: white;
   background-color: #2091F9;
   border: none;
-  box-shadow: none;
 }
 
-.login-btn-style2 {
-  flex: 1;
-  max-width: 120px;
-  max-height: 35px;
-  margin-top: 22px;
-  margin-right: 50px;
-  border-radius: 30px;
+.btn-style2 {
   color: rgb(255, 26, 160);
-  font-size: 14px;
-  font-weight: 600;
   background-color: rgb(240, 240, 240);
   border: none;
-  box-shadow: none;
 }
 
-.login-btn-style3 {
-  flex: 1;
-  max-width: 120px;
-  max-height: 35px;
-  margin-top: 22px;
-  margin-right: 50px;
-  border-radius: 30px;
+.btn-style3 {
   color: #006aff;
-  font-size: 14px;
-  font-weight: 600;
   background-color: rgb(240, 240, 240);
   border: none;
-  box-shadow: none;
+}
+
+.btn-style4 {
+  color: black;
+  background-color: transparent;
+  border: 2px black solid;
+}
+
+.btn-style5,
+.btn-style6 {
+  color: #ffffff;
+  /*background-color: #ff6200;*/
+  background-color: #0065ff;
+  border: none;
 }
 
 .link {
