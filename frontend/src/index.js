@@ -6,6 +6,8 @@ import Developers from './pages/DevelopersPage/Developers';
 import News from './pages/NewsPage/News';
 import Services from './pages/ServicesPage/Services';
 import Search from './pages/SearchPage/Search';
+import Dashboard from "./pages/Dashboard/Dashboard";
+
 import { 
     createBrowserRouter,
     RouterProvider,
@@ -31,6 +33,10 @@ import {
     {
       path: '/search',
       element: <Search /> 
+    },
+    {
+      path: '/dashboard',
+      element: <Dashboard />
     }
   ]);
 
