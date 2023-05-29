@@ -21,7 +21,7 @@ function News(props) {
     useEffect(() => {
         axios.get("https://newsapi.org/v2/everything?q=car&apiKey=09ccc9dea02242a9b897be5a65515cb9")
             .then(response => {
-                console.log(response);
+                // console.log(response);
                 setNewsList(response.data.articles)
             })
 
@@ -40,17 +40,17 @@ function News(props) {
 
     return (
         <div>
-            <Navbar style={4}
-                isOpen={isFormOpened}
-                handleLoginClick={handleOpenForm}
-                handleOutsideClick={handleCloseForm}
-            />
-
             <HeaderNews />
 
             <SearchBar />
 
             <NewsList newsList={newsList} />
+
+            <Navbar style={4}
+                    isOpen={isFormOpened}
+                    handleLoginClick={handleOpenForm}
+                    handleOutsideClick={handleCloseForm}
+            />
 
         </div>
     );
