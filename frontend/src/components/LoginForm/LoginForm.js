@@ -2,9 +2,16 @@ import React, {useRef, useEffect } from 'react';
 import './LoginForm.css';
 import userIcon from '../../assets/icons/user-icon.png';
 import passwordIcon from '../../assets/icons/password-icon.png';
+import {useNavigate} from "react-router-dom";
 
 function LoginForm({ closeForm }) {
   const formRef = useRef();
+
+  const navigate = useNavigate();
+
+  const handleAfterLogin = () => {
+    navigate('/dashboard');
+  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -52,7 +59,7 @@ function LoginForm({ closeForm }) {
             <span>Ghi nhớ đăng nhập</span>
             <span>Quên mật khẩu?</span>
           </div>
-          <button className='login'>Đăng nhập</button>
+          <button className='login' onClick={handleAfterLogin}>Đăng nhập</button>
         </div>
       </div>
     </div>

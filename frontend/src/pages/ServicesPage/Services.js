@@ -47,26 +47,26 @@ function Services() {
                 <div className="options option1" onClick={() => scrollToContainer('safe')}>
                     <img src={carIcon} alt="car" />
                     <h2>Đảm bảo an toàn</h2>
-                    <p>Phân chia quyền sử dụng</p>
-                    <h3>Xem thêm</h3>
+                    <p className='option-desc'>Phân chia quyền sử dụng</p>
+                    <h3 className='see-more'>Xem thêm</h3>
                 </div>
                 <div className="options option2" onClick={() => scrollToContainer('certificate')}>
                     <img src={certifiIcon} alt="certification" />
                     <h2>Chứng nhận nhanh chóng</h2>
-                    <p>Ghi nhận kết quả nhanh chóng</p>
-                    <h3>Xem thêm</h3>
+                    <p className='option-desc'>Ghi nhận kết quả nhanh chóng</p>
+                    <h3 className='see-more'>Xem thêm</h3>
                 </div>
                 <div className="options option3" onClick={() => scrollToContainer('storage')}>
                     <img src={dbIcon} alt="database" />
                     <h2>Lưu trữ hiệu quả</h2>
-                    <p>Dữ liệu được lưu trữ hiệu quả</p>
-                    <h3>Xem thêm</h3>
+                    <p className='option-desc'>Dữ liệu được lưu trữ hiệu quả</p>
+                    <h3 className='see-more'>Xem thêm</h3>
                 </div>
                 <div className="options option4" onClick={() => scrollToContainer('tutorial')}>
                     <img src={easyIcon} alt="easy" />
                     <h2>Dễ dàng sử dụng</h2>
-                    <p>Thân thiện với người dùng</p>
-                    <h3>Xem thêm</h3>
+                    <p className='option-desc'>Thân thiện với người dùng</p>
+                    <h3 className='see-more'>Xem thêm</h3>
                 </div>
             </div>
             <div className="services-navbar">
