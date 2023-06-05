@@ -10,6 +10,7 @@ import (
 	"github.com/ansrivas/fiberprometheus/v2"
 	fiberSwagger "github.com/arsmn/fiber-swagger/v2"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/favicon"
 	"github.com/gofiber/fiber/v2/middleware/limiter"
 	"github.com/gofiber/fiber/v2/middleware/requestid"
@@ -43,6 +44,8 @@ func (s *Server) MapHandlers(f *fiber.App) error {
 			})
 		},
 	}))
+
+	f.Use(cors.New())
 
 	//logger, _ := zap.NewProduction()
 	//
