@@ -22,12 +22,11 @@ import (
 	jaegercfg "github.com/uber/jaeger-client-go/config"
 )
 
-// @title Go Example REST API
+// @title RegistryTotal REST API
 // @version 1.0
-// @description Example Golang REST API
-// @contact.name Alexander Bryksin
-// @contact.url https://github.com/AleksK1NG
-// @contact.email alexander.bryksin@yandex.ru
+// @description RegistryTotal Golang REST API
+// @contact.name Dang Dao
+// @contact.email ddang.daodang@gmail.com
 // @BasePath /api/v1
 func main() {
 	log.Println("Starting API server")
