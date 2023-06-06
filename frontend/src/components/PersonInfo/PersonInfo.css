@@ -1,0 +1,158 @@
+.container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .personinfo-headerText {
+    font-size: 24px;
+    padding-bottom: 20px;
+  } 
+
+  .input-container-flex {
+    display: flex;
+  }
+
+  textarea {
+    margin-bottom: 15px;
+  }
+
+  .top-border {
+    padding-top: 20px;
+    border-top: 1px solid #e2e2e2;
+  }
+
+  .gender {
+    align-items: center;
+  }
+
+  .gender-title {
+    padding-right: 50px;
+  }
+  
+  h2 {
+    margin-bottom: 10px;
+  }
+  
+  .form-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .form-row:last-child {
+    margin-bottom: 0;
+  }
+  
+  .input-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .distance {
+    margin-right: 15px;
+  }
+  
+  label {
+    margin-bottom: 5px;
+    font-weight: normal;
+  }
+  
+  input[type="text"],
+  textarea {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 5px;
+  }
+  
+  input[disabled],
+  textarea[disabled] {
+    background-color: #f2f2f2;
+  }
+  
+  .success-message {
+    color: #22B0DC;
+    margin-top: 10px;
+  }
+  
+  .button-container {
+    margin-top: 10px;
+    display: flex;
+  }
+  
+  
+  button:focus {
+    outline: none;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  .checkbox-gender {
+    display: flex;
+  }
+
+  .checkbox-gender label {
+    margin-right: 10px;
+    display: flex;
+  }
+
+  .checkbox-gender label p {
+    margin-bottom: 2px;
+  }
+
+
+  .button-update {
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #22B0DC;
+    margin-right: 10px;
+    color: #fff;
+    margin-top: -1px;
+  }
+
+  .button-cancel {
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #efefef;
+    margin-right: 10px;
+    color: black;
+    margin-top: -1px;
+  }
+
+  .input-disabled {
+    position: relative;
+  }
+  
+  .input-disabled::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease-in-out;
+  }
+  
+  .input-disabled:hover::after {
+    opacity: 1;
+  }
