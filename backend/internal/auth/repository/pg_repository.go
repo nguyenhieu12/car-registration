@@ -86,6 +86,7 @@ func (a *authRepo) GetUsers(ctx context.Context, query *utils.PaginationQuery) (
 	defer span.Finish()
 
 	result := a.db.First(&models.User{})
+
 	totalCount := int(result.RowsAffected)
 	if result := a.db.First(&models.User{}); result.Error != nil {
 		return nil, errors.Wrap(result.Error, "authRepo.GetUsers.Results")
@@ -105,6 +106,9 @@ func (a *authRepo) GetUsers(ctx context.Context, query *utils.PaginationQuery) (
 	var users = make([]*models.User, 0, query.GetSize())
 	if records := a.db.Limit(query.GetLimit()).Offset(query.GetOffset()).Order(query.GetOrderBy()).Find(&users); records.Error != nil {
 		return nil, errors.Wrap(records.Error, "authRepo.GetUsers.Query")
+	}
+	for _, u := range users {
+		u.SanitizePassword()
 	}
 
 	return &models.UsersList{

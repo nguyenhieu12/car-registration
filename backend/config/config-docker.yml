@@ -7,7 +7,7 @@ server:
   CookieName: jwt-token
   ReadTimeout: 10
   WriteTimeout: 10
-  SSL: true
+  SSL: false # https
   CtxDefaultTimeout: 12
   CSRF: true
   Debug: false

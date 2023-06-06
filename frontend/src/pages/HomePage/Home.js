@@ -63,8 +63,8 @@ function Home2({ handleLearnMore }) {
     return (
         <div className="home2">
             <div id="page2" className="page-content">
-                <h1>Truy xuất thông tin</h1>
-                <h1>dễ dàng</h1>
+                <h1>Truy xuất thông</h1>
+                <h1>tin dễ dàng</h1>
                 <p>Truy xuất dữ liệu đăng kiểm theo quý, năm</p>
                 <p>một cách nhanh chóng và dễ dàng</p>
                 <button onClick={() => handleLearnMore('/services', 'certificate')}>Xem thêm</button>
@@ -80,8 +80,8 @@ function Home3({ handleLearnMore }) {
             <div id="page3" className="page-content">
                 <h1>Lưu trữ dữ liệu</h1>
                 <h1>hiệu quả</h1>
-                <p>Dữ liệu được lưu trữ an toàn trong cơ sở</p>
-                <p>dữ liệu của cục đăng kiểm</p>
+                <p>Dữ liệu được lưu trữ an toàn trong</p>
+                <p>cơ sở dữ liệu của cục đăng kiểm</p>
                 <button onClick={() => handleLearnMore('/services', 'storage')}>Xem thêm</button>
             </div>
             <img src={homeBackground3} alt="Home 3" />

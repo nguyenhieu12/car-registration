@@ -65,12 +65,13 @@
     color: #9d1fff;
 }
 
-.content > p {
+.content p {
     font-style: normal;
     text-align: justify;
     align-items: center;
     margin-top: 1%;
     margin-left: 10%;
+    font-size: 23px;
 }
 
 .safe-container > .content-container {
@@ -184,39 +185,60 @@
     .services-heading {
         font-size: 35px;
     }
+
     .see-more,
     .option-desc {
         display: none;
     }
+
     .services-options {
         display: flex;
         flex-wrap: wrap;
     }
+
     .options {
-        width: 100%;
-        height: 100%;
+        flex-basis: calc(50% - 10px);
+        margin-bottom: 80px;
+        margin-top: -80px;
     }
+
+    .options h2 {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .options img {
+        max-height: 50%;
+        max-width: 35%;
+    }
+
     .option1,
     .option2,
     .option3,
     .option4 {
-        flex: 1;
+        max-height: 100%;
+        height: 60%;
     }
+
     .options > img {
         width: 60%;
 
     }
+
     .content-container {
         width: 90%;
         height: 70%;
         margin-top: 20%;
     }
+
     .content h1 {
         font-size: 24px;
     }
+
     .content p {
         font-size: 20px;
     }
+
     .illus-img img {
         margin: auto auto;
         width: 100%;
@@ -226,21 +248,66 @@
 
 /* Tablet styles */
 @media screen and (min-width: 740px) and (max-width: 1023px) {
+    .services-heading {
+        font-size: 32px;
+    }
+
+    .services-options {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .options {
+        flex-basis: calc(50% - 10px);
+        margin-bottom: 100px;
+        margin-top: -100px;
+        height: 220px;
+    }
+
+    .options h2 {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .options h3 {
+        margin-top: 20px;
+    }
+
+    .options img {
+        max-height: 50%;
+        max-width: 20%;
+        margin-bottom: 10px;
+    }
+
+    .option1,
+    .option2,
+    .option3,
+    .option4 {
+        max-height: 100%;
+    }
+
+    .options > img {
+        width: 60%;
+
+    }
+
     .content-container {
         width: 90%;
         height: 70%;
-        margin-top: 15%;
+        margin-top: 12%;
     }
+
     .content h1 {
         font-size: 32px;
     }
+
     .content p {
         font-size: 22px;
     }
+
     .illus-img img {
         margin: auto auto;
         width: 100%;
         height: 80%;
     }
 }
-
