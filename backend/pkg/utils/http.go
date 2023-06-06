@@ -1,6 +1,8 @@
 package utils
 
 import (
+	"backend/internal/models"
+	"backend/pkg/httpErrors"
 	"context"
 	"github.com/gofiber/fiber/v2"
 	"time"
@@ -32,4 +34,17 @@ func GetConfigPath(configPath string) string {
 		return "./config/config-docker"
 	}
 	return "./config/config-local"
+}
+
+// UserCtxKey is a key used for the User object in the context
+type UserCtxKey struct{}
+
+// GetUserFromCtx Get user from context
+func GetUserFromCtx(ctx context.Context) (*models.User, error) {
+	user, ok := ctx.Value(UserCtxKey{}).(*models.User)
+	if !ok {
+		return nil, httpErrors.Unauthorized
+	}
+
+	return user, nil
 }

@@ -7,6 +7,7 @@ import (
 	"backend/pkg/logger"
 	"backend/pkg/utils"
 	"github.com/gofiber/fiber/v2"
+	"github.com/google/uuid"
 	"github.com/opentracing/opentracing-go"
 )
 
@@ -171,8 +172,34 @@ func (a *authHandlers) Delete() fiber.Handler {
 // @Failure 500 {object} httpErrors.RestError
 // @Router /auth/{id} [get]
 func (a *authHandlers) GetUserByID() fiber.Handler {
-	//TODO implement me
-	panic("implement me")
+	return func(ctx *fiber.Ctx) error {
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.GetUserByID")
+		defer span.Finish()
+
+		uID, err := uuid.Parse(ctx.Params("user_id"))
+		if err != nil {
+			a.logger.Error("authHandlers.GetUserByID.Query", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+
+		}
+
+		user, err := a.authService.GetByID(customContext, uID)
+		if err != nil {
+			a.logger.Error("authHandlers.GetUserByID.GetByID", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+		}
+
+		return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+			"status": "success",
+			"data":   user,
+		})
+	}
 }
 
 // FindByName godoc
