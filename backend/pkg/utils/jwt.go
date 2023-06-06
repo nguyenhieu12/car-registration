@@ -15,6 +15,7 @@ import (
 type Claims struct {
 	UserName string `json:"user_name"`
 	ID       string `json:"id"`
+	Role     string `json:"role"`
 	jwt.RegisteredClaims
 }
 
@@ -24,6 +25,7 @@ func GenerateJWTToken(user *models.User, config *config.Config) (string, error) 
 	claims := &Claims{
 		UserName: user.UserName,
 		ID:       user.UserID.String(),
+		Role:     *user.Role,
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 60)),
 		},

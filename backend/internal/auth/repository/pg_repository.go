@@ -67,8 +67,16 @@ func (a *authRepo) GetByUsername(ctx context.Context, username string) (*models.
 }
 
 func (a *authRepo) FindByStationCode(ctx context.Context, stationCode string) (*models.UsersList, error) {
-	//TODO implement me
-	panic("implement me")
+	//span, _ := opentracing.StartSpanFromContext(ctx, "authRepo.FindByStationCode")
+	//defer span.Finish()
+	//
+	//var foundUser models.User
+	//if result := a.db.Where("station_code = ?", stationCode).First(&foundUser); result.Error != nil {
+	//	return nil, errors.Wrap(result.Error, "authRepo.GetByUsername.Where.First")
+	//}
+	//
+	//Todo: implement pagination
+	panic("implement me FindByStationCode")
 }
 
 func (a *authRepo) FindByEmail(ctx context.Context, user *models.User) (*models.User, error) {
