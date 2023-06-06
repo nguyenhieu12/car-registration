@@ -22,29 +22,31 @@
   margin-top: 5px;
   margin-left: 20px;
   flex: 1;
-  max-width: 100px;
-  max-height: 80px;
+  max-width: calc(50px + 3vw);
+  height: calc(70px + 0.6vw);
   cursor: pointer;
 }
 
 .nar-tag {
-  margin-left: 260px;
+  margin-left: calc(24vw - 100px);
   margin-top: 30px;
   flex: 5;
   display: flex;
-  gap: 80px;
+  gap: 5vw;
 }
 
 .login-btn {
   flex: 1;
-  max-width: 120px;
-  max-height: 35px;
+  max-width: calc(80px + 2vw);
+  max-height: 10vh;
   margin-top: 22px;
-  margin-right: 50px;
+  margin-right: calc(10vw - 50px);
+  margin-left: 12vw;
   border-radius: 30px;
-  font-size: 14px;
+  font-size: calc(4px + 0.6vw);
   font-weight: 600;
   box-shadow: none;
+  white-space: nowrap;
 }
 
 .btn-style1 {
@@ -73,12 +75,13 @@
 }
 
 .link {
-  font-size: 18px;
+  font-size: calc(12px + 0.4vw);
   text-decoration: none;
   color: black;
   font-weight: normal;
   cursor: pointer;
   max-height: 18px;
+  white-space: nowrap;
 }
 
 .white-text {
@@ -93,4 +96,50 @@
 .bold-text {
   font-weight: bold;
 }
+
+.menu {
+  cursor: pointer;
+}
+
+.menu-line {
+  position: relative;
+  top: 20px;
+  right: 20px;
+  width: calc(10px + 3vw);
+  max-width: 50px;
+  border: 2px black solid;
+  border-radius: 30px;
+  margin-bottom: 5px;
+  color: black;
+}
+
+.not-mobile {
+  display: none;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 739px) {
+  .login-btn {
+    display: none;
+  }
+
+  .link {
+    display: none;
+  }
+}
+
+/* Tablet styles */
+@media screen and (min-width: 740px) and (max-width: 1023px) {
+  .nar-tag {
+    margin-left: calc(24vw - 140px);
+  }
+
+  .login-btn {
+    font-size: calc(6px + 0.6vw);
+    margin-left: calc(8vw - 0px);
+    max-width: calc(60px + 2vw);
+  }
+}
+
+
 
