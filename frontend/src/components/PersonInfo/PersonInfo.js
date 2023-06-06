@@ -52,7 +52,7 @@ function PersonInfo(props) {
     };
   
     return (
-      <div className="container">
+      <div className="personinfo-container">
         <form>
           <h1 className='personinfo-headerText'>Thông tin cá nhân</h1>
           <div className="form-row">
