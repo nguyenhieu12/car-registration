@@ -7,10 +7,10 @@
 
 .login-background {
   position: absolute;
-  top: 100px;
-  left: 300px;
-  width: 60vw;
-  height: 70vh;
+  top: calc(80px + 2vw);
+  left: calc(10px + 20vw);
+  width: calc(400px + 35vw);
+  height: calc(100px + 25vw);
   background-color: white;
   background-image: url('../../assets/images/login-background.png');
   background-size: cover;
@@ -26,7 +26,8 @@
   backdrop-filter: blur(4px);
 }
 
-h2 {
+.login-form > h2 {
+  margin-bottom: 20px;
   font-size: 30px;
   color: #1FB792;
 }
@@ -88,4 +89,14 @@ span + span {
   color: white;
   border-radius: 20px;
   font-size: 16px;
+}
+
+/* Mobile styles */
+@media screen and (max-width: 739px) {
+
+}
+
+/* Tablet styles */
+@media screen and (min-width: 740px) and (max-width: 1023px) {
+
 }

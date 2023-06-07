@@ -7,6 +7,8 @@ import ChangePassword from '../ChangePassword/ChangePassword';
 function ProfileContent(props) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
     return (
         <div className="profile-container">
             <div className="profile-sidebar">
@@ -20,10 +22,10 @@ function ProfileContent(props) {
                     </div>
                     <div className="profile-usertitle">
                         <div className="profile-usertitle-name">
-                            Hoàn Bằng
+                            {currentUser.last_name + ' ' + currentUser.first_name}
                         </div>
                         <div className="profile-usertitle-role">
-                            Nhân viên
+                            {currentUser.role}
                         </div>
                     </div>
                 </div>
@@ -34,7 +36,7 @@ function ProfileContent(props) {
                             <i class='bx bx-calendar-alt' ></i> Ngày sinh:
                         </div>
                         <div>
-                            15/11/2002
+                            Cái này trong DB ko có
                         </div>
                     </div>
                     
@@ -43,7 +45,7 @@ function ProfileContent(props) {
                             <i class='bx bx-user'></i> Giới tính:
                         </div>
                         <div>
-                            Nam
+                            Cái này ko có luôn
                         </div>
                     </div>
                     
@@ -52,7 +54,7 @@ function ProfileContent(props) {
                             <i class='bx bx-phone' ></i> Số điện thoại:
                         </div>
                         <div>
-                            0388586955
+                            {currentUser.phone_number}
                         </div>
                     </div>
                     
@@ -61,7 +63,7 @@ function ProfileContent(props) {
                             <i class='bx bx-envelope' ></i> Email:
                         </div>
                         <div>
-                            hoannk1511@gmail.com
+                            {currentUser.email}
                         </div>
                     </div>
                 </div>

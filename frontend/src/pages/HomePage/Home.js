@@ -39,7 +39,11 @@ function Home() {
                 <Home2 handleLearnMore={handleLearnMore} />
                 <Home3 handleLearnMore={handleLearnMore} />
             </div>
-            <Navbar style={1} isOpen={isFormOpened} handleLoginClick={handleOpenForm} handleOutsideClick={handleCloseForm} />
+            <Navbar style={1}
+                    isOpen={isFormOpened}
+                    handleLoginClick={handleOpenForm}
+                    handleOutsideClick={handleCloseForm}
+            />
         </div>
     );
 }

@@ -7,7 +7,9 @@ import 'boxicons/css/boxicons.min.css';
 import SettingContent from '../../components/SettingContent/SettingContent';
 import SearchContent from '../../components/SearchContent/SearchContent';
 
-function Dashboard(props) {
+function Dashboard() {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
     const [tabs, setTabs] = useState([
         { id: Date.now(), title: 'Dashboard', content: <DashboardContent />, iconName: 'bx bxs-dashboard' },
     ]);
@@ -99,42 +101,42 @@ function Dashboard(props) {
                 <ul className="sidebar-list">
                     <li>
                         <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Dashboard') ? 'isActive' : ''}`} onClick={() => addTab('Dashboard', <DashboardContent />, 'bx bxs-dashboard')}>
-                            <i class='bx bxs-dashboard' ></i>
+                            <i className='bx bxs-dashboard' ></i>
                             <span className="sidebar-links">Dashboard</span>
                         </a>
                         <span className="tooltip">Dashboard</span>
                     </li>
                     <li>
                         <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Tra cứu') ? 'isActive' : ''}`} onClick={() => addTab('Tra cứu', <SearchContent />, 'bx bx-search-alt')}>
-                            <i class='bx bx-search-alt' ></i>
+                            <i className='bx bx-search-alt' ></i>
                             <span className="sidebar-links">Tra cứu</span>
                         </a>
                         <span className="tooltip">Tra cứu</span>
                     </li>
                     <li>
                         <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Thông tin cá nhân') ? 'isActive' : ''}`} onClick={() => addTab('Thông tin cá nhân', <ProfileContent />, 'bx bx-user')}>
-                            <i class='bx bx-user' ></i>
+                            <i className='bx bx-user' ></i>
                             <span className="sidebar-links">Thông tin cá nhân</span>
                         </a>
                         <span className="tooltip">Thông tin cá nhân</span>
                     </li>
                     <li>
                         <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Quản lý tin tức') ? 'isActive' : ''}`} onClick={() => addTab('Quản lý tin tức', <NewsContent />, 'bx bx-news')}>
-                            <i class='bx bx-news' ></i>
+                            <i className='bx bx-news' ></i>
                             <span className="sidebar-links">Quản lý tin tức</span>
                         </a>
                         <span className="tooltip">Quản lý tin tức</span>
                     </li>
                     <li>
                         <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Setting') ? 'isActive' : ''}`} onClick={() => addTab('Cài đặt', <SettingContent />, 'bx bx-cog')}>
-                            <i class='bx bx-cog' ></i>
+                            <i className='bx bx-cog' ></i>
                             <span className="sidebar-links">Cài đặt</span>
                         </a>
                         <span className="tooltip">Cài đặt</span>
                     </li>
                     <li className='logout'>
                         <a href="#">
-                            <i class='bx bx-log-out' ></i>
+                            <i className='bx bx-log-out' ></i>
                             <span className="sidebar-links">Đăng xuất</span>
                         </a>
                         <span className="tooltip">Đăng xuất</span>
@@ -142,15 +144,15 @@ function Dashboard(props) {
                 </ul>
             </div>
 
-            <section class="main-container">
+            <section className="main-container">
                 <div className="main-container-header">
                     <div className='welcome'>
                         <p>Chào mừng quay trở lại,</p>
-                        <h2 className='user-name-title'>Hoàn Bằng</h2>
+                        <h2 className='user-name-title'>{'Xin chào ' + currentUser.first_name}</h2>
                     </div>
                     <div className="user-info">
                         <div className="search-box">
-                            <i class='bx bx-search'></i>
+                            <i className='bx bx-search'></i>
                             <input type="text" placeholder="Search" />
                         </div>
                         <img

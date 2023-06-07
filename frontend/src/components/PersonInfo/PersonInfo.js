@@ -2,13 +2,15 @@ import React, {useState, useRef} from 'react';
 import './PersonInfo.css';
 
 function PersonInfo(props) {
-    const [fullName, setFullName] = useState("Hoàn Bằng");
-    const [gender, setGender] = useState("Nam");
-    const [dateOfBirth, setDateOfBirth] = useState("15/11/2002");
-    const [phoneNumber, setPhoneNumber] = useState("0388586955");
-    const [citizenId, setCitizenId] = useState("000123456789");
-    const [email, setEmail] = useState("hoannk1511@gmail.com");
-    const [description, setDescription] = useState("");
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    const [fullName, setFullName] = useState(currentUser.last_name + ' ' + currentUser.first_name);
+    const [gender, setGender] = useState('Chưa xác định <(\")');
+    const [dateOfBirth, setDateOfBirth] = useState("Không có");
+    const [phoneNumber, setPhoneNumber] = useState(currentUser.phone_number);
+    const [citizenId, setCitizenId] = useState(currentUser.identity_no);
+    const [email, setEmail] = useState(currentUser.gmail);
+    const [description, setDescription] = useState("Dăm ba con web <(\")");
     const [companyInfo, setCompanyInfo] = useState({
       inspectionStation: "TTDK XCG 1101S - Hà Nội",
       stationCode: "1101S",

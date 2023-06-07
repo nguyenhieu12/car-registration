@@ -13,6 +13,9 @@ import {
     RouterProvider,
   } from 'react-router-dom';
 
+  const currentUser = localStorage.getItem('currentUser');
+  const token = localStorage.getItem('token');
+
   const router = createBrowserRouter([
     {
       path: '/',
@@ -36,7 +39,7 @@ import {
     },
     {
       path: '/dashboard',
-      element: <Dashboard />
+      element: <Dashboard currentUser={currentUser} token={token} />
     }
   ]);
 

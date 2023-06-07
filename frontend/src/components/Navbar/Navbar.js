@@ -16,7 +16,6 @@ function Navbar({style, isOpen, handleLoginClick, handleOutsideClick}) {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    // Hàm xử lý sự kiện resize
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
@@ -27,12 +26,6 @@ function Navbar({style, isOpen, handleLoginClick, handleOutsideClick}) {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
-  const getData = () => {
-    fetch('http://localhost:5000/api/v1/auth/all?size=10&page=0', {mode: 'no-cors'})
-        .then(respon => respon.json())
-        .then(data => console.log(data));
-  }
 
   return (
     <div className='navbar-container'>
@@ -51,9 +44,7 @@ function Navbar({style, isOpen, handleLoginClick, handleOutsideClick}) {
           <hr className='menu-line'></hr>
           <hr className='menu-line'></hr>
         </div>
-        {/*<button onClick={getData}>get data</button>*/}
-
-        {isOpen && <LoginForm closeForm={handleOutsideClick}/>}
+        {isOpen && <LoginForm closeForm={handleOutsideClick} />}
       </div>
     </div>
   );
