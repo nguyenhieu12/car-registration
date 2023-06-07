@@ -4,7 +4,6 @@ import logo from '../../assets/images/logo.png';
 import { useNavigate, Link  } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import LoginForm from '../LoginForm/LoginForm';
-import axios from "axios";
 
 function Navbar({style, isOpen, handleLoginClick, handleOutsideClick}) {
   const navigate = useNavigate();

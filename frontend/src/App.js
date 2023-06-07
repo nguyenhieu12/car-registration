@@ -1,22 +1,15 @@
 import React, {useState} from 'react';
 import Home from './pages/HomePage/Home';
+import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
    // const [loggedIn, setLoggedIn] = useState(
    //     localStorage.getItem('token') !== null
-   // )
-
-   // let token = null;
-   // let currentUser = null;
-   //
-   // const handleLoggedIn = () => {
-   //     token = localStorage.getItem('token');
-   //     currentUser = localStorage.getItem('currentUser');
-   //     setLoggedIn(!loggedIn);
-   // }
+   // );
 
   return (
     <div className='app'>
+        {/*{loggedIn ? <Dashboard /> : <Home />}*/}
         <Home />
     </div>
   );

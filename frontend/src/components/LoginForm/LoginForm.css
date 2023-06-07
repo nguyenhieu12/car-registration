@@ -7,13 +7,18 @@
 
 .login-background {
   position: absolute;
-  top: calc(80px + 2vw);
-  left: calc(10px + 20vw);
-  width: calc(400px + 35vw);
-  height: calc(100px + 25vw);
+  margin-top: calc(90px + 0.5vw);
+  margin-left: 20%;
+  margin-right: 20%;
+  left: 30%;
+  transform: translateX(-50%);
+  width: calc(620px + 20vw);
+  height: calc(400px + 8vw);
   background-color: white;
   background-image: url('../../assets/images/login-background.png');
   background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .login-container:before {
@@ -27,17 +32,17 @@
 }
 
 .login-form > h2 {
-  margin-bottom: 20px;
-  font-size: 30px;
+  margin-bottom: calc(10px + 1vw);
+  font-size: calc(28px);
   color: #1FB792;
 }
 
 .login-form {
   text-align: center;
   width: 300px;
-  height: 300px;
-  margin-top: 170px;
-  margin-left: 560px;
+  height: calc(540px + 2vw);
+  margin-top: calc(120px + 4vw);
+  margin-left: calc(350px + 14vw);
 }
 
 .input-wrapper {
@@ -62,7 +67,8 @@
 hr {
   margin-top: 3px;
   margin-bottom: 15px;
-  max-width: 280px;
+  margin-left: 8px;
+  max-width: 275px;
 }
 
 .login-options {
@@ -75,15 +81,19 @@ span {
 }
 
 span + span {
-  margin-left: 60px;
+  margin-left: 52px;
   color: red;
   cursor: pointer;
+}
+
+input[type=checkbox] + span {
+  margin-left: 5px;
 }
 
 .login {
   outline: none;
   background-color: #1FB792;
-  width: 200px;
+  width: 180px;
   height: 35px;
   border-color: transparent;
   color: white;
@@ -93,10 +103,36 @@ span + span {
 
 /* Mobile styles */
 @media screen and (max-width: 739px) {
+  .login-background {
+    background-image: url('../../assets/images/login-background-mobile.png');
+    height: 80%;
+    width: 80%;
+    bottom: 10%;
+    border-radius: 25px;
+  }
 
+  .login-form {
+    margin-left: calc(40vw - 140px);
+    margin-top: calc(180px + 2vw);
+  }
 }
 
 /* Tablet styles */
 @media screen and (min-width: 740px) and (max-width: 1023px) {
+  .login-form > h2 {
+    font-size: calc(22px + 0.5vw);
+  }
 
+  .login-background {
+    margin-top: calc(80px + 5vw);
+    width: calc(320px + 50vw);
+  }
+
+  .login-form {
+    margin-left: calc(150px + 34vw);
+  }
+
+  .login-form > hr {
+    max-width: calc(255px + 2vw);
+  }
 }
