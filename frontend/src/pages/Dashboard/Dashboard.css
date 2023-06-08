@@ -3,6 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 .sidebar-container{
   position: fixed;
   left: 0;
@@ -175,6 +176,7 @@
   transition: all 0.5s ease;
   z-index: 2;
   padding: 1rem;
+  color: #000;
 }
 .sidebar-container.open ~ .main-container{
   left: 250px;
@@ -243,6 +245,10 @@
   border: none;
 }
 
+.tab-title {
+  color: #000;
+}
+
 .tab-container {
   display: flex;
   flex-direction: column;
@@ -268,6 +274,10 @@
   border-top-right-radius: 6px;
   cursor: pointer;
   position: relative;
+}
+
+.tab-item i {
+  padding-top: 2px;
 }
 
 .tab-item.active {
