@@ -55,7 +55,7 @@ function LoginForm({ closeForm }) {
           localStorage.setItem('token', token);
           localStorage.setItem('currentUser', JSON.stringify(currentUser));
 
-          console.log(currentUser);
+          console.log(token);
 
           navigate('/dashboard');
         })

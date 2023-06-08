@@ -6,9 +6,16 @@ import './Dashboard.css';
 import 'boxicons/css/boxicons.min.css';
 import SettingContent from '../../components/SettingContent/SettingContent';
 import SearchContent from '../../components/SearchContent/SearchContent';
+import {useNavigate} from "react-router-dom";
 
 function Dashboard() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    const navigate = useNavigate();
+
+    const [isLoggedIn, setIsLoggedIn] = useState(
+        currentUser !== null
+    )
 
     const [tabs, setTabs] = useState([
         { id: Date.now(), title: 'Dashboard', content: <DashboardContent />, iconName: 'bx bxs-dashboard' },
@@ -86,6 +93,12 @@ function Dashboard() {
         setIsOpen(!isOpen);
     };
 
+    const handleLogout = async () => {
+        await localStorage.removeItem('token');
+        await localStorage.removeItem('currentUser');
+        navigate('/');
+    };
+
     return (
         <div className='dashboard-container'>
             <div className={`sidebar-container ${isOpen ? 'open' : ''}`}>
@@ -114,7 +127,7 @@ function Dashboard() {
                         <span className="tooltip">Tra cứu</span>
                     </li>
                     <li>
-                        <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Thông tin cá nhân') ? 'isActive' : ''}`} onClick={() => addTab('Thông tin cá nhân', <ProfileContent />, 'bx bx-user')}>
+                        <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Thông tin cá nhân') ? 'isActive' : ''}`} onClick={() => addTab('Thông tin cá nhân', <ProfileContent isLoggedIn={isLoggedIn}/>, 'bx bx-user')}>
                             <i className='bx bx-user' ></i>
                             <span className="sidebar-links">Thông tin cá nhân</span>
                         </a>
@@ -135,7 +148,7 @@ function Dashboard() {
                         <span className="tooltip">Cài đặt</span>
                     </li>
                     <li className='logout'>
-                        <a href="#">
+                        <a href="" onClick={handleLogout}>
                             <i className='bx bx-log-out' ></i>
                             <span className="sidebar-links">Đăng xuất</span>
                         </a>
@@ -148,7 +161,7 @@ function Dashboard() {
                 <div className="main-container-header">
                     <div className='welcome'>
                         <p>Chào mừng quay trở lại,</p>
-                        <h2 className='user-name-title'>{'Xin chào ' + currentUser.first_name}</h2>
+                        <h2 className='user-name-title'>{isLoggedIn ? ('Xin chào ' + currentUser.first_name) : ''}</h2>
                     </div>
                     <div className="user-info">
                         <div className="search-box">

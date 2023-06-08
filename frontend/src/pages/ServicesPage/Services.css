@@ -17,7 +17,7 @@
 }
 
 .content-container {
-    margin-top: 8%;
+    margin-top: calc(90px + 2vw);
     background-color: white;
     width: 80vw;
     height: 75vh;
@@ -41,15 +41,13 @@
 .illus-img > img {
     height: 90%;
     width: 100%;
-    /*max-height: 100%;*/
     border-radius: 20px;
-    /*margin: 5% 0;*/
     object-fit: unset;
 }
 
 .content > h1 {
     font-size: calc(12px + 1.8vw);
-    margin-top: 10%;
+    margin-top: calc(40px + 3vw);
     margin-bottom: 10%;
 }
 
@@ -65,7 +63,12 @@
 
 .container3 h1,
 .container3 p{
-    color: #9d1fff;
+    color: #9a3ede;
+}
+
+.container4 h1,
+.container4 p{
+    color: #33b22c;
 }
 
 .content > p {
@@ -234,10 +237,11 @@
     .content-container {
         width: 90%;
         height: 70%;
-        margin-top: 20%;
+        margin-top: calc(150px + 0.5vw);
     }
 
     .content h1 {
+        margin-top: calc(80px + 0.5vw);
         font-size: calc(14px + 2vw);
     }
 
@@ -307,11 +311,12 @@
     .content-container {
         width: 90%;
         height: 70%;
-        margin-top: 12%;
+        margin-top: calc(130px + 2vw);
     }
 
     .content h1 {
-        font-size: calc(4px + 2.8vw);
+        margin-top: calc(70px + 2vw);
+        font-size: calc(6px + 2.6vw);
         white-space: nowrap;
     }
 

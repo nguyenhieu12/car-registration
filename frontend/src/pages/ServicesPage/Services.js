@@ -9,6 +9,7 @@ import {useNavigate, useLocation} from "react-router-dom";
 import optionImg1 from '../../assets/images/option1-img.png'
 import optionImg2 from '../../assets/images/option2-img.png'
 import optionImg3 from '../../assets/images/option3-img.png'
+import optionImg4 from '../../assets/images/option4-img.png'
 function Services() {
     const [isFormOpened, setIsFormOpened] = useState(false);
 
@@ -122,11 +123,15 @@ function Services() {
             </div>
             <div className="tutorial-container" id="tutorial">
                 <div className='content-container container4'>
-                    <div className='content'>
-                        Hi
-                    </div>
                     <div className='illus-img'>
-
+                        <img src={optionImg4} alt='option4'/>
+                    </div>
+                    <div className='content'>
+                        <h1>Sử dụng dễ dàng</h1>
+                        <p>&#x2022; Thu gọn mọi thông tin trong một khung nhìn</p>
+                        <p>&#x2022; Giao diện được bố trí trực quan</p>
+                        <p>&#x2022; Hình ảnh minh họa chức năng đẹp mắt</p>
+                        <p>&#x2022; Màu sắc hài hòa, chống mỏi mắt</p>
                     </div>
                 </div>
             </div>

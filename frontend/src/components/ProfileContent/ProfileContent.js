@@ -4,7 +4,7 @@ import 'boxicons/css/boxicons.min.css';
 import PersonInfo from '../PersonInfo/PersonInfo';
 import ChangePassword from '../ChangePassword/ChangePassword';
 
-function ProfileContent(props) {
+function ProfileContent({ isLoggedIn }) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -22,7 +22,7 @@ function ProfileContent(props) {
                     </div>
                     <div className="profile-usertitle">
                         <div className="profile-usertitle-name">
-                            {currentUser.last_name + ' ' + currentUser.first_name}
+                            {isLoggedIn ? (currentUser.last_name + ' ' + currentUser.first_name) : ''}
                         </div>
                         <div className="profile-usertitle-role">
                             {currentUser.role}
@@ -54,7 +54,7 @@ function ProfileContent(props) {
                             <i class='bx bx-phone' ></i> Số điện thoại:
                         </div>
                         <div>
-                            {currentUser.phone_number}
+                            {isLoggedIn ? (currentUser.phone_number) : ''}
                         </div>
                     </div>
                     
@@ -63,7 +63,7 @@ function ProfileContent(props) {
                             <i class='bx bx-envelope' ></i> Email:
                         </div>
                         <div>
-                            {currentUser.email}
+                            {isLoggedIn ? (currentUser.email) : ''}
                         </div>
                     </div>
                 </div>

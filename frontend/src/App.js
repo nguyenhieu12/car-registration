@@ -3,14 +3,14 @@ import Home from './pages/HomePage/Home';
 import Dashboard from "./pages/Dashboard/Dashboard";
 
 function App() {
-   // const [loggedIn, setLoggedIn] = useState(
-   //     localStorage.getItem('token') !== null
-   // );
+   const [loggedIn, setLoggedIn] = useState(
+       localStorage.getItem('token') !== null
+   );
 
   return (
     <div className='app'>
-        {/*{loggedIn ? <Dashboard /> : <Home />}*/}
-        <Home />
+        {loggedIn ? <Dashboard /> : <Home />}
+        {/*<Home />*/}
     </div>
   );
 }
