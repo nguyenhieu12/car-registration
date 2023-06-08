@@ -98,6 +98,14 @@ func (a *authHandlers) Login() fiber.Handler {
 				"message": "err.Error",
 			})
 		}
+		_, err = a.authService.FindByUsername(customContext, login.UserName)
+		if err != nil {
+			a.logger.Error("authHandlers.Login.FindByUsername ", err)
+			return ctx.Status(fiber.StatusNoContent).JSON(&fiber.Map{
+				"status":  "User not found",
+				"message": err.Error(),
+			})
+		}
 
 		userWithToken, err := a.authService.Login(customContext, &models.User{
 			UserName: login.UserName,
@@ -142,8 +150,54 @@ func (a *authHandlers) Logout() fiber.Handler {
 // @Success 200 {object} models.User
 // @Router /auth/{id} [put]
 func (a *authHandlers) Update() fiber.Handler {
-	//TODO implement me
-	panic("implement me")
+	return func(ctx *fiber.Ctx) error {
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.Update")
+		defer span.Finish()
+
+		uID, err := uuid.Parse(ctx.Params("user_id"))
+		if err != nil {
+			a.logger.Error("authHandlers.Update.Query", err)
+			return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"status":  "Bad Request. User ID is not valid",
+				"message": err.Error(),
+			})
+		}
+
+		user := &models.User{}
+		user.UserID = uID
+
+		if err := ctx.BodyParser(user); err != nil {
+			return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"status":  "Bad Request",
+				"message": err.Error(),
+			})
+		}
+
+		userLocals := ctx.Locals("user").(*models.User)
+		if *userLocals.Role != "god" && *userLocals.Role != "admin" && *userLocals.Role != "vrhead" && *userLocals.Role != "vrstaff" {
+			if *userLocals.Role == *user.Role {
+				a.logger.Error("authHandlers.Update.Query", err)
+				return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"status":  "Bad Request. Can't update staff role by staff",
+					"message": err.Error(),
+				})
+			}
+		}
+
+		updatedUser, err := a.authService.Update(customContext, user)
+		if err != nil {
+			a.logger.Error("authHandlers.Update.Query", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+		}
+
+		return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+			"status": "success",
+			"data":   &updatedUser,
+		})
+	}
 }
 
 // Delete
@@ -271,9 +325,20 @@ func (a *authHandlers) GetUsers() fiber.Handler {
 				"message": err.Error(),
 			})
 		}
+		user := ctx.Locals("user").(*models.User)
 
-		users, err := a.authService.GetUsers(customContext, paginationQuery)
+		//users, err := a.authService.GetUsers(customContext, paginationQuery)
+		var users *models.UsersList
+		if user.StationCode == "GOD" || user.StationCode == "VR" {
+			users, err = a.authService.GetUsers(customContext, paginationQuery)
+
+		} else {
+			users, err = a.authService.FindByStationCode(customContext, user.StationCode, paginationQuery)
+		}
+
 		if err != nil {
+			a.logger.Error("authHandlers.GetUsers.GetByRole ", err)
+
 			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 				"status":  "Internal Server Error",
 				"message": err.Error(),
