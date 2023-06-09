@@ -18,13 +18,14 @@ type authHandlers struct {
 }
 
 // Register godoc
-// @Summary Register new user
-// @Description register new user, returns user and token
-// @Tags Auth
-// @Accept json
-// @Produce json
-// @Success 201 {object} models.User
-// @Router /auth/register [post]
+//
+//	@Summary		Register new user
+//	@Description	register new user, returns user and token
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Success		201	{object}	models.User
+//	@Router			/auth/register [post]
 func (a *authHandlers) Register() fiber.Handler {
 
 	return func(ctx *fiber.Ctx) error {
@@ -65,13 +66,14 @@ func (a *authHandlers) Register() fiber.Handler {
 }
 
 // Login godoc
-// @Summary Login new user
-// @Description login user, returns user and set session
-// @Tags Auth
-// @Accept json
-// @Produce json
-// @Success 200 {object} models.User
-// @Router /auth/login [post]
+//
+//	@Summary		Login new user
+//	@Description	login user, returns user and set session
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	models.User
+//	@Router			/auth/login [post]
 func (a *authHandlers) Login() fiber.Handler {
 	type Login struct {
 		UserName string `json:"user_name" db:"user_name" validate:"required,omitempty,lte=60"`
@@ -128,27 +130,29 @@ func (a *authHandlers) Login() fiber.Handler {
 }
 
 // Logout godoc
-// @Summary Logout user
-// @Description logout user removing session
-// @Tags Auth
-// @Accept  json
-// @Produce  json
-// @Success 200 {string} string	"ok"
-// @Router /auth/logout [post]
+//
+//	@Summary		Logout user
+//	@Description	logout user removing session
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{string}	string	"ok"
+//	@Router			/auth/logout [post]
 func (a *authHandlers) Logout() fiber.Handler {
 	//TODO implement me
 	panic("implement me")
 }
 
 // Update godoc
-// @Summary Update user
-// @Description update existing user
-// @Tags Auth
-// @Accept json
-// @Param id path int true "user_id"
-// @Produce json
-// @Success 200 {object} models.User
-// @Router /auth/{id} [put]
+//
+//	@Summary		Update user
+//	@Description	update existing user
+//	@Tags			Auth
+//	@Accept			json
+//	@Param			id	path	int	true	"user_id"
+//	@Produce		json
+//	@Success		200	{object}	models.User
+//	@Router			/auth/{id} [put]
 func (a *authHandlers) Update() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.Update")
@@ -201,30 +205,32 @@ func (a *authHandlers) Update() fiber.Handler {
 }
 
 // Delete
-// @Summary Delete user account
-// @Description some description
-// @Tags Auth
-// @Accept json
-// @Param id path int true "user_id"
-// @Produce json
-// @Success 200 {string} string	"ok"
-// @Failure 500 {object} httpErrors.RestError
-// @Router /auth/{id} [delete]
+//
+//	@Summary		Delete user account
+//	@Description	some description
+//	@Tags			Auth
+//	@Accept			json
+//	@Param			id	path	int	true	"user_id"
+//	@Produce		json
+//	@Success		200	{string}	string	"ok"
+//	@Failure		500	{object}	httpErrors.RestError
+//	@Router			/auth/{id} [delete]
 func (a *authHandlers) Delete() fiber.Handler {
 	//TODO implement me
 	panic("implement me")
 }
 
 // GetUserByID godoc
-// @Summary get user by id
-// @Description get string by ID
-// @Tags Auth
-// @Accept  json
-// @Produce  json
-// @Param id path int true "user_id"
-// @Success 200 {object} models.User
-// @Failure 500 {object} httpErrors.RestError
-// @Router /auth/{id} [get]
+//
+//	@Summary		get user by id
+//	@Description	get string by ID
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			id	path		int	true	"user_id"
+//	@Success 200	{object}	models.User
+//	@Failure		500	{object}	httpErrors.RestError
+//	@Router			/auth/{id} [get]
 func (a *authHandlers) GetUserByID() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.GetUserByID")
@@ -257,61 +263,65 @@ func (a *authHandlers) GetUserByID() fiber.Handler {
 }
 
 // FindByName godoc
-// @Summary Find by name
-// @Description Find user by name
-// @Tags Auth
-// @Accept json
-// @Param name query string false "username" Format(username)
-// @Produce json
-// @Success 200 {object} models.UsersList
-// @Failure 500 {object} httpErrors.RestError
-// @Router /auth/{name} [get]
+//
+//	@Summary		Find by name
+//	@Description	Find user by name
+//	@Tags			Auth
+//	@Accept			json
+//	@Param			name	query	string	false	"username"	Format(username)
+//	@Produce		json
+//	@Success		200	{object}	models.UsersList
+//	@Failure		500	{object}	httpErrors.RestError
+//	@Router			/auth/{name} [get]
 func (a *authHandlers) FindByName() fiber.Handler {
 	//TODO implement me
 	panic("implement me")
 }
 
 // FindByUsername godoc
-// @Summary Find by name
-// @Description Find user by name
-// @Tags Auth
-// @Accept json
-// @Param name query string false "username" Format(username)
-// @Produce json
-// @Success 200 {object} models.User
-// @Failure 500 {object} httpErrors.RestError
-// @Router /auth/{user_name} [get]
+//
+//	@Summary		Find by name
+//	@Description	Find user by name
+//	@Tags			Auth
+//	@Accept			json
+//	@Param			name	query	string	false	"username"	Format(username)
+//	@Produce		json
+//	@Success		200	{object}	models.User
+//	@Failure		500	{object}	httpErrors.RestError
+//	@Router			/auth/{user_name} [get]
 func (a *authHandlers) FindByUsername() fiber.Handler {
 	//TODO implement me
 	panic("implement me")
 }
 
 // FindByStationCode godoc
-// @Summary Find by station code
-// @Description Find user by station code
-// @Tags Auth
-// @Accept json
-// @Produce json
-// @Success 200 {object} models.UsersList
-// @Failure 500 {object} httpErrors.RestError
-// @Router /auth/{station_code} [get]
+//
+//	@Summary		Find by station code
+//	@Description	Find user by station code
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	models.UsersList
+//	@Failure		500	{object}	httpErrors.RestError
+//	@Router			/auth/{station_code} [get]
 func (a *authHandlers) FindByStationCode() fiber.Handler {
 	//TODO implement me
 	panic("implement me")
 }
 
 // GetUsers godoc
-// @Summary Get users
-// @Description Get the list of all users
-// @Tags Auth
-// @Accept json
-// @Param page query int false "page number" Format(page)
-// @Param size query int false "number of elements per page" Format(size)
-// @Param orderBy query int false "filter name" Format(orderBy)
-// @Produce json
-// @Success 200 {object} models.UsersList
-// @Failure 500 {object} httpErrors.RestError
-// @Router /auth/all [get]
+//
+//	@Summary		Get users
+//	@Description	Get the list of all users
+//	@Tags			Auth
+//	@Accept			json
+//	@Param			page	query	int	false	"page number"					Format(page)
+//	@Param			size	query	int	false	"number of elements per page"	Format(size)
+//	@Param			orderBy	query	int	false	"filter name"					Format(orderBy)
+//	@Produce		json
+//	@Success		200	{object}	models.UsersList
+//	@Failure		500	{object}	httpErrors.RestError
+//	@Router			/auth/all [get]
 func (a *authHandlers) GetUsers() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.GetUsers")
@@ -354,28 +364,30 @@ func (a *authHandlers) GetUsers() fiber.Handler {
 }
 
 // GetMe godoc
-// @Summary Get user by id
-// @Description Get current user by id
-// @Tags Auth
-// @Accept json
-// @Produce json
-// @Success 200 {object} models.User
-// @Failure 500 {object} httpErrors.RestError
-// @Router /auth/me [get]
+//
+//	@Summary		Get user by id
+//	@Description	Get current user by id
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	models.User
+//	@Failure		500	{object}	httpErrors.RestError
+//	@Router			/auth/me [get]
 func (a *authHandlers) GetMe() fiber.Handler {
 	//TODO implement me
 	panic("implement me")
 }
 
 // GetCSRFToken godoc
-// @Summary Get CSRF token
-// @Description Get CSRF token, required auth session cookie
-// @Tags Auth
-// @Accept json
-// @Produce json
-// @Success 200 {string} string "Ok"
-// @Failure 500 {object} httpErrors.RestError
-// @Router /auth/token [get]
+//
+//	@Summary		Get CSRF token
+//	@Description	Get CSRF token, required auth session cookie
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{string}	string	"Ok"
+//	@Failure		500	{object}	httpErrors.RestError
+//	@Router			/auth/token [get]
 func (a *authHandlers) GetCSRFToken() fiber.Handler {
 	//TODO implement me
 	panic("implement me")

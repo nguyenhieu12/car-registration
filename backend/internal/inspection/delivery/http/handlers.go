@@ -13,12 +13,27 @@ import (
 	"strconv"
 )
 
+// Insp Handlers
 type inspectionHandlers struct {
 	cfg               *config.Config
 	inspectionService inspection.Service
 	logger            logger.Logger
 }
 
+// GetAll godoc
+//
+//	@ID				GetAll
+//	@Summary		Get all inspections following pagination query(size, page, orderBy
+//	@Description	Get the list of all inspections
+//	@Tags			Insp
+//	@Accept			json
+//	@Param			page	query	int	false	"page number"					Format(page)
+//	@Param			size	query	int	false	"number of elements per page"	Format(size)
+//	@Param			orderBy	query	int	false	"filter name"					Format(orderBy)
+//	@Produce		json
+//	@Success		200	{object}	models.InspectionsList
+//	@Failure		500	{object}	httpErrors.RestError
+//	@Router			/insp/all [get]
 func (i *inspectionHandlers) GetAll() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.GetAll")
@@ -36,12 +51,11 @@ func (i *inspectionHandlers) GetAll() fiber.Handler {
 		fmt.Println("user", user)
 		//users, err := a.authService.GetUsers(customContext, paginationQuery)
 		var inspections *models.InspectionsList
-		//if *user.Role == "god" || *user.Role == "vr" {
-		inspections, err = i.inspectionService.GetAll(customContext, paginationQuery)
-		//
-		//} else {
-		//	inspections, err = i.inspectionService.GetByStationCode(customContext, user.StationCode, paginationQuery)
-		//}
+		if *user.Role == "god" || *user.Role == "vr" {
+			inspections, err = i.inspectionService.GetAll(customContext, paginationQuery)
+		} else {
+			inspections, err = i.inspectionService.GetByStationCode(customContext, user.StationCode, paginationQuery)
+		}
 
 		if err != nil {
 			i.logger.Error("inspectionHandlers.GetAll.GetByRole ", err)
@@ -59,6 +73,17 @@ func (i *inspectionHandlers) GetAll() fiber.Handler {
 	}
 }
 
+// GetByID godoc
+//
+//	@ID				GetByID
+//	@Summary		Get inspection by ID
+//	@Description	Get inspection by ID
+//	@Tags			Insp
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	models.InspectionsList
+//	@Failure		500	{object}	httpErrors.RestError
+//	@Router			/insp/{inspection_id} [get]
 func (i *inspectionHandlers) GetByID() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.GetByID")
@@ -89,6 +114,17 @@ func (i *inspectionHandlers) GetByID() fiber.Handler {
 	}
 }
 
+// GetByStationCode godoc
+// @ID				GetByStationCode
+// @Summary		Get inspection by station code
+// @Description	Get inspection by station code
+// @Tags			Insp
+// @Accept			json
+// @Produce		json
+// @Param			station_code	path	string	true	"station code"	Format(station_code)
+// @Success		200	{object}	models.InspectionsList
+// @Failure		500	{object}	httpErrors.RestError
+// @Router			/insp/station/{station_code} [get]
 func (i *inspectionHandlers) GetByStationCode() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.GetByStationCode")
@@ -125,6 +161,17 @@ func (i *inspectionHandlers) GetByStationCode() fiber.Handler {
 	}
 }
 
+// GetByRegistrationID godoc
+// @ID				GetByRegistrationID
+// @Summary		Get inspection by registration id
+// @Description	Get inspection by registration id
+// @Tags			Insp
+// @Accept			json
+// @Produce		json
+// @Param			registration_id	path	string	true	"registration id"	Format(registration_id)
+// @Success		200	{object}	models.InspectionsList
+// @Failure		500	{object}	httpErrors.RestError
+// @Router			/insp/registration/{registration_id} [get]
 func (i *inspectionHandlers) GetByRegistrationID() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.GetByRegistrationID")
@@ -161,6 +208,17 @@ func (i *inspectionHandlers) GetByRegistrationID() fiber.Handler {
 	}
 }
 
+// Create godoc
+// @ID				GetByUserID
+// @Summary		Get inspection by user id
+// @Description	Get inspection by user id
+// @Tags			Insp
+// @Accept			json
+// @Produce		json
+// @Param			user_id	path	string	true	"user id"	Format(user_id)
+// @Success		200	{object}	models.Inspection
+// @Failure		500	{object}	httpErrors.RestError
+// @Router			/insp/ [post]
 func (i *inspectionHandlers) Create() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.Create")
@@ -199,6 +257,17 @@ func (i *inspectionHandlers) Create() fiber.Handler {
 	}
 }
 
+// Update godoc
+// @ID				Update
+// @Summary		Update inspection
+// @Description	Update inspection
+// @Tags			Insp
+// @Accept			json
+// @Produce		json
+// @Param			inspection_id	path	string	true	"inspection id"	Format(inspection_id)
+// @Success		200	{object}	models.Inspection
+// @Failure		500	{object}	httpErrors.RestError
+// @Router			/insp/{inspection_id} [put]
 func (i *inspectionHandlers) Update() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.Update")
@@ -239,12 +308,24 @@ func (i *inspectionHandlers) Update() fiber.Handler {
 	}
 }
 
+// Delete godoc
+// @ID				Delete
+// @Summary		Delete inspection
+// @Description	Delete inspection
+// @Tags			Insp
+// @Accept			json
+// @Produce		json
+// @Param			inspection_id	path	string	true	"inspection id"	Format(inspection_id)
+// @Success		200	{object}	string
+// @Failure		500	{object}	httpErrors.RestError
+// @Router			/insp/{inspection_id} [delete]
 func (i *inspectionHandlers) Delete() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		return nil
 	}
 }
 
+// NewInspectionHandlers returns a new inspection handlers instance
 func NewInspectionHandlers(cfg *config.Config, inspectionService inspection.Service, log logger.Logger) inspection.Handlers {
 	return &inspectionHandlers{cfg: cfg, inspectionService: inspectionService, logger: log}
 }
