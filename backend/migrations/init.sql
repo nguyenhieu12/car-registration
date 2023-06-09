@@ -4,23 +4,35 @@ create table users
 (
     user_id      uuid default uuid_generate_v4() not null
         primary key,
-    first_name   text,
-    last_name    text,
-    email        text                            not null,
-    user_name    text                            not null,
-    password     text                            not null,
-    role         text,
-    about        text,
-    avatar       text,
-    phone_number text,
-    station_code text,
-    identity_no  text,
+    first_name   VARCHAR(100),
+    last_name    VARCHAR(100),
+    email        VARCHAR(100)                            not null,
+    user_name    VARCHAR(100)                            not null,
+    password     VARCHAR(100)                            not null,
+    role         VARCHAR(20),
+    about        VARCHAR(20),
+    avatar       VARCHAR(20),
+    phone_number VARCHAR(20),
+    station_code VARCHAR(20),
+    identity_no  VARCHAR(20),
     created_at   timestamp with time zone,
     updated_at   timestamp with time zone,
     login_date   timestamp with time zone
 );
 
 alter table users
+    owner to postgres;
+
+create table inspections
+(
+    inspection_id   integer not null primary key,
+    registration_id VARCHAR(20),
+    inspection_date timestamp,
+    expiry_date     timestamp,
+    station_code    VARCHAR(20)
+);
+
+alter table inspections
     owner to postgres;
 
 INSERT INTO public.users (user_id, first_name, last_name, email, user_name, password, role, about, avatar, phone_number, station_code, identity_no, created_at, updated_at, login_date) VALUES ('95bc1000-1aaf-463b-adca-df2c49cf5d2b', 'Đăng', 'Đào', 'dangdt@vr.org.vn', 'dangdt', '$2a$10$h7A2gZQhDur0.DWme0Jdv./6PIuIVZwcLWNdgIpESFjFGy.LgLGNi', 'god', null, null, '8549084418', 'GOD', '8549084418', null, null, null);
@@ -571,3 +583,52 @@ INSERT INTO public.users (user_id, first_name, last_name, email, user_name, pass
 INSERT INTO public.users (user_id, first_name, last_name, email, user_name, password, role, about, avatar, phone_number, station_code, identity_no, created_at, updated_at, login_date) VALUES ('3275b6ad-721a-4aa3-b034-4fd008dc53a6', '9903D', 'Nhân viên TTDK', 'dangkiem9903Dkdv@vr.org.vn', 'dangkiem9903Dkdv', '$2a$10$h7A2gZQhDur0.DWme0Jdv./6PIuIVZwcLWNdgIpESFjFGy.LgLGNi', 'staff', null, null, '6160397047', '9903D', '6160397047', null, null, null);
 INSERT INTO public.users (user_id, first_name, last_name, email, user_name, password, role, about, avatar, phone_number, station_code, identity_no, created_at, updated_at, login_date) VALUES ('a12a462b-b83c-4b7d-a8d4-f025b1b58f42', '9904D', 'Nhân viên TTDK', 'dangkiem9904Dkdv@vr.org.vn', 'dangkiem9904Dkdv', '$2a$10$h7A2gZQhDur0.DWme0Jdv./6PIuIVZwcLWNdgIpESFjFGy.LgLGNi', 'staff', null, null, '7468646208', '9904D', '7468646208', null, null, null);
 INSERT INTO public.users (user_id, first_name, last_name, email, user_name, password, role, about, avatar, phone_number, station_code, identity_no, created_at, updated_at, login_date) VALUES ('2a9de97f-b22e-459d-835a-055bb59a5a63', '9905D', 'Nhân viên TTDK', 'dangkiem9905Dkdv@vr.org.vn', 'dangkiem9905Dkdv', '$2a$10$h7A2gZQhDur0.DWme0Jdv./6PIuIVZwcLWNdgIpESFjFGy.LgLGNi', 'staff', null, null, '8461617199', '9905D', '8461617199', null, null, null);
+
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12358, '29A00111', '2022-12-06 00:00:00.000000', '2023-06-04 00:00:00.000000', '2901V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12359, '29A80157', '2022-11-17 00:00:00.000000', '2023-05-16 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12360, '30A18821', '2022-12-31 00:00:00.000000', '2023-06-29 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12361, '30A54084', '2022-11-08 00:00:00.000000', '2023-05-07 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12362, '30A38454', '2022-11-27 00:00:00.000000', '2023-05-26 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12363, '30A44435', '2022-11-28 00:00:00.000000', '2023-05-27 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12364, '29A01234', '2022-06-08 00:00:00.000000', '2023-06-03 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12365, '29A15045', '2022-05-08 00:00:00.000000', '2023-05-03 00:00:00.000000', '2901S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12366, '30A06747', '2022-06-28 00:00:00.000000', '2023-06-23 00:00:00.000000', '2901V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12367, '30A61911', '2022-05-07 00:00:00.000000', '2023-05-02 00:00:00.000000', '2901V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12368, '30A82935', '2022-06-30 00:00:00.000000', '2023-06-25 00:00:00.000000', '2901V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12369, '30A47830', '2022-06-02 00:00:00.000000', '2023-05-28 00:00:00.000000', '2901S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12370, '30A79645', '2022-05-21 00:00:00.000000', '2023-05-16 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12371, '30A31127', '2022-05-30 00:00:00.000000', '2023-05-25 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12372, '30A35425', '2022-06-11 00:00:00.000000', '2023-06-06 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12373, '30A56792', '2022-05-15 00:00:00.000000', '2023-05-10 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12374, '29A68688', '2021-09-07 00:00:00.000000', '2024-08-22 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12375, '30A41968', '2021-09-07 00:00:00.000000', '2024-08-22 00:00:00.000000', '2901S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12376, '29A01975', '2019-12-05 00:00:00.000000', '2022-11-19 00:00:00.000000', '2901V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12377, '29A99999', '2021-02-02 00:00:00.000000', '2024-01-18 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12378, '30A111111', '2022-12-12 00:00:00.000000', '2025-11-26 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12379, '29A19798', '2019-12-05 00:00:00.000000', '2022-11-19 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12380, '29A67247', '2019-12-05 00:00:00.000000', '2022-11-19 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12381, '30A65866', '2022-10-31 00:00:00.000000', '2025-10-15 00:00:00.000000', '2901S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12382, '30A21901', '2021-10-06 00:00:00.000000', '2024-09-20 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12383, '30A02943', '2022-12-12 00:00:00.000000', '2025-11-26 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12384, '30A87829', '2021-10-06 00:00:00.000000', '2024-09-20 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12385, '29A03038', '2023-01-02 00:00:00.000000', '2025-12-17 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12386, '30A12345', '2021-05-05 00:00:00.000000', '2024-04-19 00:00:00.000000', '2901S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12387, '30A00056', '2021-10-06 00:00:00.000000', '2024-09-20 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12388, '30A41975', '2021-03-08 00:00:00.000000', '2024-02-21 00:00:00.000000', '2901V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12389, '29A62164', '2021-10-06 00:00:00.000000', '2024-09-20 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12390, '30A36382', '2023-01-02 00:00:00.000000', '2025-12-17 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12391, '30A24155', '2021-03-08 00:00:00.000000', '2024-02-21 00:00:00.000000', '2901S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12392, '29A67890', '2022-10-31 00:00:00.000000', '2025-10-15 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12393, '29A55555', '2023-01-02 00:00:00.000000', '2025-12-17 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12394, '30A22234', '2021-10-06 00:00:00.000000', '2024-09-20 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12395, '29A50424', '2023-01-02 00:00:00.000000', '2025-12-17 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12396, '29A38356', '2021-10-06 00:00:00.000000', '2024-09-20 00:00:00.000000', '2901V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12397, '29A40008', '2021-09-07 00:00:00.000000', '2024-08-22 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12398, '29A56834', '2019-12-05 00:00:00.000000', '2022-11-19 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12399, '29A91690', '2023-04-04 00:00:00.000000', '2026-03-19 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12400, '30A00666', '2023-04-04 00:00:00.000000', '2026-03-19 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12401, '30A62626', '2023-04-04 00:00:00.000000', '2026-03-19 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12402, '29A36364', '2023-04-04 00:00:00.000000', '2026-03-19 00:00:00.000000', '2901V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12403, '29A74070', '2022-12-12 00:00:00.000000', '2025-11-26 00:00:00.000000', '2902S');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12404, '30A77211', '2021-03-08 00:00:00.000000', '2024-02-21 00:00:00.000000', '2902V');
+INSERT INTO public.inspections (inspection_id, registration_id, inspection_date, expiry_date, station_code) VALUES (12405, '30A16161', '2019-12-05 00:00:00.000000', '2022-11-19 00:00:00.000000', '2902S');

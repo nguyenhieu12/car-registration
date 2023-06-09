@@ -5,6 +5,11 @@ import (
 	authHttp "backend/internal/auth/delivery/http"
 	authRepo "backend/internal/auth/repository"
 	authServ "backend/internal/auth/service"
+
+	inspHttp "backend/internal/inspection/delivery/http"
+	inspRepo "backend/internal/inspection/repository"
+	inspServ "backend/internal/inspection/service"
+
 	apiMiddlewares "backend/internal/middleware"
 	"backend/pkg/utils"
 	"github.com/ansrivas/fiberprometheus/v2"
@@ -22,12 +27,15 @@ func (s *Server) MapHandlers(f *fiber.App) error {
 
 	// Init repositories
 	authRepository := authRepo.NewAuthRepository(s.db)
+	inspRepository := inspRepo.NewInspectionRepository(s.db)
 
 	// Init services
 	authService := authServ.NewAuthService(s.cfg, authRepository, s.logger)
+	inspService := inspServ.NewInspectionService(s.cfg, inspRepository, s.logger)
 
 	// Init handlers
 	authHandlers := authHttp.NewAuthHandlers(s.cfg, authService, s.logger)
+	inspHandlers := inspHttp.NewInspectionHandlers(s.cfg, inspService, s.logger)
 
 	// Init middleware manager
 	mw := apiMiddlewares.NewMiddlewareManager(authService, s.cfg, []string{"*"}, s.logger)
@@ -65,8 +73,10 @@ func (s *Server) MapHandlers(f *fiber.App) error {
 	v1 := f.Group("/api/v1")
 	health := v1.Group("/health")
 	authGroup := v1.Group("/auth")
+	inspectionGroup := v1.Group("/insp")
 
 	authHttp.MapAuthRoutes(authGroup, authHandlers, mw, authService, s.cfg)
+	inspHttp.MapInspectionRoutes(inspectionGroup, inspHandlers, mw, authService, s.cfg)
 
 	health.Get("", func(ctx *fiber.Ctx) error {
 		s.logger.Infof("Health check RequestID: %s", utils.GetRequestID(ctx))

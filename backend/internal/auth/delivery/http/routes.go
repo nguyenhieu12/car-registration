@@ -11,7 +11,8 @@ func MapAuthRoutes(authRouter fiber.Router, h auth.Handlers, mw *middleware.Midd
 	authRouter.Post("/register", h.Register())
 	authRouter.Post("/login", h.Login())
 	authRouter.Use(mw.AuthJWTMiddleware(authService, cfg)) // các url dưới này sẽ dùng middle jwt
-	authRouter.Get("/all", h.GetUsers())
-	authRouter.Get("/:user_id", h.GetUserByID())
+	authRouter.Get("/all", mw.GeneralAdmin(), h.GetUsers())
+	authRouter.Get("/:user_id", mw.GeneralAdmin(), h.GetUserByID())
+	authRouter.Put("/:user_id", mw.GeneralAdmin(), h.Update())
 
 }

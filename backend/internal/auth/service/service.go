@@ -82,13 +82,35 @@ func (a *authService) Login(ctx context.Context, user *models.User) (*models.Use
 }
 
 func (a *authService) Update(ctx context.Context, user *models.User) (*models.User, error) {
-	//TODO implement me
-	panic("implement me 1")
+	span, ctx := opentracing.StartSpanFromContext(ctx, "authService.Update")
+	defer span.Finish()
+
+	if err := user.PrepareUpdate(); err != nil {
+		return nil, httpErrors.NewBadRequestError(errors.Wrap(err, "authUC.Register.PrepareUpdate"))
+	}
+
+	updatedUser, err := a.authRepo.Update(ctx, user)
+	if err != nil {
+		return nil, err
+	}
+
+	updatedUser.SanitizePassword()
+
+	//if err = u.redisRepo.DeleteUserCtx(ctx, u.GenerateUserKey(user.UserID.String())); err != nil {
+	//	u.logger.Errorf("AuthUC.Update.DeleteUserCtx: %s", err)
+	//}
+
+	updatedUser.SanitizePassword()
+
+	return updatedUser, nil
 }
 
 func (a *authService) Delete(ctx context.Context, userID uuid.UUID) error {
-	//TODO implement me
-	panic("implement me 2")
+	span, ctx := opentracing.StartSpanFromContext(ctx, "authService.Delete")
+	defer span.Finish()
+
+	err := a.authRepo.Delete(ctx, userID)
+	return err
 }
 
 func (a *authService) GetByID(ctx context.Context, userID uuid.UUID) (*models.User, error) {
@@ -117,14 +139,37 @@ func (a *authService) GetByID(ctx context.Context, userID uuid.UUID) (*models.Us
 	return user, nil
 }
 
-func (a *authService) FindByUsername(ctx context.Context, name string, query *utils.PaginationQuery) (*models.User, error) {
-	//TODO implement me
-	panic("implement me 4")
+func (a *authService) FindByUsername(ctx context.Context, name string) (*models.User, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "authService.FindByUsername")
+	defer span.Finish()
+
+	//cachedUser, err := u.redisRepo.GetByIDCtx(ctx, u.GenerateUserKey(userID.String()))
+	//if err != nil {
+	//	u.logger.Errorf("authUC.GetByID.GetByIDCtx: %v", err)
+	//}
+	//if cachedUser != nil {
+	//	return cachedUser, nil
+	//}
+
+	user, err := a.authRepo.GetByUsername(ctx, name)
+	if err != nil {
+		return nil, err
+	}
+
+	//if err = a.redisRepo.SetUserCtx(ctx, u.GenerateUserKey(userID.String()), cacheDuration, user); err != nil {
+	//	a.logger.Errorf("authUC.GetByID.SetUserCtx: %v", err)
+	//}
+
+	user.SanitizePassword()
+
+	return user, nil
 }
 
-func (a *authService) FindByStationCode(ctx context.Context, stationCode string) (*models.UsersList, error) {
-	//TODO implement me
-	panic("implement me 5")
+func (a *authService) FindByStationCode(ctx context.Context, stationCode string, pq *utils.PaginationQuery) (*models.UsersList, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "authService.FindByStationCode")
+	defer span.Finish()
+
+	return a.authRepo.FindByStationCode(ctx, stationCode, pq)
 }
 
 func (a *authService) FindByEmail(ctx context.Context, user *models.User) (*models.User, error) {
