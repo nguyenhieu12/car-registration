@@ -106,8 +106,11 @@ func (a *authService) Update(ctx context.Context, user *models.User) (*models.Us
 }
 
 func (a *authService) Delete(ctx context.Context, userID uuid.UUID) error {
-	//TODO implement me
-	panic("implement me 2")
+	span, ctx := opentracing.StartSpanFromContext(ctx, "authService.Delete")
+	defer span.Finish()
+
+	err := a.authRepo.Delete(ctx, userID)
+	return err
 }
 
 func (a *authService) GetByID(ctx context.Context, userID uuid.UUID) (*models.User, error) {
