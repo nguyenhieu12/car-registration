@@ -3,6 +3,7 @@ package middleware
 import (
 	"backend/config"
 	"backend/internal/auth"
+	"backend/internal/models"
 	"backend/pkg/httpErrors"
 	"backend/pkg/utils"
 	"context"
@@ -88,3 +89,62 @@ func (mw *MiddlewareManager) validateJWTToken(tokenString string, service auth.S
 	}
 	return nil
 }
+
+func (mw *MiddlewareManager) GeneralAdmin() fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		user := ctx.Locals("user").(*models.User)
+		if *user.Role != "vrhead" && *user.Role != "admin" && *user.Role != "god" && *user.Role != "vrstaff" {
+			return ctx.Status(http.StatusUnauthorized).JSON(httpErrors.NewUnauthorizedError(httpErrors.Unauthorized))
+		}
+		fmt.Println(*user.Role)
+		return ctx.Next()
+	}
+}
+
+//func (mw *MiddlewareManager) CheckAuthBeforeDeleteAndUpdate() fiber.Handler {
+//	return func(ctx *fiber.Ctx) error {
+//		user := ctx.Locals("user").(*models.User)
+//		if *user.Role != "vrhead" && *user.Role != "admin" && *user.Role != "god" && *user.Role != "vrstaff" {
+//			if user.UserID != user.UserID {
+//
+//		}
+//	}
+//}
+
+//func (mw *MiddlewareManager) CheckIfUserExist() fiber.Handler {
+//	return func(ctx *fiber.Ctx) error {
+//		//customContext, cancel := context.WithCancel(context.Background())
+//		span, customContext := opentracing.StartSpanFromContext(ctx.Context(), "MiddlewareManager.CheckIfUserExist")
+//		defer span.Finish()
+//
+//		targetedUserID, err := c.ParamsInt("userID")
+//		if err != nil {
+//			return c.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+//				"status":  "fail",
+//				"message": "Please specify a valid user ID!",
+//			})
+//		}
+//
+//		// Check if user exists.
+//		searchedUser, err := mw.authService.FindByUsername(customContext, targetedUserID)
+//		if err != nil {
+//			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+//				"status":  "fail",
+//				"message": err.Error(),
+//			})
+//		}
+//		if searchedUser == nil {
+//			return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+//				"status":  "fail",
+//				"message": "There is no user with this ID!",
+//			})
+//		}
+//
+//		ctx.Locals("user")
+//
+//		c := context.WithValue(ctx.Context(), utils.UserCtxKey{}, u)
+//		ctx.SetUserContext(c)
+//		return ctx.Next()
+//
+//	}
+//}
