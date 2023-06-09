@@ -137,7 +137,7 @@ func (a *authService) GetByID(ctx context.Context, userID uuid.UUID) (*models.Us
 }
 
 func (a *authService) FindByUsername(ctx context.Context, name string) (*models.User, error) {
-	span, ctx := opentracing.StartSpanFromContext(ctx, "authUC.FindByUsername")
+	span, ctx := opentracing.StartSpanFromContext(ctx, "authService.FindByUsername")
 	defer span.Finish()
 
 	//cachedUser, err := u.redisRepo.GetByIDCtx(ctx, u.GenerateUserKey(userID.String()))
