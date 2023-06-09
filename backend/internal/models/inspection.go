@@ -2,6 +2,8 @@ package models
 
 import "time"
 
+// Inspection Inspection model
+// swagger:model Inspection
 type Inspection struct {
 	InspectionID   int       `json:"inspection_id" db:"inspection_id"`
 	RegistrationID string    `json:"registration_id" db:"registration_id"`
