@@ -16,6 +16,20 @@ type inspectionService struct {
 	logger         logger.Logger
 }
 
+func (i *inspectionService) GetByInspectionDate(ctx context.Context, month int, year int, query *utils.PaginationQuery) (*models.InspectionsList, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "inspectionService.GetByInspectionDate")
+	defer span.Finish()
+
+	return i.inspectionRepo.GetByInspectionDate(ctx, month, year, query)
+}
+
+func (i *inspectionService) GetByExpiryDate(ctx context.Context, month int, year int, query *utils.PaginationQuery) (*models.InspectionsList, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "inspectionService.GetByExpiryDate")
+	defer span.Finish()
+
+	return i.inspectionRepo.GetByExpiryDate(ctx, month, year, query)
+}
+
 func (i *inspectionService) GetAll(ctx context.Context, query *utils.PaginationQuery) (*models.InspectionsList, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "inspectionService.GetAll")
 	defer span.Finish()
