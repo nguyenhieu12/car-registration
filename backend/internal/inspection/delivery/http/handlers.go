@@ -20,6 +20,88 @@ type inspectionHandlers struct {
 	logger            logger.Logger
 }
 
+func (i *inspectionHandlers) GetByInspectionDate() fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.GetByInspectionDate")
+		defer span.Finish()
+
+		month, _ := strconv.Atoi(ctx.Query("month"))
+		year, _ := strconv.Atoi(ctx.Query("year"))
+		//fmt.Println(month, year)
+		//if err != nil {
+		//	i.logger.Error("inspectionHandlers.GetByID.Query", err)
+		//	return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+		//		"status":  "Bad Request. Ins ID is not valid",
+		//		"message": httpErrors.BadQueryParams.Error(),
+		//	})
+		//}
+
+		paginationQuery, err := utils.GetPaginationFromCtx(ctx)
+		if err != nil {
+			i.logger.Error("authHandlers.GetByInspectionDate.GetPG", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+		}
+
+		inspec, err := i.inspectionService.GetByInspectionDate(customContext, month, year, paginationQuery)
+		if err != nil {
+			i.logger.Error("inspectionHandlers.GetByInspectionDate.GetByInspectionDate", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+		}
+
+		return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+			"status": "success",
+			"data":   inspec,
+		})
+	}
+}
+
+func (i *inspectionHandlers) GetByExpiryDate() fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.GetByExpiryDate")
+		defer span.Finish()
+
+		month, _ := strconv.Atoi(ctx.Query("month"))
+		year, _ := strconv.Atoi(ctx.Query("year"))
+		//fmt.Println(month, year)
+		//if err != nil {
+		//	i.logger.Error("inspectionHandlers.GetByID.Query", err)
+		//	return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+		//		"status":  "Bad Request. Ins ID is not valid",
+		//		"message": httpErrors.BadQueryParams.Error(),
+		//	})
+		//}
+
+		paginationQuery, err := utils.GetPaginationFromCtx(ctx)
+		if err != nil {
+			i.logger.Error("authHandlers.GetByExpiryDate.GetPG", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+		}
+
+		inspec, err := i.inspectionService.GetByExpiryDate(customContext, month, year, paginationQuery)
+		if err != nil {
+			i.logger.Error("inspectionHandlers.GetByExpiryDate.GetByExpiryDate", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+		}
+
+		return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+			"status": "success",
+			"data":   inspec,
+		})
+	}
+}
+
 // GetAll godoc
 //
 //	@ID				GetAll

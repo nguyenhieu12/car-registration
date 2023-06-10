@@ -9,6 +9,10 @@ type Handlers interface {
 	GetByID() fiber.Handler
 	GetByStationCode() fiber.Handler
 	GetByRegistrationID() fiber.Handler
+
+	GetByInspectionDate() fiber.Handler
+	GetByExpiryDate() fiber.Handler
+
 	Create() fiber.Handler
 	Update() fiber.Handler
 	Delete() fiber.Handler

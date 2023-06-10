@@ -5,6 +5,7 @@ import (
 	"backend/internal/models"
 	"backend/pkg/utils"
 	"context"
+	"fmt"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
@@ -37,7 +38,17 @@ func (i *inspectionRepo) GetByInspectionDate(ctx context.Context, month int, yea
 	}
 
 	var inspections = make([]*models.Inspection, 0, query.GetSize())
-	if records := i.db.Where("year(inspection_date) = ? and month(inspection_date) = ?", year, month).Limit(query.GetLimit()).Offset(query.GetOffset()).Order(query.GetOrderBy()).Find(&inspections); records.Error != nil {
+	clauseWhere := ""
+	if year != 0 {
+		clauseWhere += fmt.Sprintf("EXTRACT(YEAR FROM expiry_date) = %d", year)
+	}
+	if month != 0 && year == 0 {
+		clauseWhere += fmt.Sprintf("EXTRACT(MONTH FROM expiry_date) = %d", month)
+	}
+	if month != 0 && year != 0 {
+		clauseWhere += fmt.Sprintf(" and EXTRACT(MONTH FROM expiry_date) = %d", month)
+	}
+	if records := i.db.Where(clauseWhere).Limit(query.GetLimit()).Offset(query.GetOffset()).Order(query.GetOrderBy()).Find(&inspections); records.Error != nil {
 		return nil, errors.Wrap(records.Error, "inspectionRepo.GetGetByInspectionDateAll.Query")
 	}
 
@@ -74,7 +85,18 @@ func (i *inspectionRepo) GetByExpiryDate(ctx context.Context, month int, year in
 	}
 
 	var inspections = make([]*models.Inspection, 0, query.GetSize())
-	if records := i.db.Where("year(expiry_date) = ? and month(expiry_date) = ?", year, month).Limit(query.GetLimit()).Offset(query.GetOffset()).Order(query.GetOrderBy()).Find(&inspections); records.Error != nil {
+	clauseWhere := ""
+	if year != 0 {
+		clauseWhere += fmt.Sprintf("EXTRACT(YEAR FROM expiry_date) = %d", year)
+	}
+	if month != 0 && year == 0 {
+		clauseWhere += fmt.Sprintf("EXTRACT(MONTH FROM expiry_date) = %d", month)
+	}
+	if month != 0 && year != 0 {
+		clauseWhere += fmt.Sprintf(" and EXTRACT(MONTH FROM expiry_date) = %d", month)
+	}
+	fmt.Println(clauseWhere)
+	if records := i.db.Where(clauseWhere).Limit(query.GetLimit()).Offset(query.GetOffset()).Order(query.GetOrderBy()).Find(&inspections); records.Error != nil {
 		return nil, errors.Wrap(records.Error, "inspectionRepo.GetByExpiryDate.Query")
 	}
 
