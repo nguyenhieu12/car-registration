@@ -20,6 +20,8 @@ type User struct {
 	PhoneNumber *string   `json:"phone_number,omitempty" db:"phone_number" redis:"phone_number" validate:"omitempty,lte=20"`
 	StationCode string    `json:"station_code" db:"station_code" redis:"station_code" validate:"omitempty,lte=20"`
 	IdentityNo  string    `json:"identity_no" db:"identity_no" redis:"identity_no" validate:"omitempty,lte=20"`
+	DateOfBirth time.Time `json:"date_of_birth,omitempty" db:"date_of_birth" redis:"date_of_birth"`
+	Gender      string    `json:"gender,omitempty" db:"gender" redis:"gender"`
 	CreatedAt   time.Time `json:"created_at,omitempty" db:"created_at" redis:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at,omitempty" db:"updated_at" redis:"updated_at"`
 	LoginDate   time.Time `json:"login_date" db:"login_date" redis:"login_date"`
