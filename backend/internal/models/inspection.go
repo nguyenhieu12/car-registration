@@ -12,6 +12,10 @@ type Inspection struct {
 	StationCode    string    `json:"station_code" db:"station_code"`
 }
 
+func (Inspection) TableName() string {
+	return "inspection"
+}
+
 // InspectionsList All Inspections response
 type InspectionsList struct {
 	TotalCount  int           `json:"total_count"`
