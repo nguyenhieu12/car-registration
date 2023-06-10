@@ -209,9 +209,9 @@ func (i *inspectionHandlers) GetByRegistrationID() fiber.Handler {
 }
 
 // Create godoc
-// @ID				GetByUserID
-// @Summary		Get inspection by user id
-// @Description	Get inspection by user id
+// @ID				Create inspection
+// @Summary			Create inspection
+// @Description		Create inspection
 // @Tags			Insp
 // @Accept			json
 // @Produce		json
