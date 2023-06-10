@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { utils, read } from 'xlsx';
-import TableSearch from '../TableSearch/TableSearch';
 import './SearchContent.css';
 import 'boxicons/css/boxicons.min.css';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import "primereact/resources/primereact.min.css"; 
+import 'boxicons/css/boxicons.min.css';
+import { FilterMatchMode } from 'primereact/api';
+import { InputText } from 'primereact/inputtext';
 
 function SearchContent(props) {
     const [excelData, setExcelData] = useState([]);
     const file_type = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"];
+    const [autoNumber, setAutoNumber] = useState(1);
     const handleChange = (e) => {
         const selected_file = e.target.files[0];
         if (selected_file) {
@@ -17,20 +23,44 @@ function SearchContent(props) {
                     const sheet = workbook.SheetNames;
                     if (sheet.length) {
                         const data = utils.sheet_to_json(workbook.Sheets[sheet[0]]);
-                        setExcelData(data);
+                        const newData = data.map((row, index) => ({ ...row, index: index + 1 }));
+                        setExcelData(newData);
+                        setAutoNumber(data.length + 1); // Cập nhật số thứ tự tự động
                     }
-                }
+                };
                 reader.readAsArrayBuffer(selected_file);
             } else {
                 setExcelData([]);
+                setAutoNumber(1); // Reset số thứ tự
             }
         }
     };
+    
 
-    const [menuVisible, setMenuVisible] = useState(false);
+    const [filters, setFilters] = useState({
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    });
 
-    const toggleMenu = () => {
-        setMenuVisible(!menuVisible);
+    const handleDeleteRow = (rowData) => {
+        const updatedData = excelData.filter((row) => row.index !== rowData.index);
+        const newData = updatedData.map((row, index) => ({ ...row, index: index + 1 }));
+        setExcelData(newData);
+        setAutoNumber(updatedData.length + 1); // Cập nhật số thứ tự tự động
+    };
+
+    const emptyMessage = "Cần nhập dữ liệu thông tin đăng ký xe để xử lý";
+
+    const alertMessage = (rowData) => {
+        alert(`Bạn đã nhấp vào biểu tượng với dữ liệu: ${JSON.stringify(rowData)}`);
+    };
+
+    const actionTemplate = (rowData) => {
+        return (
+            <div>
+                <i className="bx bx-edit-alt" onClick={() => alertMessage(rowData)} style={{ cursor: 'pointer' }}></i>
+                <i className="bx bx-trash-alt" onClick={() => handleDeleteRow(rowData)} style={{ cursor: 'pointer', marginLeft: '0.5rem' }}></i>
+            </div>
+        );
     };
 
     return (
@@ -44,38 +74,24 @@ function SearchContent(props) {
                     </div>
                     <div className="app-content-actions">
                         <div className="search-box">
-                            <i class='bx bx-search'></i>
-                            <input type="text" placeholder="Search" />
-                        </div>
-                        <div className="app-content-actions-wrapper">
-                            <div className="filter-button-wrapper">
-                                <button className="action-button filter" onClick={toggleMenu}>
-                                    <i class='bx bx-filter-alt' ></i>
-                                    <span className='filter-text'>Filter</span>
-                                </button>
-                                <div className={`filter-menu ${menuVisible ? 'active' : ''}`}>
-                                    <label>Cột</label>
-                                    <select>
-                                        <option>Tất cả</option>
-                                        <option>Tên</option>
-                                        <option>Mã đăng kiểm</option>
-                                        <option>Biển số xe</option>
-                                    </select>
-                                    <label>Trạng thái</label>
-                                    <select>
-                                        <option>Tất cả</option>
-                                        <option>Hoàn thành</option>
-                                        <option>Chưa hoàn thành</option>
-                                    </select>
-                                    <div className="filter-menu-buttons">
-                                        <button className="filter-button reset">Reset</button>
-                                        <button className="filter-button apply">Apply</button>
-                                    </div>
-                                </div>
-                            </div>
+                            <i className='bx bx-search'></i>
+                            <InputText
+                                onInput={(e) => 
+                                    setFilters({
+                                        global: {value: e.target.value, matchMode: FilterMatchMode.CONTAINS}
+                                    })
+                                }   
+                            />
                         </div>
                     </div>
-                    <TableSearch excelData={excelData} />
+                    <DataTable value={excelData} className="my-table" filters={filters} emptyMessage={emptyMessage} paginator rows={10} tableStyle={{ minWidth: '50rem' }}>
+                        <Column field="index" header="Thứ tự" sortable body={(rowData) => rowData.index} />
+                        <Column field="full_name" header="Họ và tên" sortable />
+                        <Column field="registration_id" header="Biển số xe" sortable />
+                        <Column field="registration_date" header="Ngày đăng ký" sortable />
+                        <Column field='place_of_registration' header='Nơi đăng ký' sortable/>
+                        <Column body={actionTemplate} header="" style={{ textAlign: 'center', width: '6rem' }} />
+                    </DataTable>
                 </div>
             </div>
         </div>

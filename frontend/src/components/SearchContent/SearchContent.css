@@ -1,6 +1,5 @@
 .app-content {
   background-color: #fff;
-  height: 70vh;
   flex: 1;
   max-height: 100%;
   display: flex;
@@ -216,4 +215,61 @@
 
   .app-content-headerButton input {
     display: none;
+  }
+
+  .my-table {
+    width: 100%;
+  }
+  
+  .my-table .p-datatable-thead > tr > th {
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+    font-weight: bold;
+    padding: 1rem;
+    text-align: left;
+  }
+  
+  .my-table .p-datatable-tbody > tr > td {
+    border-bottom: 1px solid #ddd;
+    padding: 1rem;
+    font-size: 14px;
+  }
+  
+  .my-table .p-datatable-tbody > tr:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .my-table .p-paginator .p-paginator-pages {
+    margin-top: 0.5rem;
+  }
+  
+  .my-table .p-paginator {
+    margin-top: 20px;
+  }
+  
+  .my-table .p-paginator .p-paginator-page {
+    margin-right: 0.5rem;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .my-table .p-datatable-thead > tr > th {
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+    font-weight: bold;
+    padding: 1rem;
+    text-align: left;
+  }
+  
+  .p-column-title {
+    font-size: 16px;
+  }
+  
+  .my-table .p-sortable-column-icon {
+    margin-top: 5px;
+    margin-left: 10px;
+    color: black;
   }
