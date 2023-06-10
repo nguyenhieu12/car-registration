@@ -9,6 +9,10 @@ type Owner struct {
 	TaxIdentityNumber    string `json:"tax_identity_number" db:"tax_identity_number"`
 }
 
+func (Owner) TableName() string {
+	return "owner"
+}
+
 type OwnersList struct {
 	TotalCount int      `json:"total_count"`
 	TotalPages int      `json:"total_pages"`
