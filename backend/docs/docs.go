@@ -685,6 +685,235 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/vehicle-details/{registration_id}": {
+            "get": {
+                "description": "Get vehicle details information by registration ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "VehicleDetails"
+                ],
+                "summary": "Get vehicle details by registration ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Registration ID",
+                        "name": "registration_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.VehiclesAndDetails"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicles": {
+            "get": {
+                "description": "Get a list of all vehicles",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Get all vehicles",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/models.Vehicle"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "description": "Update an existing vehicle with the provided data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Update vehicle",
+                "parameters": [
+                    {
+                        "description": "Vehicle object",
+                        "name": "vehicle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Vehicle"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Vehicle"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "Create a new vehicle with the provided data",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Create a new vehicle",
+                "parameters": [
+                    {
+                        "description": "Vehicle object",
+                        "name": "vehicle",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.Vehicle"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.Vehicle"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    }
+                }
+            }
+        },
+        "/vehicles/{registration_id}": {
+            "get": {
+                "description": "Get vehicle information by registration ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Get vehicle by registration ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Registration ID",
+                        "name": "registration_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Vehicle"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete an existing vehicle by registration ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Vehicles"
+                ],
+                "summary": "Delete vehicle",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Registration ID",
+                        "name": "registration_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -764,6 +993,9 @@ const docTemplate = `{
                 "created_at": {
                     "type": "string"
                 },
+                "date_of_birth": {
+                    "type": "string"
+                },
                 "email": {
                     "type": "string",
                     "maxLength": 60
@@ -771,6 +1003,9 @@ const docTemplate = `{
                 "first_name": {
                     "type": "string",
                     "maxLength": 30
+                },
+                "gender": {
+                    "type": "string"
                 },
                 "identity_no": {
                     "type": "string",
@@ -834,6 +1069,180 @@ const docTemplate = `{
                     "items": {
                         "$ref": "#/definitions/models.User"
                     }
+                }
+            }
+        },
+        "models.Vehicle": {
+            "type": "object",
+            "required": [
+                "brand",
+                "chassis_number",
+                "color",
+                "engine_number",
+                "inspection_id",
+                "manufactured_country",
+                "manufactured_year",
+                "model_code",
+                "owner_id",
+                "place_of_registration",
+                "registration_id",
+                "vin_id"
+            ],
+            "properties": {
+                "brand": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "chassis_number": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "color": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "engine_number": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "inspection_id": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "manufactured_country": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "manufactured_year": {
+                    "type": "integer"
+                },
+                "model_code": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "owner_id": {
+                    "type": "string"
+                },
+                "place_of_registration": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "registration_date": {
+                    "type": "string"
+                },
+                "registration_id": {
+                    "type": "string",
+                    "maxLength": 255
+                },
+                "vin_id": {
+                    "type": "string",
+                    "maxLength": 255
+                }
+            }
+        },
+        "models.VehicleDetails": {
+            "type": "object",
+            "required": [
+                "vin_id"
+            ],
+            "properties": {
+                "commercial_use": {
+                    "type": "string"
+                },
+                "design_authorized_pay_load": {
+                    "type": "string"
+                },
+                "design_authorized_total_mass": {
+                    "type": "string"
+                },
+                "design_authorized_towed_mass": {
+                    "type": "string"
+                },
+                "engine_displacement": {
+                    "type": "string"
+                },
+                "equipped_with_camera": {
+                    "type": "boolean"
+                },
+                "equipped_with_tachograph": {
+                    "type": "boolean"
+                },
+                "kerb_mass": {
+                    "type": "string"
+                },
+                "largest_luggage_container_dimension": {
+                    "type": "string"
+                },
+                "laying_place": {
+                    "type": "integer"
+                },
+                "manufactured_year": {
+                    "type": "integer"
+                },
+                "mark": {
+                    "type": "string"
+                },
+                "max_output": {
+                    "type": "string"
+                },
+                "model_code": {
+                    "type": "string"
+                },
+                "modification": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "number_of_tires": {
+                    "type": "integer"
+                },
+                "overall_dimension": {
+                    "type": "string"
+                },
+                "permissible_no_of_per_carried": {
+                    "type": "integer"
+                },
+                "rpm": {
+                    "type": "integer"
+                },
+                "seat": {
+                    "type": "integer"
+                },
+                "stood_place": {
+                    "type": "integer"
+                },
+                "tires_size_axle": {
+                    "type": "string"
+                },
+                "type": {
+                    "type": "string"
+                },
+                "type_of_fuel_used": {
+                    "type": "string"
+                },
+                "vin_id": {
+                    "type": "string"
+                },
+                "wheel_base": {
+                    "type": "string"
+                },
+                "wheel_formula": {
+                    "type": "string"
+                },
+                "wheel_tread": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.VehiclesAndDetails": {
+            "type": "object",
+            "properties": {
+                "vehicle": {
+                    "$ref": "#/definitions/models.Vehicle"
+                },
+                "vehicle_details": {
+                    "$ref": "#/definitions/models.VehicleDetails"
                 }
             }
         }
