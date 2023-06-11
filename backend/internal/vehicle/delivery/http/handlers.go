@@ -226,7 +226,7 @@ func (v *vehicleHandlers) GetAll() fiber.Handler {
 //
 // @Summary Get vehicle details by registration ID
 // @Description Get vehicle details information by registration ID
-// @Tags VehicleDetails
+// @Tags Vehicles
 // @Accept json
 // @Produce json
 // @Param registration_id path string true "Registration ID"

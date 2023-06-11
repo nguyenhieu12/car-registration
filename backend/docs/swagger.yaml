@@ -705,7 +705,7 @@ paths:
             $ref: '#/definitions/httpErrors.RestError'
       summary: Get vehicle details by registration ID
       tags:
-      - VehicleDetails
+      - Vehicles
   /vehicles:
     get:
       consumes:
