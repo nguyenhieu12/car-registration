@@ -696,7 +696,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "VehicleDetails"
+                    "Vehicles"
                 ],
                 "summary": "Get vehicle details by registration ID",
                 "parameters": [
