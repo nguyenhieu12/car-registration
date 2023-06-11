@@ -1,3 +1,14 @@
+.stats-container {
+    display: inline;
+}
+
+.stats-option {
+    max-width: 50px;
+    max-height: 50px;
+    display: inline;
+    margin-right: 20px;
+}
+
 .stats-option > span {
     font-size: 16px;
     margin-right: 5px;

@@ -1,7 +1,5 @@
 .line-chart-container {
-    position: absolute;
-    top: 180px;
-    left: 800px;
-    width: 40vw;
-    height: 30vh;
+    margin-top: 50px;
+    height: 65vh;
+    width: 80vw;
 }
