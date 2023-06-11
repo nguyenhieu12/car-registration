@@ -10,6 +10,13 @@ import (
 	inspRepo "backend/internal/inspection/repository"
 	inspServ "backend/internal/inspection/service"
 
+	vehHttp "backend/internal/vehicle/delivery/http"
+	vehRepo "backend/internal/vehicle/repository"
+	vehServ "backend/internal/vehicle/service"
+
+	vehDeRepo "backend/internal/vehiclesdetails/repository"
+	vehDeServ "backend/internal/vehiclesdetails/service"
+
 	apiMiddlewares "backend/internal/middleware"
 	"backend/pkg/utils"
 	"github.com/ansrivas/fiberprometheus/v2"
@@ -28,14 +35,19 @@ func (s *Server) MapHandlers(f *fiber.App) error {
 	// Init repositories
 	authRepository := authRepo.NewAuthRepository(s.db)
 	inspRepository := inspRepo.NewInspectionRepository(s.db)
+	vehRepository := vehRepo.NewVehicleRepository(s.db)
+	vehDeRepository := vehDeRepo.NewVehicleDetailsRepository(s.db)
 
 	// Init services
 	authService := authServ.NewAuthService(s.cfg, authRepository, s.logger)
 	inspService := inspServ.NewInspectionService(s.cfg, inspRepository, s.logger)
+	vehService := vehServ.NewVehicleService(s.cfg, vehRepository, s.logger)
+	vehDeService := vehDeServ.NewVehicleDetailsService(s.cfg, vehDeRepository, s.logger)
 
 	// Init handlers
 	authHandlers := authHttp.NewAuthHandlers(s.cfg, authService, s.logger)
 	inspHandlers := inspHttp.NewInspectionHandlers(s.cfg, inspService, s.logger)
+	vehHandlers := vehHttp.NewVehicleHandlers(s.cfg, vehService, vehDeService, s.logger)
 
 	// Init middleware manager
 	mw := apiMiddlewares.NewMiddlewareManager(authService, s.cfg, []string{"*"}, s.logger)
@@ -74,9 +86,11 @@ func (s *Server) MapHandlers(f *fiber.App) error {
 	health := v1.Group("/health")
 	authGroup := v1.Group("/auth")
 	inspectionGroup := v1.Group("/insp")
+	vehGroup := v1.Group("/vehicle")
 
 	authHttp.MapAuthRoutes(authGroup, authHandlers, mw, authService, s.cfg)
 	inspHttp.MapInspectionRoutes(inspectionGroup, inspHandlers, mw, authService, s.cfg)
+	vehHttp.MapAuthRoutes(vehGroup, vehHandlers, mw, authService, s.cfg)
 
 	health.Get("", func(ctx *fiber.Ctx) error {
 		s.logger.Infof("Health check RequestID: %s", utils.GetRequestID(ctx))

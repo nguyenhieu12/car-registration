@@ -13,7 +13,7 @@ type Inspection struct {
 }
 
 func (Inspection) TableName() string {
-	return "inspection"
+	return "inspections"
 }
 
 // InspectionsList All Inspections response
