@@ -20,12 +20,12 @@ function ProfileContent({ isLoggedIn }) {
                         <img src="https://scontent.fhan14-4.fna.fbcdn.net/v/t1.6435-9/182741929_107870648128506_6644574165595211881_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=5kAhAr4PEkoAX-zfreP&_nc_ht=scontent.fhan14-4.fna&oh=00_AfCJqeKHCh0PvtaZ9Y9AiY_0vUc6X8QkOtlc9loxucFV0w&oe=649DFFEE" width="100" height="100" alt="" />
                         <div className="round">
                         <input type="file" />
-                        <i class='bx bx-camera'style={{ color: '#fff' }} ></i>
+                        <i className='bx bx-camera'style={{ color: '#fff' }} ></i>
                         </div>
                     </div>
                     <div className="profile-usertitle">
                         <div className="profile-usertitle-name">
-                            {currentUser.last_name + '' + currentUser.first_name}
+                            {currentUser.last_name + ' ' + currentUser.first_name}
                         </div>
                         <div className="profile-usertitle-role">
                             {currentUser.role}
@@ -36,7 +36,7 @@ function ProfileContent({ isLoggedIn }) {
                 <div className='profile-userinfo'>
                 <div className='profile-userinfo-item'>
                         <div>
-                            <i class='bx bx-calendar-alt' ></i> Ngày sinh:
+                            <i className='bx bx-calendar-alt' ></i> Ngày sinh:
                         </div>
                         <div>
                             {formattedDate}
@@ -45,7 +45,7 @@ function ProfileContent({ isLoggedIn }) {
                     
                     <div className='profile-userinfo-item'>
                         <div>
-                            <i class='bx bx-user'></i> Giới tính:
+                            <i className='bx bx-user'></i> Giới tính:
                         </div>
                         <div>
                             {currentUser.gender}
@@ -54,16 +54,16 @@ function ProfileContent({ isLoggedIn }) {
                     
                     <div className='profile-userinfo-item'>
                         <div>
-                            <i class='bx bx-phone' ></i> Số điện thoại:
+                            <i className='bx bx-phone' ></i> Số điện thoại:
                         </div>
                         <div>
-                            Ko có DB
+                            {currentUser.phone_number}
                         </div>
                     </div>
                     
                     <div className='profile-userinfo-item'>
                         <div>
-                            <i class='bx bx-envelope' ></i> Email:
+                            <i className='bx bx-envelope' ></i> Email:
                         </div>
                         <div>
                             {currentUser.email}

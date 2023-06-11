@@ -160,8 +160,8 @@ function Dashboard() {
             <section className="main-container">
                 <div className="main-container-header">
                     <div className='welcome'>
-                        <p>Chào mừng quay trở lại,</p>
-                        <h2 className='user-name-title'>{isLoggedIn ? ('Xin chào ' + currentUser.first_name) : ''}</h2>
+                        <p style={{"color": "#000"}}>Chào mừng quay trở lại,</p>
+                        <h2 className='user-name-title'>{isLoggedIn ? (currentUser.first_name) : ''}</h2>
                     </div>
                     <div className="user-info">
                         <div className="search-box">
