@@ -77,6 +77,9 @@ function ChangePassword(props) {
   const newPasswordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
 
+
+  const currentUser = localStorage.getItem('currentUser');
+
   const handleUpdate = () => {
     if (currentPassword !== 'Anhyeuem1234!') {
       setErrorMessage('Mật khẩu hiện tại không chính xác');

@@ -3,11 +3,14 @@ import './ProfileContent.css';
 import 'boxicons/css/boxicons.min.css';
 import PersonInfo from '../PersonInfo/PersonInfo';
 import ChangePassword from '../ChangePassword/ChangePassword';
+import moment from 'moment';
 
 function ProfileContent({ isLoggedIn }) {
     const [currentIndex, setCurrentIndex] = useState(0);
 
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    const formattedDate = moment(currentUser.date_of_birth).format("DD/MM/YYYY");
 
     return (
         <div className="profile-container">
@@ -22,7 +25,7 @@ function ProfileContent({ isLoggedIn }) {
                     </div>
                     <div className="profile-usertitle">
                         <div className="profile-usertitle-name">
-                            {isLoggedIn ? (currentUser.last_name + ' ' + currentUser.first_name) : ''}
+                            {currentUser.last_name + '' + currentUser.first_name}
                         </div>
                         <div className="profile-usertitle-role">
                             {currentUser.role}
@@ -36,7 +39,7 @@ function ProfileContent({ isLoggedIn }) {
                             <i class='bx bx-calendar-alt' ></i> Ngày sinh:
                         </div>
                         <div>
-                            Cái này trong DB ko có
+                            {formattedDate}
                         </div>
                     </div>
                     
@@ -45,7 +48,7 @@ function ProfileContent({ isLoggedIn }) {
                             <i class='bx bx-user'></i> Giới tính:
                         </div>
                         <div>
-                            Cái này ko có luôn
+                            {currentUser.gender}
                         </div>
                     </div>
                     
@@ -54,7 +57,7 @@ function ProfileContent({ isLoggedIn }) {
                             <i class='bx bx-phone' ></i> Số điện thoại:
                         </div>
                         <div>
-                            {isLoggedIn ? (currentUser.phone_number) : ''}
+                            Ko có DB
                         </div>
                     </div>
                     
@@ -63,7 +66,7 @@ function ProfileContent({ isLoggedIn }) {
                             <i class='bx bx-envelope' ></i> Email:
                         </div>
                         <div>
-                            {isLoggedIn ? (currentUser.email) : ''}
+                            {currentUser.email}
                         </div>
                     </div>
                 </div>

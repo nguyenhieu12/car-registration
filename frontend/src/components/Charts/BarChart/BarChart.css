@@ -1,0 +1,13 @@
+.bar-chart-container {
+    position: absolute;
+    top: 400px;
+    left: 800px;
+    width: 40vw;
+    height: 18vw;
+}
+
+/*.bar-chart-canvas {*/
+/*    width: 600px;*/
+/*    height: 400px;*/
+/*}*/
+

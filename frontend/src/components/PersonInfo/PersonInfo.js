@@ -1,12 +1,13 @@
 import React, {useState, useRef} from 'react';
 import './PersonInfo.css';
+import moment from "moment";
 
 function PersonInfo(props) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     const [fullName, setFullName] = useState(currentUser.last_name + ' ' + currentUser.first_name);
-    const [gender, setGender] = useState('Chưa xác định <(\")');
-    const [dateOfBirth, setDateOfBirth] = useState("Không có");
+    const [gender, setGender] = useState(currentUser.gender);
+    const [dateOfBirth, setDateOfBirth] = useState(moment(currentUser.date_of_birth).format("DD/MM/YYYY"));
     const [phoneNumber, setPhoneNumber] = useState(currentUser.phone_number);
     const [citizenId, setCitizenId] = useState(currentUser.identity_no);
     const [email, setEmail] = useState(currentUser.gmail);

@@ -26,6 +26,7 @@ function Navbar({style, isOpen, handleLoginClick, handleOutsideClick}) {
     };
   }, []);
 
+
   return (
     <div className='navbar-container'>
       <div className={`navbar ${(style === 4 || style === 5) ? 'navbar-search-news' : `${style === 3 ? 'navbar-services' : ''} `}`}>
