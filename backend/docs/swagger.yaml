@@ -47,11 +47,15 @@ definitions:
         type: string
       created_at:
         type: string
+      date_of_birth:
+        type: string
       email:
         maxLength: 60
         type: string
       first_name:
         maxLength: 30
+        type: string
+      gender:
         type: string
       identity_no:
         maxLength: 20
@@ -101,6 +105,128 @@ definitions:
         items:
           $ref: '#/definitions/models.User'
         type: array
+    type: object
+  models.Vehicle:
+    properties:
+      brand:
+        maxLength: 255
+        type: string
+      chassis_number:
+        maxLength: 255
+        type: string
+      color:
+        maxLength: 255
+        type: string
+      engine_number:
+        maxLength: 255
+        type: string
+      inspection_id:
+        maxLength: 255
+        type: string
+      manufactured_country:
+        maxLength: 255
+        type: string
+      manufactured_year:
+        type: integer
+      model_code:
+        maxLength: 255
+        type: string
+      owner_id:
+        type: string
+      place_of_registration:
+        maxLength: 255
+        type: string
+      registration_date:
+        type: string
+      registration_id:
+        maxLength: 255
+        type: string
+      vin_id:
+        maxLength: 255
+        type: string
+    required:
+    - brand
+    - chassis_number
+    - color
+    - engine_number
+    - inspection_id
+    - manufactured_country
+    - manufactured_year
+    - model_code
+    - owner_id
+    - place_of_registration
+    - registration_id
+    - vin_id
+    type: object
+  models.VehicleDetails:
+    properties:
+      commercial_use:
+        type: string
+      design_authorized_pay_load:
+        type: string
+      design_authorized_total_mass:
+        type: string
+      design_authorized_towed_mass:
+        type: string
+      engine_displacement:
+        type: string
+      equipped_with_camera:
+        type: boolean
+      equipped_with_tachograph:
+        type: boolean
+      kerb_mass:
+        type: string
+      largest_luggage_container_dimension:
+        type: string
+      laying_place:
+        type: integer
+      manufactured_year:
+        type: integer
+      mark:
+        type: string
+      max_output:
+        type: string
+      model_code:
+        type: string
+      modification:
+        type: string
+      notes:
+        type: string
+      number_of_tires:
+        type: integer
+      overall_dimension:
+        type: string
+      permissible_no_of_per_carried:
+        type: integer
+      rpm:
+        type: integer
+      seat:
+        type: integer
+      stood_place:
+        type: integer
+      tires_size_axle:
+        type: string
+      type:
+        type: string
+      type_of_fuel_used:
+        type: string
+      vin_id:
+        type: string
+      wheel_base:
+        type: string
+      wheel_formula:
+        type: string
+      wheel_tread:
+        type: string
+    required:
+    - vin_id
+    type: object
+  models.VehiclesAndDetails:
+    properties:
+      vehicle:
+        $ref: '#/definitions/models.Vehicle'
+      vehicle_details:
+        $ref: '#/definitions/models.VehicleDetails'
     type: object
 info:
   contact:
@@ -555,4 +681,155 @@ paths:
       summary: Get inspection by station code
       tags:
       - Insp
+  /vehicle-details/{registration_id}:
+    get:
+      consumes:
+      - application/json
+      description: Get vehicle details information by registration ID
+      parameters:
+      - description: Registration ID
+        in: path
+        name: registration_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.VehiclesAndDetails'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Get vehicle details by registration ID
+      tags:
+      - VehicleDetails
+  /vehicles:
+    get:
+      consumes:
+      - application/json
+      description: Get a list of all vehicles
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Vehicle'
+            type: array
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Get all vehicles
+      tags:
+      - Vehicles
+    post:
+      consumes:
+      - application/json
+      description: Create a new vehicle with the provided data
+      parameters:
+      - description: Vehicle object
+        in: body
+        name: vehicle
+        required: true
+        schema:
+          $ref: '#/definitions/models.Vehicle'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Vehicle'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Create a new vehicle
+      tags:
+      - Vehicles
+    put:
+      consumes:
+      - application/json
+      description: Update an existing vehicle with the provided data
+      parameters:
+      - description: Vehicle object
+        in: body
+        name: vehicle
+        required: true
+        schema:
+          $ref: '#/definitions/models.Vehicle'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Vehicle'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Update vehicle
+      tags:
+      - Vehicles
+  /vehicles/{registration_id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete an existing vehicle by registration ID
+      parameters:
+      - description: Registration ID
+        in: path
+        name: registration_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Delete vehicle
+      tags:
+      - Vehicles
+    get:
+      consumes:
+      - application/json
+      description: Get vehicle information by registration ID
+      parameters:
+      - description: Registration ID
+        in: path
+        name: registration_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Vehicle'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Get vehicle by registration ID
+      tags:
+      - Vehicles
 swagger: "2.0"
