@@ -1,50 +1,203 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './PersonInfo.css';
-import moment from "moment";
+import moment from 'moment';
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
 
 function PersonInfo(props) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
     const [fullName, setFullName] = useState(currentUser.last_name + ' ' + currentUser.first_name);
+    const [lastName, setLastName] = useState(currentUser.last_name);
+    const [firstName, setFirstName] = useState(currentUser.first_name);
     const [gender, setGender] = useState(currentUser.gender);
     const [dateOfBirth, setDateOfBirth] = useState(moment(currentUser.date_of_birth).format("DD/MM/YYYY"));
     const [phoneNumber, setPhoneNumber] = useState(currentUser.phone_number);
     const [citizenId, setCitizenId] = useState(currentUser.identity_no);
-    const [email, setEmail] = useState(currentUser.gmail);
-    const [description, setDescription] = useState("Dăm ba con web <(\")");
+    const [email, setEmail] = useState(currentUser.email);
+    const [description, setDescription] = useState(currentUser.about === "none" ? "" : currentUser.about);
     const [companyInfo, setCompanyInfo] = useState({
       inspectionStation: "TTDK XCG 1101S - Hà Nội",
       stationCode: "1101S",
       stationManager: "Đinh Ngọc Hiến",
       hotline: "02063758742",
-    });
-    const [successMessage, setSuccessMessage] = useState("");
-  
+    });  
     const fullNameInputRef = useRef(null);
     const dateOfBirthInputRef = useRef(null);
     const phoneNumberInputRef = useRef(null);
     const citizenIdInputRef = useRef(null);
     const emailInputRef = useRef(null);
     const descriptionInputRef = useRef(null);
+
+    function splitFullName(fullName) {
+      const nameParts = fullName.trim().split(' ');
+      const firstName = nameParts[nameParts.length - 1];
+      const lastName = nameParts.slice(0, -1).join(' ');
+    
+      return {
+        firstName,
+        lastName,
+      };
+    }
+
+    function checkFormatEmail(e) {
+      const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if(!regex.test(e)) {
+        return false;
+      }
+      return true;
+    }
+
+    function checkFormatDob(dob) {
+      const dateFormat = "DD/MM/YYYY";
+      return moment(dob, dateFormat, true).isValid();
+    }
+
+    function checkValidDob(dob) {
+      const [ngay, thang, nam] = dob.split("/").map(Number);
   
+      if (isNaN(ngay) || isNaN(thang) || isNaN(nam)) {
+        return false;
+      }
+      if (thang > 12 || thang < 1) {
+        return false;
+      }
+      if (
+        thang === 1 ||
+        thang === 3 ||
+        thang === 5 ||
+        thang === 7 ||
+        thang === 8 ||
+        thang === 10 ||
+        thang === 12
+      ) {
+        if (ngay > 31) return false;
+      } else if (thang === 2) {
+        if ((nam % 4 === 0 && nam % 100 !== 0) || nam % 400 === 0) {
+          if (ngay > 29) return false;
+        } else if (ngay > 28) return false;
+      } else if (ngay > 30) return false;
+  
+      if (ngay < 1) return false;
+  
+      const currentYear = new Date().getFullYear();
+      const currentMonth = new Date().getMonth() + 1;
+      if (
+        nam > currentYear ||
+        (thang > currentMonth && nam >= currentYear) ||
+        nam < 1900
+      )
+        return false;
+  
+      return true;
+    }
+
+    const formRef = useRef();
+
+    const updateUser = async (id) => {
+      try {
+        await axios.put(`http://localhost:5000/api/v1/auth/${id}`, {
+          first_name: firstName,
+          last_name: lastName,
+          date_of_birth: dateOfBirth,
+          phone_number: phoneNumber,
+          identity_no: citizenId,
+          email: email,
+          about: description
+        });
+        if (!toast.isActive('updateInformation')) {
+          toast.success('Cập nhật thông tin thành công', {
+            toastId: 'updateInformation',
+            autoClose: 1500
+          });
+        }
+      } catch (err) {
+        if (!toast.isActive('updateInformation-error')) {
+          toast.error('Cập nhật thông tin thất bại', {
+            toastId: 'updateInformation-error',
+            autoClose: 1500
+          });
+        }
+      }
+    };
+
     const handleUpdate = () => {
-      if (!fullName || !phoneNumber || !citizenId || !dateOfBirth) {
-        setSuccessMessage("Vui lòng không được để trống");
-        return;
+      if (!fullName) {
+        if (!toast.isActive('fullName')) {
+          toast.error('Tên đăng nhập không được để trống', {
+            toastId: 'fullName',
+            autoClose: 1500
+          });
+        }
+      }
+      if (!phoneNumber) {
+        if (!toast.isActive('phoneNumber')) {
+          toast.error('Số điện thoại không được để trống', {
+            toastId: 'phoneNumber',
+            autoClose: 1500
+          });
+        }
+      }
+      if (!citizenId) {
+        if (!toast.isActive('citizenId')) {
+          toast.error('Số CCCD không được để trống', {
+            toastId: 'citizenId',
+            autoClose: 1500
+          });
+        }
+      }
+      if (!email) {
+        if (!toast.isActive('email')) {
+          toast.error('Email không được để trống', {
+            toastId: 'email',
+            autoClose: 1500
+          });
+        }
+      } else if (!checkFormatEmail(email)) {
+        if (!toast.isActive('checkEmail')) {
+          toast.error('Email không đúng định dạng', {
+            toastId: 'checkEmail',
+            autoClose: 1500
+          });
+        }
+      }
+      if (!dateOfBirth) {
+        if (!toast.isActive('dateOfbirth')) {
+          toast.error('Ngày sinh không được để trống', {
+            toastId: 'dateOfbirth',
+            autoClose: 1500
+          });
+        }
+      } else if (!checkFormatDob(dateOfBirth)) {
+        if (!toast.isActive('checkFormat')) {
+          toast.error('Ngày sinh không đúng định dạng', {
+            toastId: 'checkFormat',
+            autoClose: 1500
+          });
+        }
+      } else if (!checkValidDob(dateOfBirth)) {
+        if (!toast.isActive('checkValidDob')) {
+          toast.error('Ngày sinh không hợp lệ', {
+            toastId: 'checkValidDob',
+            autoClose: 1500
+          });
+        }
       }
   
-      setSuccessMessage("Cập nhật thành công");
-      // Code cập nhật thông tin
+      if (fullName && phoneNumber && citizenId && email && dateOfBirth && checkValidDob(dateOfBirth) && checkFormatDob(dateOfBirth) && checkFormatEmail(email)) {
+        // thành công
+        updateUser(currentUser.user_id);
+      }
     };
   
     const handleCancel = () => {
-      setFullName("Hoàn Bằng");
-      setDateOfBirth("15/11/2002");
-      setPhoneNumber("0388586955");
-      setCitizenId("000123456789");
-      setEmail("");
-      setDescription("");
-      setSuccessMessage("");
+      setFullName(currentUser.last_name + ' ' + currentUser.first_name);
+      setDateOfBirth(moment(currentUser.date_of_birth).format("DD/MM/YYYY"));
+      setPhoneNumber(currentUser.phone_number);
+      setCitizenId(currentUser.identity_no);
+      setEmail(currentUser.email);
+      setDescription(currentUser.about === "none" ? "" : currentUser.about);
     };
   
     const handleKeyDown = (event, nextInputRef) => {
@@ -56,7 +209,8 @@ function PersonInfo(props) {
   
     return (
       <div className="personinfo-container">
-        <form>
+        <ToastContainer/>
+        <form ref={formRef}>
           <h1 className='personinfo-headerText'>Thông tin cá nhân</h1>
           <div className="form-row">
             <div className="input-container distance">
@@ -65,7 +219,13 @@ function PersonInfo(props) {
                 type="text"
                 id="fullName"
                 value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
+                onChange={(e) => setFullName(e.target.value
+                  .split(" ")
+                  .map(
+                    (word) =>
+                      word.charAt(0).toUpperCase() + word.slice(1)
+                  )
+                  .join(" "))}
                 onKeyDown={(e) => handleKeyDown(e, dateOfBirthInputRef)}
                 ref={fullNameInputRef}
               />
@@ -84,9 +244,9 @@ function PersonInfo(props) {
                           title='Không thể sửa đổi'
                           className='input-disabled'
                           disabled
-                          checked
+                          checked={currentUser.gender === "Nam"}
                       />
-                      <p>Nam</p>
+                      <p style={{"color": "#000"}}>Nam</p>
                   </label>
                   <label>
                       <input
@@ -98,8 +258,9 @@ function PersonInfo(props) {
                           title='Không thể sửa đổi'
                           className='input-disabled'
                           disabled
+                          checked={currentUser.gender === "Nữ"}
                       />
-                      <p>Nữ</p>
+                      <p style={{"color": "#000"}}>Nữ</p>
                   </label>
                 </div>
               </div>
@@ -215,16 +376,11 @@ function PersonInfo(props) {
           </div>
           <div className="form-row">
             <div className="button-container">
-              <button className='button-update' type="button" onClick={handleUpdate}>
-                Cập nhật
-              </button>
-              <button className='button-cancel' type="button" onClick={handleCancel}>
-                Hủy bỏ
-              </button>
+              <label htmlFor='button-u' className='app-content-headerButton-u'>Cập nhật</label>
+              <button id='button-u' className='button-update' type="button" onClick={handleUpdate} style={{ 'display': 'none' }} />
+              <label htmlFor='button-c' className='app-content-headerButton-c'>Hủy</label>
+              <button id='button-c' className='button-cancel' type="button" onClick={handleCancel} style={{ 'display': 'none' }} />
             </div>
-            {successMessage && (
-              <div className="success-message">{successMessage}</div>
-            )}
           </div>
 
         </form>
