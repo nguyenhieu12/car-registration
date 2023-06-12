@@ -232,7 +232,7 @@ func (v *vehicleHandlers) GetAll() fiber.Handler {
 // @Param registration_id path string true "Registration ID"
 // @Success 200 {object} models.VehiclesAndDetails
 // @Failure 500 {object} httpErrors.RestError
-// @Router /vehicle-details/{registration_id} [get]
+// @Router /vehicle/details/{registration_id} [get]
 func (v *vehicleHandlers) GetDetailsByRegistrationID() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "vehicleHandlers.GetDetailsByRegistrationID")
