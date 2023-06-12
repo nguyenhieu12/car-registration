@@ -9,10 +9,59 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
+	"time"
 )
 
 type inspectionRepo struct {
 	db *gorm.DB
+}
+
+func (i *inspectionRepo) CountByQuarterAndYear(ctx context.Context, quarter int, year int) (int, error) {
+	span, _ := opentracing.StartSpanFromContext(ctx, "inspectionRepo.CountByQuarterAndYear")
+	defer span.Finish()
+	//var count int64
+	//err := i.db.Table("inspections").
+	//	Where("QUARTER(inspection_date) = ? AND YEAR(inspection_date) = ?", quarter, year).
+	//	Count(&count).Error
+	//if err != nil {
+	//	return 0, err
+	//}
+	//
+	//return int(count), nil
+	db := i.db.Table("inspections")
+
+	startDate, endDate := getQuarterDates(quarter, year)
+
+	var count int64
+	err := db.
+		Where("inspection_date >= ? AND inspection_date <= ?", startDate, endDate).
+		Count(&count).Error
+	if err != nil {
+		return 0, err
+	}
+
+	return int(count), nil
+}
+
+func getQuarterDates(quarter int, year int) (time.Time, time.Time) {
+	var startDate, endDate time.Time
+
+	switch quarter {
+	case 1:
+		startDate = time.Date(year, time.January, 1, 0, 0, 0, 0, time.UTC)
+		endDate = time.Date(year, time.March, 31, 23, 59, 59, 0, time.UTC)
+	case 2:
+		startDate = time.Date(year, time.April, 1, 0, 0, 0, 0, time.UTC)
+		endDate = time.Date(year, time.June, 30, 23, 59, 59, 0, time.UTC)
+	case 3:
+		startDate = time.Date(year, time.July, 1, 0, 0, 0, 0, time.UTC)
+		endDate = time.Date(year, time.September, 30, 23, 59, 59, 0, time.UTC)
+	case 4:
+		startDate = time.Date(year, time.October, 1, 0, 0, 0, 0, time.UTC)
+		endDate = time.Date(year, time.December, 31, 23, 59, 59, 0, time.UTC)
+	}
+
+	return startDate, endDate
 }
 
 func (i *inspectionRepo) GetByInspectionDate(ctx context.Context, month int, year int, query *utils.PaginationQuery) (*models.InspectionsList, error) {
