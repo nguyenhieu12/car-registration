@@ -525,46 +525,6 @@ const docTemplate = `{
                 }
             }
         },
-        "/insp/area/{station_code}": {
-            "get": {
-                "description": "Get inspection by station code",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "insp"
-                ],
-                "summary": "Get inspection by station code",
-                "operationId": "GetByStationCode",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "station_code",
-                        "description": "area code",
-                        "name": "station_code",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.InspectionsList"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/httpErrors.RestError"
-                        }
-                    }
-                }
-            }
-        },
         "/insp/expiry-date": {
             "get": {
                 "description": "Get inspections by expiry date",
@@ -663,6 +623,46 @@ const docTemplate = `{
                         "format": "registration_id",
                         "description": "registration id",
                         "name": "registration_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.InspectionsList"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    }
+                }
+            }
+        },
+        "/insp/station/{station_code}": {
+            "get": {
+                "description": "Get inspection by station code",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "insp"
+                ],
+                "summary": "Get inspection by station code",
+                "operationId": "GetByStationCode",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "format": "station_code",
+                        "description": "area code",
+                        "name": "station_code",
                         "in": "path",
                         "required": true
                     }

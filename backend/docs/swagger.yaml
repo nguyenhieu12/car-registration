@@ -723,33 +723,6 @@ paths:
       summary: Get all inspections following pagination query(size, page, orderBy
       tags:
       - insp
-  /insp/area/{station_code}:
-    get:
-      consumes:
-      - application/json
-      description: Get inspection by station code
-      operationId: GetByStationCode
-      parameters:
-      - description: area code
-        format: station_code
-        in: path
-        name: station_code
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.InspectionsList'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/httpErrors.RestError'
-      summary: Get inspection by station code
-      tags:
-      - insp
   /insp/expiry-date:
     get:
       consumes:
@@ -827,6 +800,33 @@ paths:
           schema:
             $ref: '#/definitions/httpErrors.RestError'
       summary: Get inspection by registration id
+      tags:
+      - insp
+  /insp/station/{station_code}:
+    get:
+      consumes:
+      - application/json
+      description: Get inspection by station code
+      operationId: GetByStationCode
+      parameters:
+      - description: area code
+        format: station_code
+        in: path
+        name: station_code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.InspectionsList'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Get inspection by station code
       tags:
       - insp
   /insp/statistic:
