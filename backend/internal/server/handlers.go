@@ -17,6 +17,10 @@ import (
 	vehDeRepo "backend/internal/vehiclesdetails/repository"
 	vehDeServ "backend/internal/vehiclesdetails/service"
 
+	visitHttp "backend/internal/visitor/delivery/http"
+	visitRepo "backend/internal/visitor/repository"
+	visitServ "backend/internal/visitor/service"
+
 	apiMiddlewares "backend/internal/middleware"
 	"backend/pkg/utils"
 	"github.com/ansrivas/fiberprometheus/v2"
@@ -37,17 +41,20 @@ func (s *Server) MapHandlers(f *fiber.App) error {
 	inspRepository := inspRepo.NewInspectionRepository(s.db)
 	vehRepository := vehRepo.NewVehicleRepository(s.db)
 	vehDeRepository := vehDeRepo.NewVehicleDetailsRepository(s.db)
+	visitRepository := visitRepo.NewVisitorRepository(s.db)
 
 	// Init services
 	authService := authServ.NewAuthService(s.cfg, authRepository, s.logger)
 	inspService := inspServ.NewInspectionService(s.cfg, inspRepository, s.logger)
 	vehService := vehServ.NewVehicleService(s.cfg, vehRepository, s.logger)
 	vehDeService := vehDeServ.NewVehicleDetailsService(s.cfg, vehDeRepository, s.logger)
+	visitService := visitServ.NewVisitorService(s.cfg, visitRepository, s.logger)
 
 	// Init handlers
 	authHandlers := authHttp.NewAuthHandlers(s.cfg, authService, s.logger)
 	inspHandlers := inspHttp.NewInspectionHandlers(s.cfg, inspService, s.logger)
 	vehHandlers := vehHttp.NewVehicleHandlers(s.cfg, vehService, vehDeService, s.logger)
+	visitHandlers := visitHttp.NewVisitorHandlers(s.cfg, visitService, s.logger)
 
 	// Init middleware manager
 	mw := apiMiddlewares.NewMiddlewareManager(authService, s.cfg, []string{"*"}, s.logger)
@@ -87,10 +94,12 @@ func (s *Server) MapHandlers(f *fiber.App) error {
 	authGroup := v1.Group("/auth")
 	inspectionGroup := v1.Group("/insp")
 	vehGroup := v1.Group("/vehicle")
+	visitGroup := v1.Group("/visitor")
 
 	authHttp.MapAuthRoutes(authGroup, authHandlers, mw, authService, s.cfg)
 	inspHttp.MapInspectionRoutes(inspectionGroup, inspHandlers, mw, authService, s.cfg)
 	vehHttp.MapAuthRoutes(vehGroup, vehHandlers, mw, authService, s.cfg)
+	visitHttp.MapVisitorRoutes(visitGroup, visitHandlers, mw, authService, s.cfg)
 
 	health.Get("", func(ctx *fiber.Ctx) error {
 		s.logger.Infof("Health check RequestID: %s", utils.GetRequestID(ctx))
