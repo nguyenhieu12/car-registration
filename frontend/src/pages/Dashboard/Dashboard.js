@@ -4,8 +4,8 @@ import ProfileContent from '../../components/ProfileContent/ProfileContent';
 import NewsContent from '../../components/NewsContent/NewsContent';
 import './Dashboard.css';
 import 'boxicons/css/boxicons.min.css';
-import SettingContent from '../../components/SettingContent/SettingContent';
 import SearchContent from '../../components/SearchContent/SearchContent';
+import RegistrationCar from '../../components/RegistrationCar/RegistrationCar';
 import {useNavigate} from "react-router-dom";
 
 function Dashboard() {
@@ -119,11 +119,18 @@ function Dashboard() {
                         <span className="tooltip">Dashboard</span>
                     </li>
                     <li>
-                        <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Tra cứu') ? 'isActive' : ''}`} onClick={() => addTab('Tra cứu', <SearchContent />, 'bx bx-search-alt')}>
-                            <i className='bx bx-search-alt' ></i>
-                            <span className="sidebar-links">Tra cứu</span>
+                        <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Thông tin đăng ký xe') ? 'isActive' : ''}`} onClick={() => addTab('Thông tin đăng ký xe', <RegistrationCar />, 'bx bx-car')}>
+                            <i className='bx bx-car'></i>
+                            <span className="sidebar-links">Thông tin đăng ký xe</span>
                         </a>
-                        <span className="tooltip">Tra cứu</span>
+                        <span className="tooltip">Thông tin đăng ký xe</span>
+                    </li>
+                    <li>
+                        <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Tra cứu đăng kiểm') ? 'isActive' : ''}`} onClick={() => addTab('Tra cứu đăng kiểm', <SearchContent/>, 'bx bx-search-alt')}>
+                        <i className='bx bx-search-alt' ></i>
+                            <span className="sidebar-links">Tra cứu đăng kiểm</span>
+                        </a>
+                        <span className="tooltip">Tra cứu đăng kiểm</span>
                     </li>
                     <li>
                         <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Thông tin cá nhân') ? 'isActive' : ''}`} onClick={() => addTab('Thông tin cá nhân', <ProfileContent isLoggedIn={isLoggedIn}/>, 'bx bx-user')}>
@@ -138,13 +145,6 @@ function Dashboard() {
                             <span className="sidebar-links">Quản lý tin tức</span>
                         </a>
                         <span className="tooltip">Quản lý tin tức</span>
-                    </li>
-                    <li>
-                        <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Setting') ? 'isActive' : ''}`} onClick={() => addTab('Cài đặt', <SettingContent />, 'bx bx-cog')}>
-                            <i className='bx bx-cog' ></i>
-                            <span className="sidebar-links">Cài đặt</span>
-                        </a>
-                        <span className="tooltip">Cài đặt</span>
                     </li>
                     <li className='logout'>
                         <a href="" onClick={handleLogout}>
