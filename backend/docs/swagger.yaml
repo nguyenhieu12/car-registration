@@ -91,6 +91,23 @@ definitions:
     - station_manager
     - station_name
     type: object
+  models.StationsList:
+    properties:
+      has_more:
+        type: boolean
+      page:
+        type: integer
+      size:
+        type: integer
+      stations:
+        items:
+          $ref: '#/definitions/models.Station'
+        type: array
+      total_count:
+        type: integer
+      total_pages:
+        type: integer
+    type: object
   models.User:
     properties:
       about:
@@ -597,7 +614,7 @@ paths:
             $ref: '#/definitions/httpErrors.RestError'
       summary: Create inspection
       tags:
-      - Insp
+      - insp
   /insp/{inspection_id}:
     delete:
       consumes:
@@ -624,7 +641,7 @@ paths:
             $ref: '#/definitions/httpErrors.RestError'
       summary: Delete inspection
       tags:
-      - Insp
+      - insp
     get:
       consumes:
       - application/json
@@ -643,7 +660,7 @@ paths:
             $ref: '#/definitions/httpErrors.RestError'
       summary: Get inspection by ID
       tags:
-      - Insp
+      - insp
     put:
       consumes:
       - application/json
@@ -705,7 +722,7 @@ paths:
             $ref: '#/definitions/httpErrors.RestError'
       summary: Get all inspections following pagination query(size, page, orderBy
       tags:
-      - Insp
+      - insp
   /insp/area/{station_code}:
     get:
       consumes:
@@ -732,7 +749,59 @@ paths:
             $ref: '#/definitions/httpErrors.RestError'
       summary: Get inspection by station code
       tags:
-      - Insp
+      - insp
+  /insp/expiry-date:
+    get:
+      consumes:
+      - application/json
+      description: Get inspections by expiry date
+      parameters:
+      - description: Month
+        in: query
+        name: month
+        required: true
+        type: integer
+      - description: Year
+        in: query
+        name: year
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Inspection'
+      summary: Get inspections by expiry date
+      tags:
+      - insp
+  /insp/inspection-date:
+    get:
+      consumes:
+      - application/json
+      description: Get inspections by inspection date
+      parameters:
+      - description: Month
+        in: query
+        name: month
+        required: true
+        type: integer
+      - description: Year
+        in: query
+        name: year
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.InspectionsList'
+      summary: Get inspections by inspection date
+      tags:
+      - insp
   /insp/registration/{registration_id}:
     get:
       consumes:
@@ -759,60 +828,8 @@ paths:
             $ref: '#/definitions/httpErrors.RestError'
       summary: Get inspection by registration id
       tags:
-      - Insp
-  /inspection/expiry-date:
-    get:
-      consumes:
-      - application/json
-      description: Get inspections by expiry date
-      parameters:
-      - description: Month
-        in: query
-        name: month
-        required: true
-        type: integer
-      - description: Year
-        in: query
-        name: year
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.Inspection'
-      summary: Get inspections by expiry date
-      tags:
-      - inspection
-  /inspection/inspection-date:
-    get:
-      consumes:
-      - application/json
-      description: Get inspections by inspection date
-      parameters:
-      - description: Month
-        in: query
-        name: month
-        required: true
-        type: integer
-      - description: Year
-        in: query
-        name: year
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.InspectionsList'
-      summary: Get inspections by inspection date
-      tags:
-      - inspection
-  /inspection/statistic:
+      - insp
+  /insp/statistic:
     get:
       consumes:
       - application/json
@@ -832,8 +849,8 @@ paths:
             $ref: '#/definitions/models.QuarterAndYear'
       summary: Count inspections by quarter and year
       tags:
-      - inspection
-  /inspection/statistic/all:
+      - insp
+  /insp/statistic/all:
     get:
       consumes:
       - application/json
@@ -847,8 +864,61 @@ paths:
             $ref: '#/definitions/models.QuarterAndYear'
       summary: Count inspections by quarter and year
       tags:
-      - inspection
-  /vehicle-details/{registration_id}:
+      - insp
+  /station:
+    get:
+      consumes:
+      - application/json
+      description: Get all stations
+      parameters:
+      - description: Page number
+        in: query
+        name: page
+        type: integer
+      - description: Limit per page
+        in: query
+        name: limit
+        type: integer
+      - description: Sort by
+        in: query
+        name: sort
+        type: string
+      - description: Order by
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StationsList'
+      summary: Get all stations
+      tags:
+      - station
+  /station/{station_code}:
+    get:
+      consumes:
+      - application/json
+      description: Get station by Code
+      parameters:
+      - description: Station Code
+        in: path
+        name: station_id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Station'
+      summary: Get station by Code
+      tags:
+      - station
+  /vehicle/details/{registration_id}:
     get:
       consumes:
       - application/json
@@ -1000,7 +1070,7 @@ paths:
       tags:
       - Vehicles
   /visitor:
-    get:
+    post:
       consumes:
       - application/json
       description: Get visitor by registration ID
