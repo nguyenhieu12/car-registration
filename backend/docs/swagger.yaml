@@ -833,6 +833,21 @@ paths:
       summary: Count inspections by quarter and year
       tags:
       - inspection
+  /inspection/statistic/all:
+    get:
+      consumes:
+      - application/json
+      description: Count inspections by quarter and year
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.QuarterAndYear'
+      summary: Count inspections by quarter and year
+      tags:
+      - inspection
   /vehicle-details/{registration_id}:
     get:
       consumes:
