@@ -3,21 +3,26 @@ import './PersonInfo.css';
 import moment from 'moment';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import axios from "axios";
 
 function PersonInfo(props) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
     const token = localStorage.getItem('token');
 
-    const [fullName, setFullName] = useState(currentUser.last_name + ' ' + currentUser.first_name);
-    const [lastName, setLastName] = useState(currentUser.last_name);
-    const [firstName, setFirstName] = useState(currentUser.first_name);
-    const [gender, setGender] = useState(currentUser.gender);
-    const [dateOfBirth, setDateOfBirth] = useState(moment(currentUser.date_of_birth).format("DD/MM/YYYY"));
-    const [phoneNumber, setPhoneNumber] = useState(currentUser.phone_number);
-    const [citizenId, setCitizenId] = useState(currentUser.identity_no);
-    const [email, setEmail] = useState(currentUser.email);
-    const [description, setDescription] = useState(currentUser.about === "none" ? "" : currentUser.about);
+    const [userData, setUserData] = useState({})
+    const [fullName, setFullName] = useState('');
+    const [gender, setGender] = useState('');
+    const [dateOfBirth, setDateOfBirth] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [citizenId, setCitizenId] = useState('');
+    const [email, setEmail] = useState('');
+    const [description, setDescription] = useState('');
+    // const [fullName, setFullName] = useState(userData.last_name + ' ' + userData.first_name);
+    // const [gender, setGender] = useState(userData.gender);
+    // const [dateOfBirth, setDateOfBirth] = useState(moment(userData.date_of_birth).format("DD/MM/YYYY"));
+    // const [phoneNumber, setPhoneNumber] = useState(userData.phone_number);
+    // const [citizenId, setCitizenId] = useState(userData.identity_no);
+    // const [email, setEmail] = useState(userData.email);
+    // const [description, setDescription] = useState(userData.about === "none" ? "" : userData.about);
     const [companyInfo, setCompanyInfo] = useState({
       inspectionStation: "TTDK XCG 1101S - Hà Nội",
       stationCode: "1101S",
@@ -30,17 +35,6 @@ function PersonInfo(props) {
     const citizenIdInputRef = useRef(null);
     const emailInputRef = useRef(null);
     const descriptionInputRef = useRef(null);
-
-    function splitFullName(fullName) {
-      const nameParts = fullName.trim().split(' ');
-      const firstName = nameParts[nameParts.length - 1];
-      const lastName = nameParts.slice(0, -1).join(' ');
-    
-      return {
-        firstName,
-        lastName,
-      };
-    }
 
     function checkFormatEmail(e) {
       const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -94,60 +88,81 @@ function PersonInfo(props) {
       return true;
     }
 
+    const getUser = async () => {
+      fetch(`http://localhost:5000/api/v1/auth/${currentUser.user_id}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+      })
+          .then(response => response.json())
+          .then(data => {
+            setFullName(data.data.last_name + ' ' + data.data.first_name);
+            setGender(data.data.gender);
+            setDateOfBirth(moment(data.data.date_of_birth).format("DD/MM/YYYY"));
+            setPhoneNumber(data.data.phone_number);
+            setCitizenId(data.data.identity_no);
+            setEmail(data.data.email);
+            setDescription(data.data.about === "none" ? "" : data.data.about);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+    };
+
     const formRef = useRef();
 
-    var updateData = {
-      first_name: firstName,
-      last_name: lastName,
-      date_of_birth: moment(dateOfBirth).format("YYYY/MM/DD"),
-      phone_number: phoneNumber,
-      identity_no: citizenId,
-      email: email,
-      about: description
-    }
-
-    var options = {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify(updateData)
-    }
-
     const updateUser = async (id) => {
-      try {
-        // await axios.put(`http://localhost:5000/api/v1/auth/${id}`, {
-        //   first_name: firstName,
-        //   last_name: lastName,
-        //   date_of_birth: dateOfBirth,
-        //   phone_number: phoneNumber,
-        //   identity_no: citizenId,
-        //   email: email,
-        //   about: description
-        // });
-        const respon = await fetch(`http://localhost:5000/api/v1/auth/${currentUser.user_id}`, options);
-        console.log(typeof phoneNumber);
-        if (!toast.isActive('updateInformation')) {
-          toast.success('Cập nhật thông tin thành công', {
-            toastId: 'updateInformation',
-            autoClose: 1500
+      const dob = moment(dateOfBirth, "DD/MM/YYYY").format("YYYY-MM-DD") + "T07:00:00+07:00";
+      console.log(userData.last_name);
+      const lastSpaceIndex = fullName.lastIndexOf(" ");
+      const firstName1 = fullName.substring(lastSpaceIndex + 1);
+      const lastName1 = fullName.substring(0, lastSpaceIndex);
+
+      console.log("First Name:", firstName1);
+      console.log("Last Name:", lastName1);
+      const payload = {
+        first_name: firstName1,
+        last_name: lastName1,
+        date_of_birth: dob,
+        phone_number: phoneNumber,
+        identity_no: citizenId,
+        email: email,
+        about: description
+      };
+      fetch(`http://localhost:5000/api/v1/auth/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      })
+          .then(response => response.json())
+          .then(data => {
+            if (!toast.isActive('updateInformation')) {
+              toast.success('Cập nhật thông tin thành công', {
+                toastId: 'updateInformation',
+                autoClose: 1500
+              });
+            }
+          })
+          .catch(error => {
+            console.error(error);
+            if (!toast.isActive('updateInformation-error')) {
+              toast.error('Cập nhật thông tin thất bại', {
+                toastId: 'updateInformation-error',
+                autoClose: 1500
+              });
+            }
           });
-        }
-      } catch (err) {
-        if (!toast.isActive('updateInformation-error')) {
-          toast.error('Cập nhật thông tin thất bại', {
-            toastId: 'updateInformation-error',
-            autoClose: 1500
-          });
-        }
-      }
     };
 
     const handleUpdate = () => {
       if (!fullName) {
         if (!toast.isActive('fullName')) {
-          toast.error('Tên đăng nhập không được để trống', {
+          toast.error('Họ và tên không được để trống', {
             toastId: 'fullName',
             autoClose: 1500
           });
@@ -208,10 +223,13 @@ function PersonInfo(props) {
       }
   
       if (fullName && phoneNumber && citizenId && email && dateOfBirth && checkValidDob(dateOfBirth) && checkFormatDob(dateOfBirth) && checkFormatEmail(email)) {
-        // thành công
         updateUser(currentUser.user_id);
       }
     };
+
+    useEffect(() => {
+      getUser();
+    }, []);
   
     const handleCancel = () => {
       setFullName(currentUser.last_name + ' ' + currentUser.first_name);

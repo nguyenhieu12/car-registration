@@ -5,8 +5,8 @@ import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function ChangePassword(props) {
-  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   const formRef = useRef();
+
 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
@@ -15,16 +15,49 @@ function ChangePassword(props) {
   const newPasswordRef = useRef(null);
   const confirmPasswordRef = useRef(null);
 
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  const token = localStorage.getItem('token');
+
+  const updatePassword = async () => {
+    const payload = {
+      old_password: currentPassword,
+      new_password: newPassword
+    };
+    fetch(`http://localhost:5000/api/v1/auth/change-password/${currentUser.user_id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(payload)
+    })
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          if (!toast.isActive('success')) {
+            toast.success('Thay đổi mật khẩu thành công', {
+              toastId: 'success',
+              autoClose: 1500,
+            });
+          }
+          setCurrentPassword('');
+          setNewPassword('');
+          setConfirmPassword('');
+        })
+        .catch(error => {
+          console.error(error);
+          if (!toast.isActive('updatePass-error')) {
+              toast.error('Thay đổi tài khoản thất bại', {
+                toastId: 'updatePass-error',
+                autoClose: 1500
+              });
+            }
+        });
+  };
+
   const handleUpdate = () => {
     console.log(currentUser.password);
-    if (currentPassword !== currentUser.user_name) {
-      if (!toast.isActive('checkCurrentPassword')) {
-        toast.error('Mật khẩu hiện tại không chính xác', {
-          toastId: 'checkCurrentPassword',
-          autoClose: 1500,
-        });
-      }
-    } else if (!newPassword) {
+    if (!newPassword) {
       if (!toast.isActive('checkNull')) {
         toast.error('Mật khẩu mới không được để trống', {
           toastId: 'checkNull',
@@ -43,12 +76,7 @@ function ChangePassword(props) {
       const isAllRequirementsMet = requirements.every((req) => req.isValid);
 
       if (isAllRequirementsMet) {
-        if (!toast.isActive('checkAll')) {
-          toast.success('Thay đổi mật khẩu thành công', {
-            toastId: 'checkAll',
-            autoClose: 1500,
-          });
-        }
+        updatePassword();
       } else {
         if (!toast.isActive('checkRequirements')) {
           toast.error('Mật khẩu mới không đáp ứng đủ yêu cầu', {
