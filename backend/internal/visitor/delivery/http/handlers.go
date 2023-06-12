@@ -24,7 +24,7 @@ type visitorHandlers struct {
 // @Param registration_id query string true "Registration ID"
 // @Param person_identity_number query string true "Person Identity Number"
 // @Success 200 {object} models.Visitor
-// @Router /visitor [get]
+// @Router /visitor [post]
 func (v *visitorHandlers) GetByRegistrationID() fiber.Handler {
 	type Payload struct {
 		RegistrationID       string `json:"registration_id"`
