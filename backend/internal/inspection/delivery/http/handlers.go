@@ -308,7 +308,7 @@ func (i *inspectionHandlers) GetByID() fiber.Handler {
 // @Param			station_code	path	string	true	"area code"	Format(station_code)
 // @Success		200	{object}	models.InspectionsList
 // @Failure		500	{object}	httpErrors.RestError
-// @Router			/insp/area/{station_code} [get]
+// @Router			/insp/station/{station_code} [get]
 func (i *inspectionHandlers) GetByStationCode() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.GetByStationCode")
