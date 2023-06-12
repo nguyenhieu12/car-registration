@@ -71,6 +71,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/auth/change-password/{user_id}": {
+            "put": {
+                "description": "Change user password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Change user password",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/login": {
             "post": {
                 "description": "login user, returns user and set session",
@@ -235,36 +258,6 @@ const docTemplate = `{
                     }
                 }
             },
-            "put": {
-                "description": "update existing user",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Auth"
-                ],
-                "summary": "Update user",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "user_id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/models.User"
-                        }
-                    }
-                }
-            },
             "delete": {
                 "description": "some description",
                 "consumes": [
@@ -364,6 +357,38 @@ const docTemplate = `{
                         "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    }
+                }
+            }
+        },
+        "/auth/{user_id}": {
+            "put": {
+                "description": "update existing user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Update user",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "user_id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
                         }
                     }
                 }
@@ -500,9 +525,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/insp/registration/{registration_id}": {
+        "/insp/area/{station_code}": {
             "get": {
-                "description": "Get inspection by registration id",
+                "description": "Get inspection by area code",
                 "consumes": [
                     "application/json"
                 ],
@@ -512,14 +537,14 @@ const docTemplate = `{
                 "tags": [
                     "Insp"
                 ],
-                "summary": "Get inspection by registration id",
-                "operationId": "GetByRegistrationID",
+                "summary": "Get inspection by area code",
+                "operationId": "GetByStationCode",
                 "parameters": [
                     {
                         "type": "string",
-                        "format": "registration_id",
-                        "description": "registration id",
-                        "name": "registration_id",
+                        "format": "station_code",
+                        "description": "area code",
+                        "name": "station_code",
                         "in": "path",
                         "required": true
                     }
@@ -540,9 +565,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/insp/station/{station_code}": {
+        "/insp/registration/{registration_id}": {
             "get": {
-                "description": "Get inspection by station code",
+                "description": "Get inspection by registration id",
                 "consumes": [
                     "application/json"
                 ],
@@ -552,14 +577,14 @@ const docTemplate = `{
                 "tags": [
                     "Insp"
                 ],
-                "summary": "Get inspection by station code",
-                "operationId": "GetByStationCode",
+                "summary": "Get inspection by registration id",
+                "operationId": "GetByRegistrationID",
                 "parameters": [
                     {
                         "type": "string",
-                        "format": "station_code",
-                        "description": "station code",
-                        "name": "station_code",
+                        "format": "registration_id",
+                        "description": "registration id",
+                        "name": "registration_id",
                         "in": "path",
                         "required": true
                     }

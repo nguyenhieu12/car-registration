@@ -15,5 +15,5 @@ type Handlers interface {
 	FindByStationCode() fiber.Handler
 	GetUsers() fiber.Handler
 	GetMe() fiber.Handler
-	GetCSRFToken() fiber.Handler
+	ChangePassword() fiber.Handler
 }

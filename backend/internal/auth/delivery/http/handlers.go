@@ -17,6 +17,72 @@ type authHandlers struct {
 	logger      logger.Logger
 }
 
+// ChangePassword godoc
+//
+//	@Summary		Change user password
+//	@Description	Change user password
+//	@Tags			Auth
+//	@Accept			json
+//	@Produce		json
+//	@Success		201	{object}	models.User
+//	@Router			/auth/change-password/{user_id} [put]
+func (a *authHandlers) ChangePassword() fiber.Handler {
+	type ChangePass struct {
+		OldPassword string `json:"old_password" validate:"required,omitempty,lte=60"`
+		NewPassword string `json:"new_password,omitempty" validate:"required,gte=6"`
+	}
+	return func(ctx *fiber.Ctx) error {
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.ChangePassword")
+		defer span.Finish()
+
+		uID, err := uuid.Parse(ctx.Params("user_id"))
+		if err != nil {
+			a.logger.Error("authHandlers.Update.Query", err)
+			return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"status":  "Bad Request. User ID is not valid",
+				"message": err.Error(),
+			})
+		}
+
+		user := &models.User{}
+		user.UserID = uID
+
+		changePass := &ChangePass{}
+
+		if err := ctx.BodyParser(changePass); err != nil {
+			return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"status":  "Bad Request",
+				"message": err.Error(),
+			})
+		}
+
+		userLocals := ctx.Locals("user").(*models.User)
+		if *userLocals.Role != "god" && *userLocals.Role != "admin" && *userLocals.Role != "vrhead" && *userLocals.Role != "vrstaff" {
+			if *userLocals.Role == *user.Role {
+				a.logger.Error("authHandlers.Update.Query", err)
+				return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"status":  "Bad Request. Can't update staff role by staff",
+					"message": err.Error(),
+				})
+			}
+		}
+
+		updatedUser, err := a.authService.ChangePassword(customContext, changePass.OldPassword, changePass.NewPassword, uID)
+		if err != nil {
+			a.logger.Error("authHandlers.Update.Query", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+		}
+
+		return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+			"status": "success",
+			"data":   &updatedUser,
+		})
+	}
+}
+
 // Register godoc
 //
 //	@Summary		Register new user
@@ -152,7 +218,7 @@ func (a *authHandlers) Logout() fiber.Handler {
 //	@Param			id	path	int	true	"user_id"
 //	@Produce		json
 //	@Success		200	{object}	models.User
-//	@Router			/auth/{id} [put]
+//	@Router			/auth/{user_id} [put]
 func (a *authHandlers) Update() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.Update")

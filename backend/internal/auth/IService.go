@@ -18,4 +18,5 @@ type Service interface {
 	FindByStationCode(ctx context.Context, stationCode string, query *utils.PaginationQuery) (*models.UsersList, error)
 	FindByEmail(ctx context.Context, user *models.User) (*models.User, error)
 	GetUsers(ctx context.Context, query *utils.PaginationQuery) (*models.UsersList, error)
+	ChangePassword(ctx context.Context, oldPass string, newPass string, uId uuid.UUID) (*models.User, error)
 }

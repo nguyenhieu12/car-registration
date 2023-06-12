@@ -14,5 +14,5 @@ func MapAuthRoutes(authRouter fiber.Router, h auth.Handlers, mw *middleware.Midd
 	authRouter.Get("/all", mw.GeneralAdmin(), h.GetUsers())
 	authRouter.Get("/:user_id", mw.GeneralAdmin(), h.GetUserByID())
 	authRouter.Put("/:user_id", mw.GeneralAdmin(), h.Update())
-
+	authRouter.Put("/change-password/:user_id", h.ChangePassword())
 }
