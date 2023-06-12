@@ -7,6 +7,17 @@ definitions:
       status:
         type: integer
     type: object
+  models.CarsCount:
+    properties:
+      q1:
+        type: integer
+      q2:
+        type: integer
+      q3:
+        type: integer
+      q4:
+        type: integer
+    type: object
   models.Inspection:
     properties:
       expiry_date:
@@ -43,6 +54,13 @@ definitions:
         $ref: '#/definitions/models.Inspection'
       station:
         $ref: '#/definitions/models.Station'
+    type: object
+  models.QuarterAndYear:
+    properties:
+      cars_count:
+        $ref: '#/definitions/models.CarsCount'
+      year:
+        type: integer
     type: object
   models.Station:
     properties:
@@ -692,7 +710,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: Get inspection by area code
+      description: Get inspection by station code
       operationId: GetByStationCode
       parameters:
       - description: area code
@@ -712,7 +730,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/httpErrors.RestError'
-      summary: Get inspection by area code
+      summary: Get inspection by station code
       tags:
       - Insp
   /insp/registration/{registration_id}:
@@ -742,6 +760,79 @@ paths:
       summary: Get inspection by registration id
       tags:
       - Insp
+  /inspection/expiry-date:
+    get:
+      consumes:
+      - application/json
+      description: Get inspections by expiry date
+      parameters:
+      - description: Month
+        in: query
+        name: month
+        required: true
+        type: integer
+      - description: Year
+        in: query
+        name: year
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Inspection'
+      summary: Get inspections by expiry date
+      tags:
+      - inspection
+  /inspection/inspection-date:
+    get:
+      consumes:
+      - application/json
+      description: Get inspections by inspection date
+      parameters:
+      - description: Month
+        in: query
+        name: month
+        required: true
+        type: integer
+      - description: Year
+        in: query
+        name: year
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.InspectionsList'
+      summary: Get inspections by inspection date
+      tags:
+      - inspection
+  /inspection/statistic:
+    get:
+      consumes:
+      - application/json
+      description: Count inspections by quarter and year
+      parameters:
+      - description: Year
+        in: query
+        name: year
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.QuarterAndYear'
+      summary: Count inspections by quarter and year
+      tags:
+      - inspection
   /vehicle-details/{registration_id}:
     get:
       consumes:

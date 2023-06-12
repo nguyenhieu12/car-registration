@@ -20,5 +20,6 @@ func MapInspectionRoutes(inspectionRouter fiber.Router, h inspection.Handlers, m
 	inspectionRouter.Delete("/:inspection_id", h.Delete())
 	inspectionRouter.Get("/expiry-date", h.GetByExpiryDate())
 	inspectionRouter.Get("/inspection-date", h.GetByInspectionDate())
+	inspectionRouter.Get("/statistic/", h.CountByQuarterAndYear())
 
 }
