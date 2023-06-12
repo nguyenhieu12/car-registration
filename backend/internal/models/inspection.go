@@ -25,3 +25,14 @@ type InspectionsList struct {
 	HasMore     bool          `json:"has_more"`
 	Inspections []*Inspection `json:"inspections"`
 }
+
+type CarsCount struct {
+	Q1 int `json:"q1"`
+	Q2 int `json:"q2"`
+	Q3 int `json:"q3"`
+	Q4 int `json:"q4"`
+}
+type QuarterAndYear struct {
+	Year      int       `json:"year"`
+	CarsCount CarsCount `json:"cars_count"`
+}
