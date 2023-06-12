@@ -37,6 +37,42 @@ definitions:
       total_pages:
         type: integer
     type: object
+  models.Pair:
+    properties:
+      inspection:
+        $ref: '#/definitions/models.Inspection'
+      station:
+        $ref: '#/definitions/models.Station'
+    type: object
+  models.Station:
+    properties:
+      province:
+        type: string
+      station_address:
+        type: string
+      station_code:
+        type: string
+      station_email:
+        type: string
+      station_hotline:
+        type: string
+      station_id:
+        type: integer
+      station_manager:
+        type: string
+      station_map_source:
+        type: string
+      station_name:
+        type: string
+      station_status:
+        type: boolean
+      station_url:
+        type: string
+    required:
+    - province
+    - station_manager
+    - station_name
+    type: object
   models.User:
     properties:
       about:
@@ -227,6 +263,15 @@ definitions:
         $ref: '#/definitions/models.Vehicle'
       vehicle_details:
         $ref: '#/definitions/models.VehicleDetails'
+    type: object
+  models.Visitor:
+    properties:
+      pair:
+        items:
+          $ref: '#/definitions/models.Pair'
+        type: array
+      vehicle:
+        $ref: '#/definitions/models.Vehicle'
     type: object
 info:
   contact:
@@ -848,4 +893,30 @@ paths:
       summary: Get vehicle by registration ID
       tags:
       - Vehicles
+  /visitor:
+    get:
+      consumes:
+      - application/json
+      description: Get visitor by registration ID
+      parameters:
+      - description: Registration ID
+        in: query
+        name: registration_id
+        required: true
+        type: string
+      - description: Person Identity Number
+        in: query
+        name: person_identity_number
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Visitor'
+      summary: Get visitor by registration ID
+      tags:
+      - visitor
 swagger: "2.0"

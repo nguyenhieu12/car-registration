@@ -931,6 +931,45 @@
                     }
                 }
             }
+        },
+        "/visitor": {
+            "get": {
+                "description": "Get visitor by registration ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "visitor"
+                ],
+                "summary": "Get visitor by registration ID",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Registration ID",
+                        "name": "registration_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Person Identity Number",
+                        "name": "person_identity_number",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Visitor"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -988,6 +1027,60 @@
                 },
                 "total_pages": {
                     "type": "integer"
+                }
+            }
+        },
+        "models.Pair": {
+            "type": "object",
+            "properties": {
+                "inspection": {
+                    "$ref": "#/definitions/models.Inspection"
+                },
+                "station": {
+                    "$ref": "#/definitions/models.Station"
+                }
+            }
+        },
+        "models.Station": {
+            "type": "object",
+            "required": [
+                "province",
+                "station_manager",
+                "station_name"
+            ],
+            "properties": {
+                "province": {
+                    "type": "string"
+                },
+                "station_address": {
+                    "type": "string"
+                },
+                "station_code": {
+                    "type": "string"
+                },
+                "station_email": {
+                    "type": "string"
+                },
+                "station_hotline": {
+                    "type": "string"
+                },
+                "station_id": {
+                    "type": "integer"
+                },
+                "station_manager": {
+                    "type": "string"
+                },
+                "station_map_source": {
+                    "type": "string"
+                },
+                "station_name": {
+                    "type": "string"
+                },
+                "station_status": {
+                    "type": "boolean"
+                },
+                "station_url": {
+                    "type": "string"
                 }
             }
         },
@@ -1260,6 +1353,20 @@
                 },
                 "vehicle_details": {
                     "$ref": "#/definitions/models.VehicleDetails"
+                }
+            }
+        },
+        "models.Visitor": {
+            "type": "object",
+            "properties": {
+                "pair": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Pair"
+                    }
+                },
+                "vehicle": {
+                    "$ref": "#/definitions/models.Vehicle"
                 }
             }
         }
