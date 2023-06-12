@@ -98,6 +98,8 @@
 }
 
 .menu {
+  width: 100px;
+  height: 50px;
   position: absolute;
   left: 90vw;
   cursor: pointer;
