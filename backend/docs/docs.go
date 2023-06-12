@@ -527,7 +527,7 @@ const docTemplate = `{
         },
         "/insp/area/{station_code}": {
             "get": {
-                "description": "Get inspection by area code",
+                "description": "Get inspection by station code",
                 "consumes": [
                     "application/json"
                 ],
@@ -537,7 +537,7 @@ const docTemplate = `{
                 "tags": [
                     "Insp"
                 ],
-                "summary": "Get inspection by area code",
+                "summary": "Get inspection by station code",
                 "operationId": "GetByStationCode",
                 "parameters": [
                     {
@@ -706,6 +706,116 @@ const docTemplate = `{
                         "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/httpErrors.RestError"
+                        }
+                    }
+                }
+            }
+        },
+        "/inspection/expiry-date": {
+            "get": {
+                "description": "Get inspections by expiry date",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inspection"
+                ],
+                "summary": "Get inspections by expiry date",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Month",
+                        "name": "month",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Year",
+                        "name": "year",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.Inspection"
+                        }
+                    }
+                }
+            }
+        },
+        "/inspection/inspection-date": {
+            "get": {
+                "description": "Get inspections by inspection date",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inspection"
+                ],
+                "summary": "Get inspections by inspection date",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Month",
+                        "name": "month",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Year",
+                        "name": "year",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.InspectionsList"
+                        }
+                    }
+                }
+            }
+        },
+        "/inspection/statistic": {
+            "get": {
+                "description": "Count inspections by quarter and year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inspection"
+                ],
+                "summary": "Count inspections by quarter and year",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Year",
+                        "name": "year",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.QuarterAndYear"
                         }
                     }
                 }
@@ -992,6 +1102,23 @@ const docTemplate = `{
                 }
             }
         },
+        "models.CarsCount": {
+            "type": "object",
+            "properties": {
+                "q1": {
+                    "type": "integer"
+                },
+                "q2": {
+                    "type": "integer"
+                },
+                "q3": {
+                    "type": "integer"
+                },
+                "q4": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.Inspection": {
             "type": "object",
             "properties": {
@@ -1046,6 +1173,17 @@ const docTemplate = `{
                 },
                 "station": {
                     "$ref": "#/definitions/models.Station"
+                }
+            }
+        },
+        "models.QuarterAndYear": {
+            "type": "object",
+            "properties": {
+                "cars_count": {
+                    "$ref": "#/definitions/models.CarsCount"
+                },
+                "year": {
+                    "type": "integer"
                 }
             }
         },

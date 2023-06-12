@@ -19,9 +19,71 @@ type inspectionHandlers struct {
 	logger            logger.Logger
 }
 
+// CountByQuarterAndYear godoc
+// @Summary Count inspections by quarter and year
+// @Description Count inspections by quarter and year
+// @Tags inspection
+// @Accept json
+// @Produce json
+// @Param year query int true "Year"
+// @Success 200 {object} models.QuarterAndYear
+// @Router /inspection/statistic [get]
+func (i *inspectionHandlers) CountByQuarterAndYear() fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.CountByQuarterAndYear")
+		defer span.Finish()
+
+		year, err := strconv.Atoi(ctx.Query("year"))
+		if err != nil {
+			i.logger.Error("inspectionHandlers.GetByID.Query", err)
+			return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"status":  "Bad Request. Ins ID is not valid",
+				"message": httpErrors.BadQueryParams.Error(),
+			})
+		}
+
+		//paginationQuery, err := utils.GetPaginationFromCtx(ctx)
+		//if err != nil {
+		//	i.logger.Error("inspectionHandlers.GetByInspectionDate.GetPG", err)
+		//	return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+		//		"status":  "Internal Server Error",
+		//		"message": err.Error(),
+		//	})
+		//}
+		var result models.QuarterAndYear
+		result.Year = year
+		result.CarsCount.Q1, err = i.inspectionService.CountByQuarterAndYear(customContext, 1, year)
+		result.CarsCount.Q2, err = i.inspectionService.CountByQuarterAndYear(customContext, 2, year)
+		result.CarsCount.Q3, err = i.inspectionService.CountByQuarterAndYear(customContext, 3, year)
+		result.CarsCount.Q4, err = i.inspectionService.CountByQuarterAndYear(customContext, 4, year)
+		if err != nil {
+			i.logger.Error("inspectionHandlers.GetByInspectionDate.GetByInspectionDate", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+		}
+
+		return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+			"status": "success",
+			"data":   result,
+		})
+	}
+}
+
+// GetByInspectionDate godoc
+// @Summary Get inspections by inspection date
+// @Description Get inspections by inspection date
+// @Tags inspection
+// @Accept json
+// @Produce json
+// @Param month query int true "Month"
+// @Param year query int true "Year"
+// @Success 200 {object} models.InspectionsList
+// @Router /inspection/inspection-date [get]
 func (i *inspectionHandlers) GetByInspectionDate() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.GetByInspectionDate")
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.GetByInspectionDate")
 		defer span.Finish()
 
 		month, _ := strconv.Atoi(ctx.Query("month"))
@@ -37,7 +99,7 @@ func (i *inspectionHandlers) GetByInspectionDate() fiber.Handler {
 
 		paginationQuery, err := utils.GetPaginationFromCtx(ctx)
 		if err != nil {
-			i.logger.Error("authHandlers.GetByInspectionDate.GetPG", err)
+			i.logger.Error("inspectionHandlers.GetByInspectionDate.GetPG", err)
 			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 				"status":  "Internal Server Error",
 				"message": err.Error(),
@@ -60,9 +122,19 @@ func (i *inspectionHandlers) GetByInspectionDate() fiber.Handler {
 	}
 }
 
+// GetByExpiryDate godoc
+// @Summary Get inspections by expiry date
+// @Description Get inspections by expiry date
+// @Tags inspection
+// @Accept json
+// @Produce json
+// @Param month query int true "Month"
+// @Param year query int true "Year"
+// @Success 200 {object} models.Inspection
+// @Router /inspection/expiry-date [get]
 func (i *inspectionHandlers) GetByExpiryDate() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.GetByExpiryDate")
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.GetByExpiryDate")
 		defer span.Finish()
 
 		month, _ := strconv.Atoi(ctx.Query("month"))
@@ -78,7 +150,7 @@ func (i *inspectionHandlers) GetByExpiryDate() fiber.Handler {
 
 		paginationQuery, err := utils.GetPaginationFromCtx(ctx)
 		if err != nil {
-			i.logger.Error("authHandlers.GetByExpiryDate.GetPG", err)
+			i.logger.Error("inspectionHandlers.GetByExpiryDate.GetPG", err)
 			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
 				"status":  "Internal Server Error",
 				"message": err.Error(),
@@ -167,7 +239,7 @@ func (i *inspectionHandlers) GetAll() fiber.Handler {
 //	@Router			/insp/{inspection_id} [get]
 func (i *inspectionHandlers) GetByID() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
-		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.GetByID")
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.GetByID")
 		defer span.Finish()
 
 		uID, err := strconv.Atoi(ctx.Params("inspection_id"))
@@ -197,8 +269,8 @@ func (i *inspectionHandlers) GetByID() fiber.Handler {
 
 // GetByStationCode godoc
 // @ID				GetByStationCode
-// @Summary		Get inspection by area code
-// @Description	Get inspection by area code
+// @Summary		Get inspection by station code
+// @Description	Get inspection by station code
 // @Tags			Insp
 // @Accept			json
 // @Produce		json
