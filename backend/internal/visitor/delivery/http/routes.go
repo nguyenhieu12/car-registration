@@ -9,5 +9,5 @@ import (
 )
 
 func MapVisitorRoutes(visitorRouter fiber.Router, h visitor.Handlers, mw *middleware.MiddlewareManager, authService auth.Service, cfg *config.Config) {
-	visitorRouter.Get("/", h.GetByRegistrationID())
+	visitorRouter.Post("/", h.GetByRegistrationID())
 }
