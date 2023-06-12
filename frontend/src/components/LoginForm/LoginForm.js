@@ -3,7 +3,7 @@ import './LoginForm.css';
 import userIcon from '../../assets/icons/user-icon.png';
 import passwordIcon from '../../assets/icons/password-icon.png';
 import {useNavigate} from "react-router-dom";
-import {toast, ToastContainer} from 'react-toastify';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function LoginForm({ closeForm }) {

@@ -15,14 +15,13 @@ function Navbar({style, isOpen, handleLoginClick, handleOutsideClick}) {
     navigate('/');
   }
 
-  const handleDisplayNavbar = () => {
-    setIsMobile(!isMobile);
-  }
-
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const handleResize = () => {
+      if(windowWidth >= 740) {
+        setIsMobile(false);
+      }
       setWindowWidth(window.innerWidth);
     };
 
@@ -31,8 +30,11 @@ function Navbar({style, isOpen, handleLoginClick, handleOutsideClick}) {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [windowWidth]);
 
+  const handleDisplayNavbar = () => {
+    setIsMobile(!isMobile);
+  }
 
   return (
     <div className='navbar-container'>
