@@ -15,5 +15,14 @@ type Station struct {
 }
 
 func (Station) TableName() string {
-	return "stations"
+	return "station"
+}
+
+type StationsList struct {
+	TotalCount int        `json:"total_count"`
+	TotalPages int        `json:"total_pages"`
+	Page       int        `json:"page"`
+	Size       int        `json:"size"`
+	HasMore    bool       `json:"has_more"`
+	Stations   []*Station `json:"stations"`
 }

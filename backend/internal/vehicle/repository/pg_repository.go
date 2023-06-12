@@ -20,21 +20,21 @@ func (v *vehicleRepo) GetDetailsByRegistrationID(ctx context.Context, registrati
 	return nil, nil
 
 	//var results models.VehiclesAndDetails
-	//err := v.db.Table("vehicle v").
+	//err := visitor.db.Table("vehicle visitor").
 	//	Select(`
-	//		v.registration_id,
-	//		v.inspection_id,
-	//		v.registration_date,
-	//		v.place_of_registration,
-	//		v.chassis_number,
-	//		v.engine_number,
-	//		v.vin_id,
-	//		v.manufactured_country,
-	//		v.manufactured_year,
-	//		v.brand,
-	//		v.model_code,
-	//		v.color,
-	//		v.owner_id,
+	//		visitor.registration_id,
+	//		visitor.inspection_id,
+	//		visitor.registration_date,
+	//		visitor.place_of_registration,
+	//		visitor.chassis_number,
+	//		visitor.engine_number,
+	//		visitor.vin_id,
+	//		visitor.manufactured_country,
+	//		visitor.manufactured_year,
+	//		visitor.brand,
+	//		visitor.model_code,
+	//		visitor.color,
+	//		visitor.owner_id,
 	//		vd.commercial_use,
 	//		vd.modification,
 	//		vd.wheel_formula,
@@ -59,7 +59,7 @@ func (v *vehicleRepo) GetDetailsByRegistrationID(ctx context.Context, registrati
 	//		vd.equipped_with_tachograph,
 	//		vd.equipped_with_camera,
 	//		vd.notes`).
-	//	Joins("INNER JOIN vehicledetails vd ON v.vin_id = vd.vin_id  AND v.registration_id = ?", registrationID).
+	//	Joins("INNER JOIN vehicledetails vd ON visitor.vin_id = vd.vin_id  AND visitor.registration_id = ?", registrationID).
 	//	Scan(&results).Error
 	//if err != nil {
 	//	log.Fatal(err)

@@ -22,11 +22,11 @@ type inspectionHandlers struct {
 // CountAllByQuarterAndYear godoc
 // @Summary Count inspections by quarter and year
 // @Description Count inspections by quarter and year
-// @Tags inspection
+// @Tags insp
 // @Accept json
 // @Produce json
 // @Success 200 {object} models.QuarterAndYear
-// @Router /inspection/statistic/all [get]
+// @Router /insp/statistic/all [get]
 func (i *inspectionHandlers) CountAllByQuarterAndYear() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.CountAllByQuarterAndYear")
@@ -53,12 +53,12 @@ func (i *inspectionHandlers) CountAllByQuarterAndYear() fiber.Handler {
 // CountByQuarterAndYear godoc
 // @Summary Count inspections by quarter and year
 // @Description Count inspections by quarter and year
-// @Tags inspection
+// @Tags insp
 // @Accept json
 // @Produce json
 // @Param year query int true "Year"
 // @Success 200 {object} models.QuarterAndYear
-// @Router /inspection/statistic [get]
+// @Router /insp/statistic [get]
 func (i *inspectionHandlers) CountByQuarterAndYear() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.CountByQuarterAndYear")
@@ -105,13 +105,13 @@ func (i *inspectionHandlers) CountByQuarterAndYear() fiber.Handler {
 // GetByInspectionDate godoc
 // @Summary Get inspections by inspection date
 // @Description Get inspections by inspection date
-// @Tags inspection
+// @Tags insp
 // @Accept json
 // @Produce json
 // @Param month query int true "Month"
 // @Param year query int true "Year"
 // @Success 200 {object} models.InspectionsList
-// @Router /inspection/inspection-date [get]
+// @Router /insp/inspection-date [get]
 func (i *inspectionHandlers) GetByInspectionDate() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.GetByInspectionDate")
@@ -156,13 +156,13 @@ func (i *inspectionHandlers) GetByInspectionDate() fiber.Handler {
 // GetByExpiryDate godoc
 // @Summary Get inspections by expiry date
 // @Description Get inspections by expiry date
-// @Tags inspection
+// @Tags insp
 // @Accept json
 // @Produce json
 // @Param month query int true "Month"
 // @Param year query int true "Year"
 // @Success 200 {object} models.Inspection
-// @Router /inspection/expiry-date [get]
+// @Router /insp/expiry-date [get]
 func (i *inspectionHandlers) GetByExpiryDate() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.GetByExpiryDate")
@@ -209,7 +209,7 @@ func (i *inspectionHandlers) GetByExpiryDate() fiber.Handler {
 //	@ID				GetAll
 //	@Summary		Get all inspections following pagination query(size, page, orderBy
 //	@Description	Get the list of all inspections
-//	@Tags			Insp
+//	@Tags			insp
 //	@Accept			json
 //	@Param			page	query	int	false	"page number"					Format(page)
 //	@Param			size	query	int	false	"number of elements per page"	Format(size)
@@ -262,7 +262,7 @@ func (i *inspectionHandlers) GetAll() fiber.Handler {
 //	@ID				GetByID
 //	@Summary		Get inspection by ID
 //	@Description	Get inspection by ID
-//	@Tags			Insp
+//	@Tags			insp
 //	@Accept			json
 //	@Produce		json
 //	@Success		200	{object}	models.InspectionsList
@@ -302,7 +302,7 @@ func (i *inspectionHandlers) GetByID() fiber.Handler {
 // @ID				GetByStationCode
 // @Summary		Get inspection by station code
 // @Description	Get inspection by station code
-// @Tags			Insp
+// @Tags			insp
 // @Accept			json
 // @Produce		json
 // @Param			station_code	path	string	true	"area code"	Format(station_code)
@@ -349,7 +349,7 @@ func (i *inspectionHandlers) GetByStationCode() fiber.Handler {
 // @ID				GetByRegistrationID
 // @Summary		Get inspection by registration id
 // @Description	Get inspection by registration id
-// @Tags			Insp
+// @Tags			insp
 // @Accept			json
 // @Produce		json
 // @Param			registration_id	path	string	true	"registration id"	Format(registration_id)
@@ -396,7 +396,7 @@ func (i *inspectionHandlers) GetByRegistrationID() fiber.Handler {
 // @ID				Create inspection
 // @Summary			Create inspection
 // @Description		Create inspection
-// @Tags			Insp
+// @Tags			insp
 // @Accept			json
 // @Produce		json
 // @Param			user_id	path	string	true	"user id"	Format(user_id)
@@ -496,7 +496,7 @@ func (i *inspectionHandlers) Update() fiber.Handler {
 // @ID				Delete
 // @Summary		Delete inspection
 // @Description	Delete inspection
-// @Tags			Insp
+// @Tags			insp
 // @Accept			json
 // @Produce		json
 // @Param			inspection_id	path	string	true	"inspection id"	Format(inspection_id)
