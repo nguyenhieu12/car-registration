@@ -296,7 +296,7 @@ INSERT INTO public.vehicle (registration_id, inspection_id, registration_date, p
 INSERT INTO public.vehicle (registration_id, inspection_id, registration_date, place_of_registration, chassis_number, engine_number, vin_id, manufactured_country, manufactured_year, brand, model_code, color, owner_id) VALUES ('30A16161', '12405', '2019-12-05', 'Hoàn Kiếm, Hà Nội', '5UX23EM08P9N85342', '23EM08P5UX23', '5UX23EM08P9', 'Mỹ', 2023, 'BMW', 'X7', 'Trắng', '213f9eec-6bd7-4eee-8398-340db44a8fa9');
 
 
--- Insert to area
+-- Insert to areas
 INSERT INTO public.area (province, area) VALUES ('An Giang', 'Miền Nam');
 INSERT INTO public.area (province, area) VALUES ('Bà Rịa Vũng Tàu', 'Miền Nam');
 INSERT INTO public.area (province, area) VALUES ('Bạc Liêu', 'Miền Nam');
@@ -363,7 +363,7 @@ INSERT INTO public.area (province, area) VALUES ('Vĩnh Phúc', 'Miền Bắc');
 INSERT INTO public.area (province, area) VALUES ('Yên Bái', 'Miền Bắc');
 
 
--- Insert to station
+-- Insert to area
 
 INSERT INTO public.station (station_id, station_code, station_name, province, station_url, station_hotline, station_address, station_email, station_map_source, station_manager, station_status) VALUES (19, '1509D', 'TTDK XCG 1509D - Hải Phòng', 'Hải Phòng', 'dangkiem1509D.ttdk.com.vn', '0969856933', '215 Hải Triều, p. Quán Toan, q. Hồng Bàng, tp. Hải Phòng', '1509D@kiemdinhoto.vn', null, 'Phạm Quang Vinh PGĐ', true);
 INSERT INTO public.station (station_id, station_code, station_name, province, station_url, station_hotline, station_address, station_email, station_map_source, station_manager, station_status) VALUES (225, '8907D', 'TTDK XCG 8907D', 'Hưng Yên', 'dangkiem8907D.ttdk.com.vn', '0836670999', 'Thôn Cộng Vũ, xã Vũ Xá, huyện Kim Động, tỉnh Hưng Yên', 'trungtamdangkiem8907d@gmail.com', null, 'Nguyễn Đức Hưng', true);

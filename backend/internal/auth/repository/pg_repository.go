@@ -33,7 +33,6 @@ func (a *authRepo) Update(ctx context.Context, user *models.User) (*models.User,
 	if result := a.db.Where("user_id = ?", user.UserID).Updates(&user); result.Error != nil {
 		return nil, errors.Wrap(result.Error, "authRepo.Update.Where.Update")
 	}
-
 	return user, nil
 }
 

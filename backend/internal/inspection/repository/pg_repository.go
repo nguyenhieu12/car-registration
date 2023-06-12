@@ -95,7 +95,7 @@ func (i *inspectionRepo) GetByExpiryDate(ctx context.Context, month int, year in
 	if month != 0 && year != 0 {
 		clauseWhere += fmt.Sprintf(" and EXTRACT(MONTH FROM expiry_date) = %d", month)
 	}
-	fmt.Println(clauseWhere)
+	//fmt.Println(clauseWhere)
 	if records := i.db.Where(clauseWhere).Limit(query.GetLimit()).Offset(query.GetOffset()).Order(query.GetOrderBy()).Find(&inspections); records.Error != nil {
 		return nil, errors.Wrap(records.Error, "inspectionRepo.GetByExpiryDate.Query")
 	}
