@@ -1,11 +1,11 @@
-import React from 'react';
+// import React from 'react';
 
-function SettingContent(props) {
-    return (
-        <div>
-            SettingContent
-        </div>
-    );
-}
+// function SettingContent(props) {
+//     return (
+//         <div>
+//             SettingContent
+//         </div>
+//     );
+// }
 
-export default SettingContent;
+// export default SettingContent;

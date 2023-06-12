@@ -137,10 +137,6 @@
   margin-bottom: 30px;
 }
 
-/* .profile-content-form {
-  display: flex;
-} */
-
 .profile-content-form-item {
   display: flex;
 }
@@ -188,4 +184,178 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
+}
+
+/* PersonInfo */
+.personinfo-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.personinfo-headerText {
+  font-size: 24px;
+  padding-bottom: 20px;
+} 
+
+.input-container-flex {
+  display: flex;
+}
+
+.personinfo-container textarea {
+  margin-bottom: 15px;
+}
+
+.personinfo-container .top-border {
+  padding-top: 20px;
+  border-top: 1px solid #e2e2e2;
+}
+
+.personinfo-container .gender {
+  align-items: center;
+}
+
+.personinfo-container .gender-title {
+  padding-right: 50px;
+}
+
+.personinfo-container h2 {
+  margin-bottom: 10px;
+}
+
+.personinfo-container .form-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.personinfo-container .form-row:last-child {
+  margin-bottom: 0;
+}
+
+.personinfo-container .input-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.personinfo-container .distance {
+  margin-right: 15px;
+}
+
+.personinfo-container label {
+  margin-bottom: 5px;
+  font-weight: normal;
+}
+
+.personinfo-container input[type="text"],
+.personinfo-container textarea {
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+.personinfo-container input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.personinfo-container input[disabled],
+.personinfo-container textarea[disabled] {
+  background-color: #f2f2f2;
+}
+
+.personinfo-container .success-message {
+  color: #22B0DC;
+  margin-top: 10px;
+}
+
+.personinfo-container .button-container {
+  margin-top: 10px;
+  display: flex;
+}
+
+
+.personinfo-container button:focus {
+  outline: none;
+}
+
+.personinfo-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.personinfo-container .checkbox-gender {
+  display: flex;
+}
+
+.personinfo-container .checkbox-gender label {
+  margin-right: 10px;
+  display: flex;
+}
+
+.personinfo-container .checkbox-gender label p {
+  margin-bottom: 2px;
+}
+
+
+.personinfo-container .button-update {
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #22B0DC;
+  margin-right: 10px;
+  color: #fff;
+  margin-top: -1px;
+}
+
+.personinfo-container .button-cancel {
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #efefef;
+  margin-right: 10px;
+  color: black;
+  margin-top: -1px;
+}
+
+.personinfo-container .input-disabled {
+  position: relative;
+}
+
+.personinfo-container .input-disabled::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 14px;
+  border-radius: 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.personinfo-container .input-disabled:hover::after {
+  opacity: 1;
+}
+
+@media screen and (max-width: 700px) {
+  .form-row {
+    display: block;
+  }
+
+  .input-container {
+    display: block;
+  }
+
+  .input-container-flex {
+    display: block;
+  }
 }
