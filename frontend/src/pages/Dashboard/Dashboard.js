@@ -95,7 +95,6 @@ function Dashboard() {
 
     const handleLogout = async () => {
         await localStorage.removeItem('token');
-        await localStorage.removeItem('currentUser');
         navigate('/');
     };
 

@@ -1,48 +1,36 @@
-import React, { useEffect, useState} from 'react';
+import React, { useLayoutEffect, useState} from 'react';
 import './DashboardContent.css';
 import BarChart from '../Charts/BarChart/BarChart';
 import LineChart from '../Charts/LineChart/LineChart';
 import PieChart from '../Charts/PieChart/PieChart';
+import 'boxicons/css/boxicons.min.css';
 
 function DashboardContent(props) {
-    /**
-     Test chart
-     **/
+    const token = localStorage.getItem('token');
 
+    const [selectedDateOption, setSelectedDateOption] = useState('year');
 
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
+    const [selectedChartOption, setSelectedChartOption] = useState('bar');
 
-    function generateRandomDates() {
-        const currentDate = new Date();
-        const currentYear = currentDate.getFullYear();
-        const startDate = new Date('2022-01-01');
+    const [carInspection, setCarInspection] = useState(0);
 
-        const randomDates = [];
+    const [carExpiry, setCarExpiry] = useState(0);
 
-        for (let i = 0; i < 20; i++) {
-            const randomYear = getRandomInt(2022, currentYear);
-            const randomMonth = getRandomInt(0, 11);
-            const randomDay = getRandomInt(1, 28);
+    const [chartData, setChartData] = useState({
+        labels: '',
+        datasets: [
+            {
+                label: "Số lượng",
+                data: '',
+                backgroundColor: "red"
+            }
+        ]
+    });
 
-            const randomDate = new Date(randomYear, randomMonth, randomDay);
-            randomDates.push({
-                day: randomDate.getDate(),
-                month: randomDate.getMonth() + 1,
-                year: randomDate.getFullYear()
-            });
-        }
-
-        return randomDates;
-    }
-
-    const randomDateArray = generateRandomDates();
-
-    function generateRandomColors() {
+    const generateRandomColors = (number) => {
         const colors = [];
 
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < number; i++) {
             const color = "#" + Math.floor(Math.random() * 16777215).toString(16);
             colors.push(color);
         }
@@ -50,42 +38,9 @@ function DashboardContent(props) {
         return colors;
     }
 
-    const randomColors = generateRandomColors();
 
-    /**
-     Test chart
-     **/
 
-    const token = localStorage.getItem('token');
-
-    const [inspectionData, setInspectionData] = useState([]);
-    const [selectedDateOption, setSelectedDateOption] = useState('month');
-    const [selectedChartOption, setSelectedChartOption] = useState('bar');
-    const [chartData, setChartData] = useState({
-        labels: randomDateArray.map(data => data.year),
-        datasets: [
-            {
-                label: "Số liệu thống kê",
-                data: randomDateArray.map(data => data.month),
-                // data: handleChartData(inspectionData, 'month'),
-                backgroundColor: randomColors
-            }
-        ]
-    });
-
-    function handleChartData(inspectionData, selectedOption) {
-        if (selectedOption === 'day') {
-            return inspectionData.map(data => data.inspection_day);
-        } else if (selectedOption === 'month') {
-            return inspectionData.map(data => data.inspection_month);
-        } else {
-            return inspectionData.map(data => data.inspection_year);
-        }
-    }
-
-    let inspectionDates = [];
-
-    useEffect(() => {
+    useLayoutEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await fetch('http://localhost:5000/api/v1/insp/all?size=48&orderBy=inspection_date', {
@@ -99,9 +54,37 @@ function DashboardContent(props) {
                 if (response.ok) {
                     const data = await response.json();
                     const inspections = data.data.inspections;
-                    inspectionDates = inspections.map(inspection => inspection.inspection_date);
+                    const carData = inspections.reduce((result, inspection) => {
+                        const inspectionYear = new Date(inspection.inspection_date).getFullYear();
+                        const existingObj = result.find(obj => obj.year === inspectionYear);
+                        if (existingObj) {
+                            existingObj.car++;
+                        } else {
+                            result.push({ year: inspectionYear, car: 1 });
+                        }
+                        return result;
+                    }, []);
 
-                    console.log(inspectionDates);
+                    setCarInspection(carData.reduce((cars, currentQuantity) => cars + currentQuantity.car, 0));
+
+                    setCarExpiry(carData.reduce((cars, currentQuantity) =>
+                        ((currentQuantity.year >= 2021 && currentQuantity.year < 2023) ? (cars + currentQuantity.car) : cars)
+                    , 0));
+
+                    setChartData(
+                        {
+                            labels: carData.map(data => data.year),
+                            datasets: [
+                                {
+                                    label: "Số lượng",
+                                    data: carData.map(data => data.car),
+                                    backgroundColor: generateRandomColors(carData.length),
+                                    borderWidth: 1,
+                                    borderColor: "black"
+                                }
+                            ]
+                        }
+                    );
                 } else {
                     console.log('Error:', response.status);
                 }
@@ -112,7 +95,7 @@ function DashboardContent(props) {
         };
 
         fetchData();
-    }, [selectedDateOption]);
+    }, []);
 
     const handleDateSelectChange = (event) => {
         setSelectedDateOption(event.target.value);
@@ -122,6 +105,7 @@ function DashboardContent(props) {
         setSelectedChartOption(event.target.value);
     };
 
+    // chart options
     const options = {
         indexAxis: 'x',
         responsive: true,
@@ -137,36 +121,6 @@ function DashboardContent(props) {
             }
         }
     };
-
-    const testGetStation = async () => {
-        try {
-            const response = await fetch('http://localhost:5000/api/v1/insp/all', {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`,
-                },
-            });
-
-            const data = await response.json();
-            const inspections = data.data.inspections;
-            console.log(inspections);
-            const formattedData = inspections.map((item) => ({
-                inspection_id: item.inspection_id,
-                registration_id: item.registration_id,
-                inspection_day: new Date(item.inspection_date).getDay(),
-                inspection_month: new Date(item.inspection_date).getMonth() + 1,
-                inspection_year: new Date(item.inspection_date).getFullYear(),
-                expiry_date: item.expiry_date,
-                station_code: item.station_code
-            }));
-            setInspectionData(formattedData);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-
 
     return (
         <div className="dashboard-content">
@@ -187,11 +141,22 @@ function DashboardContent(props) {
                         <option value="pie">Tròn</option>
                     </select>
                 </div>
+                <div className='stats-quantity car-inspection'>
+                    <div className='bx bx-car stats-icon car-icon'></div>
+                    <div className='stats-content'>
+                        <h3>Xe đã đăng kiểm</h3>
+                        <strong>{carInspection}</strong>
+
+                    </div>
+                </div>
+                <div className='stats-quantity car-expiry'>
+                    <div className='bx bx-time-five stats-icon time-icon'></div>
+                    <div className='stats-content'>
+                        <h3>Xe sắp đến hạn</h3>
+                        <strong>{carExpiry}</strong>
+                    </div>
+                </div>
             </div>
-            {/*<button onClick={testGetStation}>Get station</button>*/}
-            {/*<BarChart chartData={chartData} chartOptions={ptions}/>*/}
-            {/*<LineChart chartData={chartData} chartOptions={chartOptions}/>*/}
-            {/*<PieChart chartData={chartData} chartOptions={chartOptions}/>*/}
             {selectedChartOption === 'bar' ? <BarChart chartData={chartData} chartOptions={options}/>
                 : (selectedChartOption === 'line' ? <LineChart chartData={chartData} chartOptions={options}/>
                 : <PieChart chartData={chartData} chartOptions={options}/>)}

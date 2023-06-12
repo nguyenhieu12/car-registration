@@ -1,0 +1,24 @@
+.nav-tag-mobile {
+    position: relative;
+    height: 100vh;
+    width: 50vw;
+    float: right;
+    background-color: #f3f0f0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.mobile-link {
+    text-decoration: none;
+    color: black;
+    font-size: 18px;
+}
+
+.nav-tag-mobile > button {
+    width: 140px;
+    border-radius: 20px;
+    font-size: 14px;
+}

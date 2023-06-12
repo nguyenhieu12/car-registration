@@ -13,3 +13,62 @@
     font-size: 16px;
     margin-right: 5px;
 }
+
+.stats-quantity {
+    width: 200px;
+    height: 80px;
+    border-radius: 5px;
+    /*background-color: cyan;*/
+}
+
+.stats-icon {
+    margin-top: 20px;
+    margin-left: 5px;
+    font-size: 35px;
+}
+
+.stats-content > h3 {
+    margin-left: 50px;
+    margin-top: -45px;
+    width: 150px;
+    font-size: 18px;
+}
+
+.stats-content > strong {
+    margin-left: 100px;
+    margin-top: 100px;
+    width: 150px;
+    font-size: 18px;
+}
+
+.car-inspection {
+    position: absolute;
+    top: 160px;
+    left: 450px;
+    background-image: linear-gradient(to right bottom, #95f2ff, #88ccff);
+}
+
+.car-icon {
+    color: #0066ff;
+}
+
+.car-inspection h3,
+.car-inspection strong {
+    color: #3656ff;
+}
+
+.car-expiry {
+    position: absolute;
+    top: 160px;
+    left: 700px;
+    background-image: linear-gradient(to right bottom, #b9ffa5, #9cd6ff);
+}
+
+.time-icon {
+    color: red;
+}
+
+.car-expiry h3,
+.car-expiry strong {
+    color: red;
+}

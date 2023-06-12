@@ -27,7 +27,7 @@
   cursor: pointer;
 }
 
-.nar-tag {
+.nav-tag {
   margin-left: calc(24vw - 100px);
   margin-top: 30px;
   flex: 5;
@@ -98,6 +98,8 @@
 }
 
 .menu {
+  position: absolute;
+  left: 90vw;
   cursor: pointer;
 }
 
@@ -117,6 +119,10 @@
   display: none;
 }
 
+/*.options-open {*/
+/*  margin-left: 90vw;*/
+/*}*/
+
 /* Mobile styles */
 @media screen and (max-width: 739px) {
   .login-btn {
@@ -130,7 +136,7 @@
 
 /* Tablet styles */
 @media screen and (min-width: 740px) and (max-width: 1023px) {
-  .nar-tag {
+  .nav-tag {
     margin-left: calc(24vw - 140px);
   }
 

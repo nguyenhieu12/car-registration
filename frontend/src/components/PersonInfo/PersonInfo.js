@@ -7,6 +7,7 @@ import axios from "axios";
 
 function PersonInfo(props) {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const token = localStorage.getItem('token');
 
     const [fullName, setFullName] = useState(currentUser.last_name + ' ' + currentUser.first_name);
     const [lastName, setLastName] = useState(currentUser.last_name);
@@ -95,17 +96,38 @@ function PersonInfo(props) {
 
     const formRef = useRef();
 
+    var updateData = {
+      first_name: firstName,
+      last_name: lastName,
+      date_of_birth: moment(dateOfBirth).format("YYYY/MM/DD"),
+      phone_number: phoneNumber,
+      identity_no: citizenId,
+      email: email,
+      about: description
+    }
+
+    var options = {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(updateData)
+    }
+
     const updateUser = async (id) => {
       try {
-        await axios.put(`http://localhost:5000/api/v1/auth/${id}`, {
-          first_name: firstName,
-          last_name: lastName,
-          date_of_birth: dateOfBirth,
-          phone_number: phoneNumber,
-          identity_no: citizenId,
-          email: email,
-          about: description
-        });
+        // await axios.put(`http://localhost:5000/api/v1/auth/${id}`, {
+        //   first_name: firstName,
+        //   last_name: lastName,
+        //   date_of_birth: dateOfBirth,
+        //   phone_number: phoneNumber,
+        //   identity_no: citizenId,
+        //   email: email,
+        //   about: description
+        // });
+        const respon = await fetch(`http://localhost:5000/api/v1/auth/${currentUser.user_id}`, options);
+        console.log(typeof phoneNumber);
         if (!toast.isActive('updateInformation')) {
           toast.success('Cập nhật thông tin thành công', {
             toastId: 'updateInformation',
