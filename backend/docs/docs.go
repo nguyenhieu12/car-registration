@@ -821,6 +821,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/inspection/statistic/all": {
+            "get": {
+                "description": "Count inspections by quarter and year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "inspection"
+                ],
+                "summary": "Count inspections by quarter and year",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.QuarterAndYear"
+                        }
+                    }
+                }
+            }
+        },
         "/vehicle-details/{registration_id}": {
             "get": {
                 "description": "Get vehicle details information by registration ID",

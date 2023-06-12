@@ -19,4 +19,5 @@ type Repository interface {
 	Update(ctx context.Context, inspection *models.Inspection) (*models.Inspection, error)
 	Delete(ctx context.Context, ID int) error
 	CountByQuarterAndYear(ctx context.Context, quarter int, year int) (int, error)
+	CountAllByQuarterAndYear(ctx context.Context) ([]models.QuarterAndYear, error)
 }

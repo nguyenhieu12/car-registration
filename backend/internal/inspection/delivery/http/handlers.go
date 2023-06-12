@@ -19,6 +19,37 @@ type inspectionHandlers struct {
 	logger            logger.Logger
 }
 
+// CountAllByQuarterAndYear godoc
+// @Summary Count inspections by quarter and year
+// @Description Count inspections by quarter and year
+// @Tags inspection
+// @Accept json
+// @Produce json
+// @Success 200 {object} models.QuarterAndYear
+// @Router /inspection/statistic/all [get]
+func (i *inspectionHandlers) CountAllByQuarterAndYear() fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.CountAllByQuarterAndYear")
+		defer span.Finish()
+
+		var result []models.QuarterAndYear
+		result, err := i.inspectionService.CountAllByQuarterAndYear(customContext)
+
+		if err != nil {
+			i.logger.Error("inspectionHandlers.CountAllByQuarterAndYear.Query", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+		}
+
+		return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+			"status": "success",
+			"data":   result,
+		})
+	}
+}
+
 // CountByQuarterAndYear godoc
 // @Summary Count inspections by quarter and year
 // @Description Count inspections by quarter and year

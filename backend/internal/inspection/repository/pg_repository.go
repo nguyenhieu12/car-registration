@@ -16,18 +16,70 @@ type inspectionRepo struct {
 	db *gorm.DB
 }
 
+func (i *inspectionRepo) CountAllByQuarterAndYear(ctx context.Context) ([]models.QuarterAndYear, error) {
+	span, _ := opentracing.StartSpanFromContext(ctx, "inspectionRepo.CountAllByQuarterAndYear")
+	defer span.Finish()
+	var result []models.QuarterAndYear
+
+	rows, err := i.db.Table("inspections").
+		Select("EXTRACT(YEAR FROM inspection_date) AS year, DATE_PART('quarter', inspection_date) AS quarter, COUNT(*) AS inspection_count").
+		Group("year, quarter").
+		Rows()
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	// Create a map to store the counts for each year
+	yearMap := make(map[int]models.CarsCount)
+
+	// Iterate over the rows and populate the yearMap
+	for rows.Next() {
+		var year, quarter int
+		var inspectionCount int64
+		if err := rows.Scan(&year, &quarter, &inspectionCount); err != nil {
+			return nil, err
+		}
+
+		// Get the CarsCount object for the current year, or create a new one if it doesn't exist
+		carsCount, exists := yearMap[year]
+		if !exists {
+			carsCount = models.CarsCount{}
+		}
+
+		// Set the inspection count for the corresponding quarter
+		switch quarter {
+		case 1:
+			carsCount.Q1 = int(inspectionCount)
+		case 2:
+			carsCount.Q2 = int(inspectionCount)
+		case 3:
+			carsCount.Q3 = int(inspectionCount)
+		case 4:
+			carsCount.Q4 = int(inspectionCount)
+		}
+
+		// Update the CarsCount object in the yearMap
+		yearMap[year] = carsCount
+	}
+
+	// Convert the yearMap to a list of QuarterAndYear structs
+	for year, carsCount := range yearMap {
+		result = append(result, models.QuarterAndYear{
+			Year:      year,
+			CarsCount: carsCount,
+		})
+	}
+
+	return result, nil
+
+}
+
 func (i *inspectionRepo) CountByQuarterAndYear(ctx context.Context, quarter int, year int) (int, error) {
 	span, _ := opentracing.StartSpanFromContext(ctx, "inspectionRepo.CountByQuarterAndYear")
 	defer span.Finish()
-	//var count int64
-	//err := i.db.Table("inspections").
-	//	Where("QUARTER(inspection_date) = ? AND YEAR(inspection_date) = ?", quarter, year).
-	//	Count(&count).Error
-	//if err != nil {
-	//	return 0, err
-	//}
-	//
-	//return int(count), nil
+
 	db := i.db.Table("inspections")
 
 	startDate, endDate := getQuarterDates(quarter, year)
