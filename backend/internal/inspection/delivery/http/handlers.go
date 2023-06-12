@@ -7,7 +7,6 @@ import (
 	"backend/pkg/httpErrors"
 	"backend/pkg/logger"
 	"backend/pkg/utils"
-	"fmt"
 	"github.com/gofiber/fiber/v2"
 	"github.com/opentracing/opentracing-go"
 	"strconv"
@@ -130,7 +129,7 @@ func (i *inspectionHandlers) GetAll() fiber.Handler {
 			})
 		}
 		user := ctx.Locals("user").(*models.User)
-		fmt.Println("user", user)
+		//fmt.Println("user", user)
 		//users, err := a.authService.GetUsers(customContext, paginationQuery)
 		var inspections *models.InspectionsList
 		if *user.Role == "god" || *user.Role == "vr" {
@@ -198,15 +197,15 @@ func (i *inspectionHandlers) GetByID() fiber.Handler {
 
 // GetByStationCode godoc
 // @ID				GetByStationCode
-// @Summary		Get inspection by station code
-// @Description	Get inspection by station code
+// @Summary		Get inspection by area code
+// @Description	Get inspection by area code
 // @Tags			Insp
 // @Accept			json
 // @Produce		json
-// @Param			station_code	path	string	true	"station code"	Format(station_code)
+// @Param			station_code	path	string	true	"area code"	Format(station_code)
 // @Success		200	{object}	models.InspectionsList
 // @Failure		500	{object}	httpErrors.RestError
-// @Router			/insp/station/{station_code} [get]
+// @Router			/insp/area/{station_code} [get]
 func (i *inspectionHandlers) GetByStationCode() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
 		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.GetByStationCode")

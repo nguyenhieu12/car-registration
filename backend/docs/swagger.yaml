@@ -285,26 +285,6 @@ paths:
       summary: get user by id
       tags:
       - Auth
-    put:
-      consumes:
-      - application/json
-      description: update existing user
-      parameters:
-      - description: user_id
-        in: path
-        name: id
-        required: true
-        type: integer
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.User'
-      summary: Update user
-      tags:
-      - Auth
   /auth/{name}:
     get:
       consumes:
@@ -347,6 +327,27 @@ paths:
           schema:
             $ref: '#/definitions/httpErrors.RestError'
       summary: Find by station code
+      tags:
+      - Auth
+  /auth/{user_id}:
+    put:
+      consumes:
+      - application/json
+      description: update existing user
+      parameters:
+      - description: user_id
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Update user
       tags:
       - Auth
   /auth/{user_name}:
@@ -407,6 +408,21 @@ paths:
           schema:
             $ref: '#/definitions/httpErrors.RestError'
       summary: Get users
+      tags:
+      - Auth
+  /auth/change-password/{user_id}:
+    put:
+      consumes:
+      - application/json
+      description: Change user password
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+      summary: Change user password
       tags:
       - Auth
   /auth/login:
@@ -627,6 +643,33 @@ paths:
       summary: Get all inspections following pagination query(size, page, orderBy
       tags:
       - Insp
+  /insp/area/{station_code}:
+    get:
+      consumes:
+      - application/json
+      description: Get inspection by area code
+      operationId: GetByStationCode
+      parameters:
+      - description: area code
+        format: station_code
+        in: path
+        name: station_code
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.InspectionsList'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/httpErrors.RestError'
+      summary: Get inspection by area code
+      tags:
+      - Insp
   /insp/registration/{registration_id}:
     get:
       consumes:
@@ -652,33 +695,6 @@ paths:
           schema:
             $ref: '#/definitions/httpErrors.RestError'
       summary: Get inspection by registration id
-      tags:
-      - Insp
-  /insp/station/{station_code}:
-    get:
-      consumes:
-      - application/json
-      description: Get inspection by station code
-      operationId: GetByStationCode
-      parameters:
-      - description: station code
-        format: station_code
-        in: path
-        name: station_code
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/models.InspectionsList'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/httpErrors.RestError'
-      summary: Get inspection by station code
       tags:
       - Insp
   /vehicle-details/{registration_id}:

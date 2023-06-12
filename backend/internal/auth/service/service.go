@@ -20,6 +20,40 @@ type authService struct {
 	logger   logger.Logger
 }
 
+func (a *authService) ChangePassword(ctx context.Context, oldPass string, newPass string, uId uuid.UUID) (*models.User, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "authService.ChangePassword")
+	defer span.Finish()
+
+	user, _ := a.authRepo.GetByID(ctx, uId)
+	if err := user.PrepareUpdate(); err != nil {
+		return nil, httpErrors.NewBadRequestError(errors.Wrap(err, "authService.ChangePassword.PrepareUpdate"))
+	}
+
+	if err := user.ComparePasswords(oldPass); err != nil {
+		return nil, errors.Wrap(err, "authService.ChangePassword.HashPassword: Wrong password")
+
+	}
+	user.Password = newPass
+	err := user.HashPassword()
+	if err != nil {
+		return nil, errors.Wrap(err, "authService.ChangePassword.HashPassword")
+	}
+	updatedUser, err := a.authRepo.Update(ctx, user)
+	if err != nil {
+		return nil, err
+	}
+
+	updatedUser.SanitizePassword()
+
+	//if err = u.redisRepo.DeleteUserCtx(ctx, u.GenerateUserKey(user.UserID.String())); err != nil {
+	//	u.logger.Errorf("AuthUC.Update.DeleteUserCtx: %s", err)
+	//}
+
+	updatedUser.SanitizePassword()
+
+	return updatedUser, nil
+}
+
 func (a *authService) Register(ctx context.Context, user *models.User) (*models.UserWithToken, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "authService.Register")
 	defer span.Finish()
@@ -86,7 +120,7 @@ func (a *authService) Update(ctx context.Context, user *models.User) (*models.Us
 	defer span.Finish()
 
 	if err := user.PrepareUpdate(); err != nil {
-		return nil, httpErrors.NewBadRequestError(errors.Wrap(err, "authUC.Register.PrepareUpdate"))
+		return nil, httpErrors.NewBadRequestError(errors.Wrap(err, "authService.Register.PrepareUpdate"))
 	}
 
 	updatedUser, err := a.authRepo.Update(ctx, user)
@@ -114,7 +148,7 @@ func (a *authService) Delete(ctx context.Context, userID uuid.UUID) error {
 }
 
 func (a *authService) GetByID(ctx context.Context, userID uuid.UUID) (*models.User, error) {
-	span, ctx := opentracing.StartSpanFromContext(ctx, "authUC.GetByID")
+	span, ctx := opentracing.StartSpanFromContext(ctx, "authService.GetByID")
 	defer span.Finish()
 
 	//cachedUser, err := u.redisRepo.GetByIDCtx(ctx, u.GenerateUserKey(userID.String()))

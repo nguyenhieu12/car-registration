@@ -96,7 +96,7 @@ func (mw *MiddlewareManager) GeneralAdmin() fiber.Handler {
 		if *user.Role != "vrhead" && *user.Role != "admin" && *user.Role != "god" && *user.Role != "vrstaff" {
 			return ctx.Status(http.StatusUnauthorized).JSON(httpErrors.NewUnauthorizedError(httpErrors.Unauthorized))
 		}
-		fmt.Println(*user.Role)
+		//fmt.Println(*user.Role)
 		return ctx.Next()
 	}
 }
