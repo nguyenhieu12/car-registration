@@ -28,8 +28,26 @@ type inspectionHandlers struct {
 // @Success 200 {object} int
 // @Router /insp/statistic/region [get]
 func (i *inspectionHandlers) CountAllByRegionAndYear() fiber.Handler {
-	//TODO implement me
-	panic("implement me")
+	return func(ctx *fiber.Ctx) error {
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.CountAllByRegionAndYear")
+		defer span.Finish()
+
+		var result []models.RegionAndYear
+		result, err := i.inspectionService.CountAllByRegionAndYear(customContext)
+
+		if err != nil {
+			i.logger.Error("inspectionHandlers.CountAllByRegionAndYear.Query", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+		}
+
+		return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+			"status": "success",
+			"data":   result,
+		})
+	}
 }
 
 // CountAllByQuarterAndYear godoc
