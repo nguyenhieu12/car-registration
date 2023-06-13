@@ -22,6 +22,7 @@ func (i *visitorRepo) GetByRegistrationID(ctx context.Context, registrationID st
 	err := i.db.Table("inspections i").
 		Select("i.*, s.*").
 		Joins("INNER JOIN station s ON i.station_code = s.station_code AND i.registration_id = ?", registrationID).
+		Order("i.inspection_date DESC").
 		Scan(&results).Error
 	if err != nil {
 		return nil, err

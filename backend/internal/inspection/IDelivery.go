@@ -18,4 +18,5 @@ type Handlers interface {
 	Delete() fiber.Handler
 	CountByQuarterAndYear() fiber.Handler
 	CountAllByQuarterAndYear() fiber.Handler
+	CountAllByRegionAndYear() fiber.Handler
 }

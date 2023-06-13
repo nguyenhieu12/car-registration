@@ -865,6 +865,21 @@ paths:
       summary: Count inspections by quarter and year
       tags:
       - insp
+  /insp/statistic/region:
+    get:
+      consumes:
+      - application/json
+      description: Count inspections by region and year
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: integer
+      summary: Count inspections by region and year
+      tags:
+      - insp
   /station:
     get:
       consumes:

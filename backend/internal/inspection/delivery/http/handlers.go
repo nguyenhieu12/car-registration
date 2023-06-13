@@ -19,6 +19,19 @@ type inspectionHandlers struct {
 	logger            logger.Logger
 }
 
+// CountAllByRegionAndYear godoc
+// @Summary Count inspections by region and year
+// @Description Count inspections by region and year
+// @Tags insp
+// @Accept json
+// @Produce json
+// @Success 200 {object} int
+// @Router /insp/statistic/region [get]
+func (i *inspectionHandlers) CountAllByRegionAndYear() fiber.Handler {
+	//TODO implement me
+	panic("implement me")
+}
+
 // CountAllByQuarterAndYear godoc
 // @Summary Count inspections by quarter and year
 // @Description Count inspections by quarter and year

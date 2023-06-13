@@ -738,6 +738,29 @@ const docTemplate = `{
                 }
             }
         },
+        "/insp/statistic/region": {
+            "get": {
+                "description": "Count inspections by region and year",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "insp"
+                ],
+                "summary": "Count inspections by region and year",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            }
+        },
         "/insp/{inspection_id}": {
             "get": {
                 "description": "Get inspection by ID",

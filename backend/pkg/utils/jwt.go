@@ -27,7 +27,7 @@ func GenerateJWTToken(user *models.User, config *config.Config) (string, error) 
 		ID:       user.UserID.String(),
 		Role:     *user.Role,
 		RegisteredClaims: jwt.RegisteredClaims{
-			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 60)),
+			ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Minute * 600)),
 		},
 	}
 
