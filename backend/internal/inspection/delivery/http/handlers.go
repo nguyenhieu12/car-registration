@@ -266,11 +266,12 @@ func (i *inspectionHandlers) GetAll() fiber.Handler {
 		//fmt.Println("user", user)
 		//users, err := a.authService.GetUsers(customContext, paginationQuery)
 		var inspections *models.InspectionsList
-		//if *user.Role == "god" || *user.Role == "vr" {
-		//	inspections, err = i.inspectionService.GetAll(customContext, paginationQuery)
-		//} else {
-		inspections, err = i.inspectionService.GetByStationCode(customContext, user.StationCode, paginationQuery)
-		//}
+		if *user.Role == "god" || *user.Role == "vr" {
+			inspections, err = i.inspectionService.GetAll(customContext, paginationQuery)
+		} else {
+			//fmt.Println(user.StationCode)
+			inspections, err = i.inspectionService.GetByStationCode(customContext, user.StationCode, paginationQuery)
+		}
 
 		if err != nil {
 			i.logger.Error("inspectionHandlers.GetAll.GetByRole ", err)
@@ -439,8 +440,7 @@ func (i *inspectionHandlers) GetByRegistrationID() fiber.Handler {
 // @Description		Create inspection
 // @Tags			insp
 // @Accept			json
-// @Produce		json
-// @Param			user_id	path	string	true	"user id"	Format(user_id)
+// @Produce		jsoncreat
 // @Success		200	{object}	models.Inspection
 // @Failure		500	{object}	httpErrors.RestError
 // @Router			/insp/ [post]

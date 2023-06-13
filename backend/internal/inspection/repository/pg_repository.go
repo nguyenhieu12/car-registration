@@ -287,9 +287,9 @@ func (i *inspectionRepo) GetAll(ctx context.Context, query *utils.PaginationQuer
 			Inspections: make([]*models.Inspection, 0),
 		}, nil
 	}
-	query.SetOrderBy("expiry_date desc")
+	//query.SetOrderBy("expiry_date desc")
 	var inspections = make([]*models.Inspection, 0, query.GetSize())
-	if records := i.db.Select("inspection_id DISTINCT registration_id inspection_date expiry_date station_code").Limit(query.GetLimit()).Offset(query.GetOffset()).Order(query.GetOrderBy()).Find(&inspections); records.Error != nil {
+	if records := i.db.Select("DISTINCT registration_id, inspection_id, inspection_date, expiry_date, station_code").Limit(query.GetLimit()).Offset(query.GetOffset()).Order(query.GetOrderBy()).Find(&inspections); records.Error != nil {
 		return nil, errors.Wrap(records.Error, "inspectionRepo.GetAll.Query")
 	}
 
