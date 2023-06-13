@@ -17,6 +17,46 @@ type inspectionRepo struct {
 	db *gorm.DB
 }
 
+func (i *inspectionRepo) CountAllByQuarterAndYearInStation(ctx context.Context) ([]models.StationQuarterAndYear, error) {
+	var results []models.StationQuarterAndYear
+
+	rows, err := i.db.Table("station").
+		Select("station.station_code, EXTRACT(YEAR FROM inspections.inspection_date) AS year," +
+			" COUNT(DISTINCT inspections.registration_id) FILTER (WHERE DATE_PART('quarter', inspections.inspection_date) = 1) AS q1," +
+			" COUNT(DISTINCT inspections.registration_id) FILTER (WHERE DATE_PART('quarter', inspections.inspection_date) = 2) AS q2," +
+			" COUNT(DISTINCT inspections.registration_id) FILTER (WHERE DATE_PART('quarter', inspections.inspection_date) = 3) AS q3," +
+			" COUNT(DISTINCT inspections.registration_id) FILTER (WHERE DATE_PART('quarter', inspections.inspection_date) = 4) AS q4").
+		Joins("JOIN inspections ON station.station_code = inspections.station_code").
+		Group("station.station_code, year").
+		Rows()
+
+	if err != nil {
+		return nil, err
+	}
+
+	for rows.Next() {
+		var staton_code string
+		var year, q1, q2, q3, q4 int
+		//var inspectionCount int64
+		if err := rows.Scan(&staton_code, &year, &q1, &q2, &q3, &q4); err != nil {
+			return nil, err
+		}
+		results = append(results, models.StationQuarterAndYear{
+			StationCode: staton_code,
+			Year:        year,
+			CarsCount: models.CarsCount{
+				Q1: q1,
+				Q2: q2,
+				Q3: q3,
+				Q4: q4,
+			},
+		})
+
+	}
+
+	return results, nil
+}
+
 func (i *inspectionRepo) CountAllByRegionAndYear(ctx context.Context) ([]models.RegionAndYear, error) {
 	span, _ := opentracing.StartSpanFromContext(ctx, "inspectionRepo.CountAllByRegionAndYear")
 	defer span.Finish()
@@ -289,9 +329,22 @@ func (i *inspectionRepo) GetAll(ctx context.Context, query *utils.PaginationQuer
 	}
 	//query.SetOrderBy("expiry_date desc")
 	var inspections = make([]*models.Inspection, 0, query.GetSize())
-	if records := i.db.Select("DISTINCT registration_id, inspection_id, inspection_date, expiry_date, station_code").Limit(query.GetLimit()).Offset(query.GetOffset()).Order(query.GetOrderBy()).Find(&inspections); records.Error != nil {
-		return nil, errors.Wrap(records.Error, "inspectionRepo.GetAll.Query")
+
+	err := i.db.Raw(`
+		SELECT *
+		FROM inspections
+		WHERE (registration_id, expiry_date) IN (
+			SELECT registration_id, MAX(expiry_date)
+			FROM inspections
+			GROUP BY registration_id
+		)
+	`).Scan(&inspections).Error
+	if err != nil {
+		return nil, errors.Wrap(err, "inspectionRepo.GetAll.Query")
 	}
+	//if records := i.db.Select("DISTINCT registration_id, inspection_id, inspection_date, expiry_date, station_code").Limit(query.GetLimit()).Offset(query.GetOffset()).Order(query.GetOrderBy()).Find(&inspections); records.Error != nil {
+	//	return nil, errors.Wrap(records.Error, "inspectionRepo.GetAll.Query")
+	//}
 
 	return &models.InspectionsList{
 		TotalCount:  totalCount,

@@ -19,13 +19,42 @@ type inspectionHandlers struct {
 	logger            logger.Logger
 }
 
+// CountAllByQuarterAndYearInStation godoc
+// @Summary Count inspections by quarter and year in station
+// @Description Count inspections by quarter and year in station
+// @Tags insp
+// @Success 200 {object} models.StationQuarterAndYear
+// @Router /insp/statistic/station/{station_code} [get]
+func (i *inspectionHandlers) CountAllByQuarterAndYearInStation() fiber.Handler {
+	return func(ctx *fiber.Ctx) error {
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "inspectionHandlers.CountAllByQuarterAndYear")
+		defer span.Finish()
+		//staCode := ctx.Params("station_code")
+
+		var result []models.StationQuarterAndYear
+		result, err := i.inspectionService.CountAllByQuarterAndYearInStation(customContext)
+
+		if err != nil {
+			i.logger.Error("inspectionHandlers.CountAllByQuarterAndYear.Query", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+		}
+
+		return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+			"status": "success",
+			"data":   result,
+		})
+	}
+}
+
 // CountAllByRegionAndYear godoc
 // @Summary Count inspections by region and year
 // @Description Count inspections by region and year
 // @Tags insp
 // @Accept json
-// @Produce json
-// @Success 200 {object} int
+// @Success 200 {object} models.RegionAndYear
 // @Router /insp/statistic/region [get]
 func (i *inspectionHandlers) CountAllByRegionAndYear() fiber.Handler {
 	return func(ctx *fiber.Ctx) error {
@@ -440,7 +469,6 @@ func (i *inspectionHandlers) GetByRegistrationID() fiber.Handler {
 // @Description		Create inspection
 // @Tags			insp
 // @Accept			json
-// @Produce		jsoncreat
 // @Success		200	{object}	models.Inspection
 // @Failure		500	{object}	httpErrors.RestError
 // @Router			/insp/ [post]
