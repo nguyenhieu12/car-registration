@@ -140,20 +140,24 @@ function Dashboard() {
                         </a>
                         <span className="tooltip">Thông tin cá nhân</span>
                     </li>
-                    <li>
-                        <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Cấp tài khoản') ? 'isActive' : ''}`} onClick={() => addTab('Cấp tài khoản', <AccountContent isLoggedIn={isLoggedIn}/>, 'bx bxs-user-account')}>
-                            <i class='bx bxs-user-account'></i>
-                            <span className="sidebar-links">Cấp tài khoản</span>
-                        </a>
-                        <span className="tooltip">Cấp tài khoản</span>
-                    </li>
-                    <li>
-                        <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Quản lý tin tức') ? 'isActive' : ''}`} onClick={() => addTab('Quản lý tin tức', <NewsContent />, 'bx bx-news')}>
-                            <i className='bx bx-news' ></i>
-                            <span className="sidebar-links">Quản lý tin tức</span>
-                        </a>
-                        <span className="tooltip">Quản lý tin tức</span>
-                    </li>
+                    {(currentUser.role === "GOD" || currentUser.role === "VR") 
+                    ? <li>
+                    <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Cấp tài khoản') ? 'isActive' : ''}`} onClick={() => addTab('Cấp tài khoản', <AccountContent isLoggedIn={isLoggedIn}/>, 'bx bxs-user-account')}>
+                        <i class='bx bxs-user-account'></i>
+                        <span className="sidebar-links">Cấp tài khoản</span>
+                    </a>
+                    <span className="tooltip">Cấp tài khoản</span>
+                    </li> : '' 
+                    }
+                    {(currentUser.role === "GOD" || currentUser.role === "VR") 
+                    ? <li>
+                    <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Quản lý nhân viên') ? 'isActive' : ''}`} onClick={() => addTab('Quản lý nhân viên', <NewsContent />, 'bx bx-user-plus')}>
+                        <i className='bx bx-user-plus'></i>
+                        <span className="sidebar-links">Quản lý nhân viên</span>
+                    </a>
+                    <span className="tooltip">Quản lý nhân viên</span>
+                    </li> : '' 
+                    }
                     <li className='logout'>
                         <a href="" onClick={handleLogout}>
                             <i className='bx bx-log-out' ></i>
