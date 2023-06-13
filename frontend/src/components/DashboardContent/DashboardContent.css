@@ -2,11 +2,16 @@
     display: inline;
 }
 
-.stats-option {
+.stats-option-by-car {
     max-width: 50px;
     max-height: 50px;
     display: inline;
     margin-right: 20px;
+    margin-bottom: 10px;
+}
+
+.by-cars {
+    margin-bottom: 30px;
 }
 
 .stats-option > span {
@@ -18,57 +23,45 @@
     width: 200px;
     height: 80px;
     border-radius: 5px;
-    /*background-color: cyan;*/
+    color: white;
 }
 
 .stats-icon {
     margin-top: 20px;
-    margin-left: 5px;
+    margin-left: 15px;
     font-size: 35px;
 }
 
 .stats-content > h3 {
-    margin-left: 50px;
+    margin-left: 65px;
     margin-top: -45px;
     width: 150px;
-    font-size: 18px;
+    font-size: 22px;
+    color: white;
 }
 
-.stats-content > strong {
-    margin-left: 100px;
-    margin-top: 100px;
+.stats-content > p {
+    margin-left: 65px;
     width: 150px;
-    font-size: 18px;
+    font-size: 16px;
+    color: white;
+    font-style: italic;
 }
 
 .car-inspection {
     position: absolute;
     top: 160px;
-    left: 450px;
-    background-image: linear-gradient(to right bottom, #95f2ff, #88ccff);
-}
-
-.car-icon {
-    color: #0066ff;
-}
-
-.car-inspection h3,
-.car-inspection strong {
-    color: #3656ff;
+    left: 350px;
+    background-color: #287dff;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    z-index: 2;
 }
 
 .car-expiry {
     position: absolute;
     top: 160px;
-    left: 700px;
-    background-image: linear-gradient(to right bottom, #b9ffa5, #9cd6ff);
-}
-
-.time-icon {
-    color: red;
-}
-
-.car-expiry h3,
-.car-expiry strong {
-    color: red;
+    left: 600px;
+    background-color: #ff4343;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    z-index: 2;
 }

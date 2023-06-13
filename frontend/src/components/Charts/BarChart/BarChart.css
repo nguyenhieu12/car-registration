@@ -1,11 +1,6 @@
 .bar-chart-container {
-    margin-top: 50px;
+    margin-top: 10px;
+    margin-left: 150px;
     height: 65vh;
-    width: 80vw;
+    width: 70vw;
 }
-
-/*.bar-chart-canvas {*/
-/*    width: 600px;*/
-/*    height: 400px;*/
-/*}*/
-
