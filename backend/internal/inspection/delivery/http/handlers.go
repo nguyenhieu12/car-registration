@@ -22,6 +22,7 @@ type inspectionHandlers struct {
 // CountAllByQuarterAndYearInStation godoc
 // @Summary Count inspections by quarter and year in station
 // @Description Count inspections by quarter and year in station
+// @Param Authorization header string true "Insert your access token" default(Bearer <Add access token here>)
 // @Tags insp
 // @Success 200 {object} models.StationQuarterAndYear
 // @Router /insp/statistic/station/{station_code} [get]
@@ -514,7 +515,7 @@ func (i *inspectionHandlers) Create() fiber.Handler {
 // @ID				Update
 // @Summary		Update inspection
 // @Description	Update inspection
-// @Tags			Insp
+// @Tags			insp
 // @Accept			json
 // @Produce		json
 // @Param			inspection_id	path	string	true	"inspection id"	Format(inspection_id)

@@ -702,7 +702,7 @@ paths:
             $ref: '#/definitions/httpErrors.RestError'
       summary: Update inspection
       tags:
-      - Insp
+      - insp
   /insp/all:
     get:
       consumes:
@@ -897,6 +897,13 @@ paths:
   /insp/statistic/station/{station_code}:
     get:
       description: Count inspections by quarter and year in station
+      parameters:
+      - default: Bearer <Add access token here>
+        description: Insert your access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
       responses:
         "200":
           description: OK
