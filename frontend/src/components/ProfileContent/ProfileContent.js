@@ -26,10 +26,10 @@ function ProfileContent({ isLoggedIn }) {
     const [description, setDescription] = useState('');
     const [tempDescription, setTempDescription] = useState('');
     const [companyInfo, setCompanyInfo] = useState({
-      inspectionStation: "TTDK XCG 1101S - Hà Nội",
-      stationCode: "1101S",
-      stationManager: "Đinh Ngọc Hiến",
-      hotline: "02063758742",
+      inspectionStation: "",
+      stationCode: "",
+      stationManager: "",
+      hotline: "",
     });  
     const fullNameInputRef = useRef(null);
     const dateOfBirthInputRef = useRef(null);
@@ -113,9 +113,15 @@ function ProfileContent({ isLoggedIn }) {
             setTempCitizenId(data.data.identity_no);
             setTempEmail(data.data.email);
             setTempDescription(data.data.about === "none" ? "" : data.data.about);
+            setCompanyInfo({
+                inspectionStation: data.data.station_name,
+                stationCode: data.data.station_code,
+                stationManager: data.data.station_manager,
+                hotline: data.data.station_hotline,
+              });
           })
           .catch(error => {
-            console.error(error);
+            console.error(error); 
           });
     };
 
