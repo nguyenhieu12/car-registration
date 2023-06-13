@@ -752,6 +752,16 @@ const docTemplate = `{
                     "insp"
                 ],
                 "summary": "Count inspections by quarter and year in station",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "Bearer \u003cAdd access token here\u003e",
+                        "description": "Insert your access token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -800,7 +810,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Insp"
+                    "insp"
                 ],
                 "summary": "Update inspection",
                 "operationId": "Update",

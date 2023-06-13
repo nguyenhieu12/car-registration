@@ -282,8 +282,47 @@ func (a *authHandlers) Update() fiber.Handler {
 //	@Failure		500	{object}	httpErrors.RestError
 //	@Router			/auth/{id} [delete]
 func (a *authHandlers) Delete() fiber.Handler {
-	//TODO implement me
-	panic("implement me")
+	return func(ctx *fiber.Ctx) error {
+		span, customContext := opentracing.StartSpanFromContext(utils.GetRequestCtx(ctx), "authHandlers.Delete")
+		defer span.Finish()
+
+		uID, err := uuid.Parse(ctx.Params("user_id"))
+		if err != nil {
+			a.logger.Error("authHandlers.Delete.Query", err)
+			return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+				"status":  "Bad Request. User ID is not valid",
+				"message": err.Error(),
+			})
+		}
+
+		user := &models.User{}
+		user.UserID = uID
+
+		userLocals := ctx.Locals("user").(*models.User)
+		if *userLocals.Role != "god" && *userLocals.Role != "admin" && *userLocals.Role != "vrhead" && *userLocals.Role != "vrstaff" {
+			if *userLocals.Role == *user.Role {
+				a.logger.Error("authHandlers.Delete.Query", err)
+				return ctx.Status(fiber.StatusBadRequest).JSON(&fiber.Map{
+					"status":  "Bad Request. Can't update staff role by staff",
+					"message": err.Error(),
+				})
+			}
+		}
+
+		err = a.authService.Delete(customContext, user.UserID)
+		if err != nil {
+			a.logger.Error("authHandlers.Update.Query", err)
+			return ctx.Status(fiber.StatusInternalServerError).JSON(&fiber.Map{
+				"status":  "Internal Server Error",
+				"message": err.Error(),
+			})
+		}
+
+		return ctx.Status(fiber.StatusOK).JSON(&fiber.Map{
+			"status": "success",
+			"data":   "ok",
+		})
+	}
 }
 
 // GetUserByID godoc
