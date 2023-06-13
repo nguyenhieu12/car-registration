@@ -10,8 +10,12 @@ import { FilterMatchMode } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
 import { useReactToPrint } from 'react-to-print';
 import moment from 'moment';
+import {toast, ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function RegistrationCar(props) {
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    const token = localStorage.getItem('token');
     const [excelData, setExcelData] = useState([]);
     const file_type = ["application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.ms-excel"];
     const [autoNumber, setAutoNumber] = useState(1);
@@ -51,21 +55,62 @@ function RegistrationCar(props) {
         setAutoNumber(updatedData.length + 1); // Cập nhật số thứ tự tự động
     };
 
+    const updateInspection = async () => {
+        const currentDate = moment().format("YYYY-MM-DD") + "T00:00:00Z";
+        const expiryDate = moment(currentDate).add(2, 'years').format("YYYY-MM-DD") + "T00:00:00Z";
+        const payload = {
+            expiry_date: expiryDate,
+            inspection_date: currentDate,
+            registration_id: selectedRowData.registration_id,
+            station_code: "2901S",
+        };
+        fetch(`http://localhost:5000/api/v1/insp`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(payload)
+        })
+            .then(response => response.json())
+            .then(data => {
+            //   console.log(data);
+              if (!toast.isActive('success')) {
+                toast.success('Đăng kiểm thành công', {
+                  toastId: 'success',
+                  autoClose: 1500,
+                });
+              }
+            })
+            .catch(error => {
+            //   console.error(error);
+              if (!toast.isActive('updatePass-error')) {
+                  toast.error('Đăng kiểm thất bại', {
+                    toastId: 'updatePass-error',
+                    autoClose: 1500
+                  });
+                }
+            });
+      };
+
     const emptyMessage = "Cần nhập dữ liệu thông tin đăng ký xe để xử lý";
 
-    const alertMessage = (rowData) => {
-        alert(`Bạn đã nhấp vào biểu tượng với dữ liệu: ${JSON.stringify(rowData)}`);
-    };
-
     const actionTemplate = (rowData) => {
+        const handleIconClick = () => {
+            if (moment(rowData.expiry_date).isBefore(moment())) {
+              triggerModal(rowData);
+            }
+          };
         return (
             <div>
-                <i className="bx bx-edit-alt" onClick={() => triggerModal(rowData)} style={{ cursor: 'pointer' }}></i>
+                <i className="bx bx-show" onClick={handleIconClick} style={{ cursor: 'pointer' }}></i>
+                {/* <i className='bx bx-search' style={{ cursor: 'pointer', marginLeft: '0.5rem' }}></i> */}
                 <i className="bx bx-trash-alt" onClick={() => handleDeleteRow(rowData)} style={{ cursor: 'pointer', marginLeft: '0.5rem' }}></i>
             </div>
         );
     };
 
+    
     const [modal, setModal] = useState(false);
     const triggerModal = (rowData) => {
         setSelectedRowData(rowData);
@@ -73,6 +118,14 @@ function RegistrationCar(props) {
     };
 
     const componentRef = useRef();
+
+    const handlePrintFile = () => {
+        if (window.confirm('Bạn có muốn in hoặc tải giấy đăng kiểm?')) {
+            handlePrint();
+            updateInspection();
+        }
+        return;
+    }
     const handlePrint = useReactToPrint({
         content: () => componentRef.current,
     });
@@ -125,7 +178,7 @@ function RegistrationCar(props) {
                                                 <span className="small-text">(Registration Number)</span></p>
                                             </div>
                                             <div className='row-flex-item'>
-                                                <p>Số quản lý: <input type='text'/><br/>
+                                                <p>Số quản lý: {selectedRowData.manufactured_year * 3 + "UV" + selectedRowData.manufactured_year * 2}<br/>
                                                 <span className="small-text">(Vehicle Inspection No.)</span></p>
                                             </div>
                                             </div>
@@ -190,7 +243,7 @@ function RegistrationCar(props) {
                                                 <p>Công suất lớn nhất/Tốc độ quay: <span className="small-text">(Max. output/rpm)</span></p> <p className="right-side">{selectedRowData.max_output} (kW)/{selectedRowData.rpm} vph</p>
                                             </div>
                                             <div className='spaceAround'>
-                                                <p>Số seri: <span className="small-text">(No.)</span> <input type='text'/></p>
+                                                <p>Số seri: <span className="small-text">(No.)</span> {selectedRowData.manufactured_year * 2 + 1999} </p>
                                             </div>
                                             </div>
                                         <div className='form-row-popup-item outline'>
@@ -201,7 +254,7 @@ function RegistrationCar(props) {
                                                 <div className='row-flex-two'>
                                                     <p>Số phiếu kiểm định<br/>
                                                     <span className="small-text">(VehicleInspection Report No)</span><br/>
-                                                    <input type='text'/><br/>
+                                                    {selectedRowData.manufactured_year * 2 + "VRN" + selectedRowData.manufactured_year * 4}<br/>
                                                     Có hiệu lức đến hết ngày<br/>
                                                     <span className="small-text">(valid until)</span> <input type='text' value="01/07/2021"/></p>
                                                 </div>
@@ -218,7 +271,7 @@ function RegistrationCar(props) {
                                             </div>
                                             <div className='spaceAround'>
                                                 <p><span className='small-text'>Ghi chú:</span> {selectedRowData.notes}</p>
-                                                <i className='bx bxs-file-export' onClick={handlePrint} style={{ cursor: 'pointer', marginLeft: '0.5rem' }}></i>
+                                                <i className='bx bxs-file-export' onClick={handlePrintFile} style={{ cursor: 'pointer', marginLeft: '0.5rem' }}></i>
                                             </div>
                                         </div>
                                     </div>

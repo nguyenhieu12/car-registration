@@ -170,7 +170,7 @@
     transform: translateX(0);
 }
   .form-history {
-    max-width: 800px;
+    max-width: 1000px;
   }
   
   .popup-history,
@@ -194,7 +194,7 @@
     transform: translate(-50%, -50%);
     background: #f1f1f1;
     border-radius: 15px;
-    max-width: 700px;
+    max-width: 1000px;
     min-width: 300px;
   }
   

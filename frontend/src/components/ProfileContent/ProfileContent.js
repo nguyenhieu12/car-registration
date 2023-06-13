@@ -132,9 +132,6 @@ function ProfileContent({ isLoggedIn }) {
       const lastSpaceIndex = fullName.lastIndexOf(" ");
       const firstName1 = fullName.substring(lastSpaceIndex + 1);
       const lastName1 = fullName.substring(0, lastSpaceIndex);
-
-      console.log("First Name:", firstName1);
-      console.log("Last Name:", lastName1);
       const payload = {
         first_name: firstName1,
         last_name: lastName1,
@@ -341,7 +338,7 @@ function ProfileContent({ isLoggedIn }) {
                 </div>
                 <div className="profile-content">
                     {currentIndex === 0 ? (
-                        <div className="personinfo-container">
+                      <div className="personinfo-container">
                         <ToastContainer/>
                         <form ref={formRef}>
                           <h1 className='personinfo-headerText'>Thông tin cá nhân</h1>

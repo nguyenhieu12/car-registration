@@ -2,16 +2,33 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 73.5vh;
+}
+
+.account-content-container div {
+    color: #000;
+}
+
+.select-container {
+    width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: border-color 0.3s ease;
+}
+
+input[type="password"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
 }
 
 .step-wizard {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: -15px;
 }
 .step-wizard-list{
     background: hsl(0, 0%, 100%);
@@ -108,18 +125,27 @@
     color: #22B0DC;
 }
 
-.account-content-container .first-item {
-    order: 1;
-}
-  
-.account-content-container .second-item {
-    order: 2;
+.account-content-main {
+    padding-top: 20px;
+    display: block;
 }
 
-.second-item p {
-    color: #000;
+.account-content-flex {
+    display: flex;
 }
 
-.third-item {
-    order: 3;
+.account-content-flex-two {
+    flex: 1.5;
+    padding-right: 20px;
+    border-right: 1px solid #e2e2e2;
+}
+
+.account-content-flex-three {
+    flex: 3;
+    padding-left: 20px;
+}
+
+.note {
+    margin-top: 20px;
+    color: #d92a2a;
 }
