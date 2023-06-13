@@ -23,5 +23,6 @@ func MapInspectionRoutes(inspectionRouter fiber.Router, h inspection.Handlers, m
 	inspectionRouter.Get("/statistic/", h.CountByQuarterAndYear())
 	inspectionRouter.Get("/statistic/all", h.CountAllByQuarterAndYear())
 	inspectionRouter.Get("/statistic/region", h.CountAllByRegionAndYear())
+	inspectionRouter.Get("/statistic/station", h.CountAllByQuarterAndYearInStation())
 
 }

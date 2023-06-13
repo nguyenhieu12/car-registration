@@ -21,4 +21,5 @@ type Repository interface {
 	CountByQuarterAndYear(ctx context.Context, quarter int, year int) (int, error)
 	CountAllByQuarterAndYear(ctx context.Context) ([]models.QuarterAndYear, error)
 	CountAllByRegionAndYear(ctx context.Context) ([]models.RegionAndYear, error)
+	CountAllByQuarterAndYearInStation(ctx context.Context) ([]models.StationQuarterAndYear, error)
 }

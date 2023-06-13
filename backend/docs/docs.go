@@ -438,24 +438,11 @@ const docTemplate = `{
                 "consumes": [
                     "application/json"
                 ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "insp"
                 ],
                 "summary": "Create inspection",
                 "operationId": "Create inspection",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "format": "user_id",
-                        "description": "user id",
-                        "name": "user_id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -744,9 +731,6 @@ const docTemplate = `{
                 "consumes": [
                     "application/json"
                 ],
-                "produces": [
-                    "application/json"
-                ],
                 "tags": [
                     "insp"
                 ],
@@ -755,7 +739,24 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "integer"
+                            "$ref": "#/definitions/models.RegionAndYear"
+                        }
+                    }
+                }
+            }
+        },
+        "/insp/statistic/station/{station_code}": {
+            "get": {
+                "description": "Count inspections by quarter and year in station",
+                "tags": [
+                    "insp"
+                ],
+                "summary": "Count inspections by quarter and year in station",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.StationQuarterAndYear"
                         }
                     }
                 }
@@ -1246,6 +1247,20 @@ const docTemplate = `{
                 }
             }
         },
+        "models.CarsCountRegion": {
+            "type": "object",
+            "properties": {
+                "mb": {
+                    "type": "integer"
+                },
+                "mn": {
+                    "type": "integer"
+                },
+                "mt": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.Inspection": {
             "type": "object",
             "properties": {
@@ -1314,6 +1329,17 @@ const docTemplate = `{
                 }
             }
         },
+        "models.RegionAndYear": {
+            "type": "object",
+            "properties": {
+                "cars_count_region": {
+                    "$ref": "#/definitions/models.CarsCountRegion"
+                },
+                "year": {
+                    "type": "integer"
+                }
+            }
+        },
         "models.Station": {
             "type": "object",
             "required": [
@@ -1354,6 +1380,20 @@ const docTemplate = `{
                 },
                 "station_url": {
                     "type": "string"
+                }
+            }
+        },
+        "models.StationQuarterAndYear": {
+            "type": "object",
+            "properties": {
+                "cars_count": {
+                    "$ref": "#/definitions/models.CarsCount"
+                },
+                "station_code": {
+                    "type": "string"
+                },
+                "year": {
+                    "type": "integer"
                 }
             }
         },

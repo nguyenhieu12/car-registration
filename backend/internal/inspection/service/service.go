@@ -16,6 +16,13 @@ type inspectionService struct {
 	logger         logger.Logger
 }
 
+func (i *inspectionService) CountAllByQuarterAndYearInStation(ctx context.Context) ([]models.StationQuarterAndYear, error) {
+	span, ctx := opentracing.StartSpanFromContext(ctx, "inspectionService.CountAllByQuarterAndYearInStation")
+	defer span.Finish()
+
+	return i.inspectionRepo.CountAllByQuarterAndYearInStation(ctx)
+}
+
 func (i *inspectionService) CountAllByRegionAndYear(ctx context.Context) ([]models.RegionAndYear, error) {
 	span, ctx := opentracing.StartSpanFromContext(ctx, "inspectionService.CountAllByRegionAndYear")
 	defer span.Finish()

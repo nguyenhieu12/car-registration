@@ -18,6 +18,15 @@ definitions:
       q4:
         type: integer
     type: object
+  models.CarsCountRegion:
+    properties:
+      mb:
+        type: integer
+      mn:
+        type: integer
+      mt:
+        type: integer
+    type: object
   models.Inspection:
     properties:
       expiry_date:
@@ -62,6 +71,13 @@ definitions:
       year:
         type: integer
     type: object
+  models.RegionAndYear:
+    properties:
+      cars_count_region:
+        $ref: '#/definitions/models.CarsCountRegion'
+      year:
+        type: integer
+    type: object
   models.Station:
     properties:
       province:
@@ -90,6 +106,15 @@ definitions:
     - province
     - station_manager
     - station_name
+    type: object
+  models.StationQuarterAndYear:
+    properties:
+      cars_count:
+        $ref: '#/definitions/models.CarsCount'
+      station_code:
+        type: string
+      year:
+        type: integer
     type: object
   models.StationsList:
     properties:
@@ -594,15 +619,6 @@ paths:
       - application/json
       description: Create inspection
       operationId: Create inspection
-      parameters:
-      - description: user id
-        format: user_id
-        in: path
-        name: user_id
-        required: true
-        type: string
-      produces:
-      - application/json
       responses:
         "200":
           description: OK
@@ -870,14 +886,23 @@ paths:
       consumes:
       - application/json
       description: Count inspections by region and year
-      produces:
-      - application/json
       responses:
         "200":
           description: OK
           schema:
-            type: integer
+            $ref: '#/definitions/models.RegionAndYear'
       summary: Count inspections by region and year
+      tags:
+      - insp
+  /insp/statistic/station/{station_code}:
+    get:
+      description: Count inspections by quarter and year in station
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.StationQuarterAndYear'
+      summary: Count inspections by quarter and year in station
       tags:
       - insp
   /station:

@@ -46,3 +46,9 @@ type RegionAndYear struct {
 	Year            int             `json:"year"`
 	CarsCountRegion CarsCountRegion `json:"cars_count_region"`
 }
+
+type StationQuarterAndYear struct {
+	StationCode string    `json:"station_code"`
+	Year        int       `json:"year"`
+	CarsCount   CarsCount `json:"cars_count"`
+}
