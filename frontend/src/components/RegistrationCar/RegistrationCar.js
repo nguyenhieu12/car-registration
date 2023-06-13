@@ -63,6 +63,7 @@ function RegistrationCar(props) {
             inspection_date: currentDate,
             registration_id: selectedRowData.registration_id,
             station_code: "2901S",
+            inspection_id: Math.floor(Math.random() * (10000 - 4000 + 1)) + 4000,
         };
         fetch(`http://localhost:5000/api/v1/insp`, {
           method: 'POST',
@@ -97,9 +98,7 @@ function RegistrationCar(props) {
 
     const actionTemplate = (rowData) => {
         const handleIconClick = () => {
-            if (moment(rowData.expiry_date).isBefore(moment())) {
               triggerModal(rowData);
-            }
           };
         return (
             <div>
