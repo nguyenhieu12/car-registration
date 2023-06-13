@@ -9,6 +9,7 @@ import 'boxicons/css/boxicons.min.css';
 import { FilterMatchMode } from 'primereact/api';
 import { InputText } from 'primereact/inputtext';
 import { useReactToPrint } from 'react-to-print';
+import moment from 'moment';
 
 function RegistrationCar(props) {
     const [excelData, setExcelData] = useState([]);
@@ -37,6 +38,7 @@ function RegistrationCar(props) {
         }
     };
     
+    const[type, setType] = useState("");
 
     const [filters, setFilters] = useState({
         global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -102,7 +104,7 @@ function RegistrationCar(props) {
                         <Column field="index" header="Thứ tự" sortable body={(rowData) => rowData.index} />
                         <Column field="full_name" header="Họ và tên" sortable />
                         <Column field="registration_id" header="Biển số xe" sortable />
-                        <Column field="registration_date" header="Ngày đăng ký" sortable />
+                        <Column field="registration_date" header="Ngày đăng ký" sortable body={(rowData) => moment(rowData.registration_date).format("DD/MM/YYYY")} />
                         <Column field='place_of_registration' header='Nơi đăng ký' sortable/>
                         <Column body={actionTemplate} header="" style={{ textAlign: 'center', width: '6rem' }} />
                     </DataTable>
@@ -123,7 +125,7 @@ function RegistrationCar(props) {
                                                 <span className="small-text">(Registration Number)</span></p>
                                             </div>
                                             <div className='row-flex-item'>
-                                                <p>Số quản lý: 5005V-122752<br/>
+                                                <p>Số quản lý: <input type='text'/><br/>
                                                 <span className="small-text">(Vehicle Inspection No.)</span></p>
                                             </div>
                                             </div>
@@ -143,9 +145,9 @@ function RegistrationCar(props) {
                                             </div>
                                             <div className='row-flex'>
                                             <p>Kinh doanh vận tải <span className="small-text">(Commercial Use)</span></p>
-                                            <input type='checkbox' checked/>
+                                            <input type='checkbox' checked={selectedRowData.commercial_use === "True"}/>
                                             <p> Cải tạo <span className="small-text">(Modification)</span></p>
-                                            <input type='checkbox'/>
+                                            <input type='checkbox'checked={selectedRowData.commercial_use === "False"}/>
                                             </div>
                                             <h3 className='margintop'>2. THÔNG SỐ KỸ THUẬT <span className="big-text">(SPECIFICATIONS)</span></h3>
                                             <div className='row-flex'>
@@ -171,7 +173,7 @@ function RegistrationCar(props) {
                                                 <p>Khối lượng bản thân: <span className="small-text">(Kerb mass)</span></p> <p className="right-side">{selectedRowData.kerbmass} (mm)</p>
                                             </div>
                                             <div className='spaceAround'>
-                                                <p>Khối lượng hàng CC theo TK/CP TGGT:</p> <p className="right-side">{selectedRowData.design__authorized_pay_load} (kg)</p>
+                                                <p>Khối lượng hàng CC theo TK/CP TGGT:</p> <p className="right-side">{selectedRowData.design__authorized_total_mass} (kg)</p>
                                             </div>
                                             <span className="small-text">(Design/Authorized total mass)</span>
                                             <div className='spaceAround'>
@@ -185,35 +187,37 @@ function RegistrationCar(props) {
                                                 <p>Thể tích làm việc của động cơ: <span className="small-text">(Engine Displacement)</span></p> <p className="right-side">{selectedRowData.engine_displacement} (cm3)</p>
                                             </div>
                                             <div className='spaceAround'>
-                                                <p>Công suất lớn nhất/Tốc độ quay: <span className="small-text">(Max. output/rpm)</span></p> <p className="right-side">{selectedRowData.max_output}(kW)/{selectedRowData.rpm}vph</p>
+                                                <p>Công suất lớn nhất/Tốc độ quay: <span className="small-text">(Max. output/rpm)</span></p> <p className="right-side">{selectedRowData.max_output} (kW)/{selectedRowData.rpm} vph</p>
                                             </div>
-                                            <p>Số seri: <span className="small-text">(No.)</span></p>
-                                        </div>
+                                            <div className='spaceAround'>
+                                                <p>Số seri: <span className="small-text">(No.)</span> <input type='text'/></p>
+                                            </div>
+                                            </div>
                                         <div className='form-row-popup-item outline'>
                                             <p>Số lượng lốp, cỡ lốp/trục <span className="small-text">(Number of tires, Tires size/axle)</span></p>
-                                            <p>1: 2; 255/55R20</p>
-                                            <p>2: 2; 255/55R20</p>
+                                            <p>1: 2; {selectedRowData.tires_size__axle}</p>
+                                            <p>2: 2; {selectedRowData.tires_size__axle}</p>
                                             <div className='row-flex margintop2'>
                                                 <div className='row-flex-two'>
                                                     <p>Số phiếu kiểm định<br/>
                                                     <span className="small-text">(VehicleInspection Report No)</span><br/>
-                                                    5005V-50103/20<br/>
+                                                    <input type='text'/><br/>
                                                     Có hiệu lức đến hết ngày<br/>
                                                     <span className="small-text">(valid until)</span> <input type='text' value="01/07/2021"/></p>
                                                 </div>
                                                 <div className='row-flex-three'>
-                                                    <p>TP.HCM, ngày 2 tháng 1 năm 2020<br/><span className="small-text">(Issued on: Day/Month/Year)</span><br/><h3>ĐƠN VỊ KIỂM ĐỊNH</h3><span className="small-text">(INSPECTION CENTER)</span></p>
+                                                    <p>Hà Nội, ngày {moment().format("DD")} tháng {moment().format("MM")} năm {moment().format("YYYY")}<br/><span className="small-text">(Issued on: Day/Month/Year)</span><br/><h3>ĐƠN VỊ KIỂM ĐỊNH</h3><span className="small-text">(INSPECTION CENTER)</span></p>
                                                 </div>
                                             </div>
                                             <img src="https://th.bing.com/th/id/OIP.6Jq8cQRKZB9oMEQLDsE9DAHaEK?pid=ImgDet&rs=1"/>
                                             <div className='spaceAround'>
-                                                <p>Có lắp thiết bị giám sát hành trình <span className='small-text'>(Equipped with Tachograph)</span></p> <span className="right-side"><input type='checkbox' check/></span>
+                                                <p>Có lắp thiết bị giám sát hành trình <span className='small-text'>(Equipped with Tachograph)</span></p> <span className="right-side"><input type='checkbox' checked={selectedRowData.equipped_with_tachograph === "True"}/></span>
                                             </div>
                                             <div className='spaceAround'>
-                                                <p>Không cấp tem kiểm định <span className='small-text'>(Inspection stamp was not issued)</span></p> <span className="right-side"><input type='checkbox'/></span>
+                                                <p>Không cấp tem kiểm định <span className='small-text'>(Inspection stamp was not issued)</span></p> <span className="right-side"><input type='checkbox' checked={selectedRowData.equipped_with_camera === "True"}/></span>
                                             </div>
                                             <div className='spaceAround'>
-                                                <p><span className='small-text'>Ghi chú:</span> Biển đăng ký nền trắng</p>
+                                                <p><span className='small-text'>Ghi chú:</span> {selectedRowData.notes}</p>
                                                 <i className='bx bxs-file-export' onClick={handlePrint} style={{ cursor: 'pointer', marginLeft: '0.5rem' }}></i>
                                             </div>
                                         </div>
