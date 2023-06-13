@@ -22,7 +22,7 @@ func (i *inspectionRepo) CountAllByRegionAndYear(ctx context.Context) ([]models.
 	defer span.Finish()
 	var counts []models.RegionAndYear
 
-	err := i.db.Raw(`
+	rows, err := i.db.Raw(`
 		SELECT EXTRACT(YEAR FROM inspections.inspection_date) AS year,
 		COUNT(CASE WHEN area.area = 'Miền Bắc' THEN inspections.inspection_id END) AS mb,
 		COUNT(CASE WHEN area.area = 'Miền Trung' THEN inspections.inspection_id END) AS mt,
@@ -32,10 +32,29 @@ func (i *inspectionRepo) CountAllByRegionAndYear(ctx context.Context) ([]models.
 		JOIN area ON station.province = area.province
 		GROUP BY EXTRACT(YEAR FROM inspections.inspection_date)
 		ORDER BY EXTRACT(YEAR FROM inspections.inspection_date)
-	`).Scan(&counts).Error
+	`).Rows()
 
 	if err != nil {
 		return nil, err
+	}
+
+	//yearMap := make(map[int]models.CarsCountRegion)
+
+	for rows.Next() {
+		var year, mb, mt, mn int
+		//var inspectionCount int64
+		if err := rows.Scan(&year, &mb, &mt, &mn); err != nil {
+			return nil, err
+		}
+		counts = append(counts, models.RegionAndYear{
+			Year: year,
+			CarsCountRegion: models.CarsCountRegion{
+				MB: mb,
+				MT: mt,
+				MN: mn,
+			},
+		})
+
 	}
 
 	return counts, nil
@@ -268,9 +287,9 @@ func (i *inspectionRepo) GetAll(ctx context.Context, query *utils.PaginationQuer
 			Inspections: make([]*models.Inspection, 0),
 		}, nil
 	}
-
+	query.SetOrderBy("expiry_date desc")
 	var inspections = make([]*models.Inspection, 0, query.GetSize())
-	if records := i.db.Limit(query.GetLimit()).Offset(query.GetOffset()).Order(query.GetOrderBy()).Find(&inspections); records.Error != nil {
+	if records := i.db.Select("inspection_id DISTINCT registration_id inspection_date expiry_date station_code").Limit(query.GetLimit()).Offset(query.GetOffset()).Order(query.GetOrderBy()).Find(&inspections); records.Error != nil {
 		return nil, errors.Wrap(records.Error, "inspectionRepo.GetAll.Query")
 	}
 

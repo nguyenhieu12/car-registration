@@ -266,11 +266,11 @@ func (i *inspectionHandlers) GetAll() fiber.Handler {
 		//fmt.Println("user", user)
 		//users, err := a.authService.GetUsers(customContext, paginationQuery)
 		var inspections *models.InspectionsList
-		if *user.Role == "god" || *user.Role == "vr" {
-			inspections, err = i.inspectionService.GetAll(customContext, paginationQuery)
-		} else {
-			inspections, err = i.inspectionService.GetByStationCode(customContext, user.StationCode, paginationQuery)
-		}
+		//if *user.Role == "god" || *user.Role == "vr" {
+		//	inspections, err = i.inspectionService.GetAll(customContext, paginationQuery)
+		//} else {
+		inspections, err = i.inspectionService.GetByStationCode(customContext, user.StationCode, paginationQuery)
+		//}
 
 		if err != nil {
 			i.logger.Error("inspectionHandlers.GetAll.GetByRole ", err)
@@ -355,10 +355,20 @@ func (i *inspectionHandlers) GetByStationCode() fiber.Handler {
 		}
 		statCode := ctx.Params("station_code")
 		//inspectionLocals := ctx.Locals("user").(*models.User)
-
-		//users, err := a.authService.GetUsers(customContext, paginationQuery)
 		var inspections *models.InspectionsList
-		inspections, err = i.inspectionService.GetByStationCode(customContext, statCode, paginationQuery)
+
+		//if *user.Role == "god" || *user.Role == "vr" {
+		//	inspections, err = i.inspectionService.GetAll(customContext, paginationQuery)
+		//} else {
+		//	inspections, err = i.inspectionService.GetByStationCode(customContext, user.StationCode, paginationQuery)
+		//}
+
+		if statCode == "VR" || statCode == "GOD" {
+			inspections, err = i.inspectionService.GetAll(customContext, paginationQuery)
+		} else {
+			inspections, err = i.inspectionService.GetByStationCode(customContext, statCode, paginationQuery)
+
+		}
 
 		if err != nil {
 			i.logger.Error("inspectionHandlers.GetByStationCode.GetByRole ", err)
