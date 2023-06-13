@@ -24,17 +24,17 @@ function Developers() {
                 <div className="developer1">
                     <img src={dev1} alt="dev2" className="rounded-img"/>
                     <h1 className="dev-name">Đào Trọng Đăng</h1>
-                    <p className="dev-desc">Chiến thần Backend</p>
+                    <p className="dev-desc">Backend Developer</p>
                 </div>
                 <div className="developer2">
                     <img src={dev2} alt="dev2" className="rounded-img"/>
                     <h1 className="dev-name">Nguyễn Minh Hiếu</h1>
-                    <p className="dev-desc">Chúma hmề</p>
+                    <p className="dev-desc">Frontend Developer</p>
                 </div>
                 <div className="developer3">
                     <img src={dev3} alt="dev2" className="rounded-img"/>
                     <h1 className="dev-name">Nguyễn Khải Hoàn</h1>
-                    <p className="dev-desc">Kẻ hủy diệt Frontend</p>
+                    <p className="dev-desc">Frontend Developer</p>
                 </div>
             </div>
             <div className="contact">

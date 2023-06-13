@@ -23,7 +23,7 @@ function NavbarMobile({ isOpen, handleLoginClick, handleOutsideClick }) {
             <Link className='mobile-link' to='/'>Trang chủ</Link>
             <Link className='mobile-link' to='/developers'>Nhà phát triển</Link>
             <Link className='mobile-link' to='/services'>Dịch vụ</Link>
-            <Link className='mobile-link' to='/news'>Tin tức</Link>
+            {/*<Link className='mobile-link' to='/news'>Tin tức</Link>*/}
             <Link className='mobile-link' to='/search'>Tra cứu</Link>
             <button onClick={() => handleLoginClick}>Đăng nhập</button>
             {isOpen && <LoginForm closeForm={handleOutsideClick} />}
