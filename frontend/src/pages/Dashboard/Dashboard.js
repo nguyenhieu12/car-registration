@@ -7,6 +7,7 @@ import 'boxicons/css/boxicons.min.css';
 import SearchContent from '../../components/SearchContent/SearchContent';
 import RegistrationCar from '../../components/RegistrationCar/RegistrationCar';
 import {useNavigate} from "react-router-dom";
+import AccountContent from '../../components/AccountContent/AccountContent';
 
 function Dashboard() {
     const currentUser = JSON.parse(localStorage.getItem('currentUser'));
@@ -138,6 +139,13 @@ function Dashboard() {
                             <span className="sidebar-links">Thông tin cá nhân</span>
                         </a>
                         <span className="tooltip">Thông tin cá nhân</span>
+                    </li>
+                    <li>
+                        <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Cấp tài khoản') ? 'isActive' : ''}`} onClick={() => addTab('Cấp tài khoản', <AccountContent isLoggedIn={isLoggedIn}/>, 'bx bxs-user-account')}>
+                            <i class='bx bxs-user-account'></i>
+                            <span className="sidebar-links">Cấp tài khoản</span>
+                        </a>
+                        <span className="tooltip">Cấp tài khoản</span>
                     </li>
                     <li>
                         <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Quản lý tin tức') ? 'isActive' : ''}`} onClick={() => addTab('Quản lý tin tức', <NewsContent />, 'bx bx-news')}>
