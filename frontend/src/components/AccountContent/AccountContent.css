@@ -16,7 +16,7 @@
   transition: border-color 0.3s ease;
 }
 
-input[type="password"] {
+.account-content-container input[type="password"] {
     width: 100%;
     padding: 5px;
     border: 1px solid #ccc;

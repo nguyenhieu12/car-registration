@@ -140,7 +140,7 @@ function Dashboard() {
                         </a>
                         <span className="tooltip">Thông tin cá nhân</span>
                     </li>
-                    {(currentUser.role === "GOD" || currentUser.role === "VR") 
+                    {(currentUser.role === "god" || currentUser.role === "vrhead" || currentUser.role === "vrstaff") 
                     ? <li>
                     <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Cấp tài khoản') ? 'isActive' : ''}`} onClick={() => addTab('Cấp tài khoản', <AccountContent isLoggedIn={isLoggedIn}/>, 'bx bxs-user-account')}>
                         <i class='bx bxs-user-account'></i>
@@ -149,7 +149,7 @@ function Dashboard() {
                     <span className="tooltip">Cấp tài khoản</span>
                     </li> : '' 
                     }
-                    {(currentUser.role === "GOD" || currentUser.role === "VR") 
+                    {(currentUser.role === "god" || currentUser.role === "vrhead" || currentUser.role === "admin") 
                     ? <li>
                     <a href="#" className={`.sidebar-container li a ${tabs.find(tab => tab.title === 'Quản lý nhân viên') ? 'isActive' : ''}`} onClick={() => addTab('Quản lý nhân viên', <NewsContent />, 'bx bx-user-plus')}>
                         <i className='bx bx-user-plus'></i>

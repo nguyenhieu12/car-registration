@@ -125,6 +125,26 @@ function ProfileContent({ isLoggedIn }) {
           });
     };
 
+    const [data, setData] = useState([]);
+
+
+    const getAllStation = async () => {
+      fetch(`http://localhost:5000/api/v1/station/${currentUser.station_code}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+      })
+          .then(response => response.json())
+          .then(data => {
+            setData(data.data);
+          })
+          .catch(error => {
+            console.error(error); 
+          });
+    };
+
     const formRef = useRef();
 
     const updateUser = async (id) => {
@@ -245,6 +265,7 @@ function ProfileContent({ isLoggedIn }) {
 
     useEffect(() => {
       getUser();
+      getAllStation();
     }, []);
   
     const handleCancel = () => {
@@ -462,7 +483,7 @@ function ProfileContent({ isLoggedIn }) {
                               <input
                                 type="text"
                                 id="inspectionStation"
-                                value={companyInfo.inspectionStation}
+                                value={data.station_name}
                                 title='Không thể sửa đổi'
                                 className='input-disabled'
                                 disabled
@@ -473,7 +494,7 @@ function ProfileContent({ isLoggedIn }) {
                               <input
                                 type="text"
                                 id="stationCode"
-                                value={companyInfo.stationCode}
+                                value={data.station_code}
                                 title='Không thể sửa đổi'
                                 className='input-disabled'
                                 disabled
@@ -486,7 +507,7 @@ function ProfileContent({ isLoggedIn }) {
                               <input
                                 type="text"
                                 id="stationManager"
-                                value={companyInfo.stationManager}
+                                value={data.station_manager}
                                 title='Không thể sửa đổi'
                                 className='input-disabled'
                                 disabled
@@ -497,7 +518,7 @@ function ProfileContent({ isLoggedIn }) {
                               <input
                                 type="text"
                                 id="hotline"
-                                value={companyInfo.hotline}
+                                value={data.station_hotline}
                                 title='Không thể sửa đổi'
                                 className='input-disabled'
                                 disabled
