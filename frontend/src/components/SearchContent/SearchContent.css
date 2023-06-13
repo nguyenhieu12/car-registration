@@ -1,0 +1,13 @@
+.expiry {
+    background: #d35353;
+    color: #ffffff;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.unexpiry {
+    background: #61d250;
+    color: #ffffff;
+    padding: 5px;
+    border-radius: 5px;
+}
