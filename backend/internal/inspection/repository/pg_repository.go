@@ -9,11 +9,36 @@ import (
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 	"gorm.io/gorm"
+	"sort"
 	"time"
 )
 
 type inspectionRepo struct {
 	db *gorm.DB
+}
+
+func (i *inspectionRepo) CountAllByRegionAndYear(ctx context.Context) ([]models.RegionAndYear, error) {
+	span, _ := opentracing.StartSpanFromContext(ctx, "inspectionRepo.CountAllByRegionAndYear")
+	defer span.Finish()
+	var counts []models.RegionAndYear
+
+	err := i.db.Raw(`
+		SELECT EXTRACT(YEAR FROM inspections.inspection_date) AS year,
+		COUNT(CASE WHEN area.area = 'Miền Bắc' THEN inspections.inspection_id END) AS mb,
+		COUNT(CASE WHEN area.area = 'Miền Trung' THEN inspections.inspection_id END) AS mt,
+		COUNT(CASE WHEN area.area = 'Miền Nam' THEN inspections.inspection_id END) AS mn
+		FROM inspections
+		JOIN station ON inspections.station_code = station.station_code
+		JOIN area ON station.province = area.province
+		GROUP BY EXTRACT(YEAR FROM inspections.inspection_date)
+		ORDER BY EXTRACT(YEAR FROM inspections.inspection_date)
+	`).Scan(&counts).Error
+
+	if err != nil {
+		return nil, err
+	}
+
+	return counts, nil
 }
 
 func (i *inspectionRepo) CountAllByQuarterAndYear(ctx context.Context) ([]models.QuarterAndYear, error) {
@@ -24,6 +49,7 @@ func (i *inspectionRepo) CountAllByQuarterAndYear(ctx context.Context) ([]models
 	rows, err := i.db.Table("inspections").
 		Select("EXTRACT(YEAR FROM inspection_date) AS year, DATE_PART('quarter', inspection_date) AS quarter, COUNT(*) AS inspection_count").
 		Group("year, quarter").
+		Order("year ASC").
 		Rows()
 
 	if err != nil {
@@ -64,8 +90,18 @@ func (i *inspectionRepo) CountAllByQuarterAndYear(ctx context.Context) ([]models
 		yearMap[year] = carsCount
 	}
 
-	// Convert the yearMap to a list of QuarterAndYear structs
-	for year, carsCount := range yearMap {
+	// Create a slice to store the sorted years
+	sortedYears := make([]int, 0, len(yearMap))
+
+	// Extract and sort the years
+	for year := range yearMap {
+		sortedYears = append(sortedYears, year)
+	}
+	sort.Ints(sortedYears)
+
+	// Iterate over the sorted years and retrieve the corresponding CarsCount values
+	for _, year := range sortedYears {
+		carsCount := yearMap[year]
 		result = append(result, models.QuarterAndYear{
 			Year:      year,
 			CarsCount: carsCount,
