@@ -16,6 +16,8 @@ function DashboardContent(props) {
 
     const [carExpiry, setCarExpiry] = useState(0);
 
+    const [carExpiryThisMonth, setCarExpiryThisMonth] = useState(0);
+
     const [chartData, setChartData] = useState({
         labels: '',
         datasets: [
@@ -51,6 +53,19 @@ function DashboardContent(props) {
             if (response.ok) {
                 const data = await response.json();
                 const inspections = data.data.inspections;
+
+                // console.log(inspections);
+                const count = inspections.reduce((result, inspection) => {
+                    const year = new Date(inspection.inspection_date).getFullYear();
+                    const month = new Date(inspection.inspection_date).getMonth();
+
+                    if((year === 2022 || year === 2023) && ((month + 1) === 6)) {
+                        result++;
+                    }
+
+                    return result;
+                }, 0);
+
                 const carData = inspections.reduce((result, inspection) => {
                     const inspectionYear = new Date(inspection.inspection_date).getFullYear();
                     const existingObj = result.find(obj => obj.year === inspectionYear);
@@ -62,11 +77,14 @@ function DashboardContent(props) {
                     return result;
                 }, []);
 
+
                 setCarInspection(carData.reduce((cars, currentQuantity) => cars + currentQuantity.car, 0));
 
                 setCarExpiry(carData.reduce((cars, currentQuantity) =>
                         ((currentQuantity.year >= 2021 && currentQuantity.year < 2023) ? (cars + currentQuantity.car) : cars)
                     , 0));
+
+                setCarExpiryThisMonth(count);
 
                 setChartData(
                     {
@@ -155,8 +173,42 @@ function DashboardContent(props) {
         }
     };
 
+    const carsByStations = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/v1/insp/statistic/station', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                const responseData = await response.json();
+                const data = responseData.data;
+                console.log(data);
+
+                // setChartData(
+                //     {
+                //         labels: ['Miền Bắc', 'Miền Trung', 'Miền Nam'],
+                //         datasets: data.map((item) => ({
+                //             label: item.year.toString(),
+                //             data: Object.values(item.cars_count_region),
+                //             backgroundColor: generateRandomColors(4),
+                //         })),
+                //     }
+                // );
+            } else {
+                console.log('Error:', response.status);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     useLayoutEffect(() => {
 
+        // carsByStations();
         if (selectedStatisticalOption === 'cars') {
             carsByYears();
         } else if (selectedStatisticalOption === 'quarters') {
@@ -219,6 +271,20 @@ function DashboardContent(props) {
                     <div className='stats-content'>
                         <h3>{carExpiry}</h3>
                         <p>Xe sắp đến hạn</p>
+                    </div>
+                </div>
+                <div className='stats-quantity car-expiry-this-month'>
+                    <div className='bx bx-time-five stats-icon'></div>
+                    <div className='stats-content'>
+                        <h3>{carExpiryThisMonth}</h3>
+                        <p>Đến hạn tháng này</p>
+                    </div>
+                </div>
+                <div className='stats-quantity car-expiry-future'>
+                    <div className='bx bx-time-five stats-icon'></div>
+                    <div className='stats-content'>
+                        <h3>{carExpiry - carExpiryThisMonth}</h3>
+                        <p>Đến hạn tháng tới</p>
                     </div>
                 </div>
             </div>
