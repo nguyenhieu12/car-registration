@@ -36,3 +36,13 @@ type QuarterAndYear struct {
 	Year      int       `json:"year"`
 	CarsCount CarsCount `json:"cars_count"`
 }
+
+type CarsCountRegion struct {
+	MB int `json:"mb"`
+	MT int `json:"mt"`
+	MN int `json:"mn"`
+}
+type RegionAndYear struct {
+	Year            int             `json:"year"`
+	CarsCountRegion CarsCountRegion `json:"cars_count_region"`
+}
