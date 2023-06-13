@@ -355,10 +355,14 @@ func (i *inspectionHandlers) GetByStationCode() fiber.Handler {
 		}
 		statCode := ctx.Params("station_code")
 		//inspectionLocals := ctx.Locals("user").(*models.User)
-
-		//users, err := a.authService.GetUsers(customContext, paginationQuery)
 		var inspections *models.InspectionsList
-		inspections, err = i.inspectionService.GetByStationCode(customContext, statCode, paginationQuery)
+
+		if statCode == "VR" || statCode == "GOD" {
+			inspections, err = i.inspectionService.GetAll(customContext, paginationQuery)
+		} else {
+			inspections, err = i.inspectionService.GetByStationCode(customContext, statCode, paginationQuery)
+
+		}
 
 		if err != nil {
 			i.logger.Error("inspectionHandlers.GetByStationCode.GetByRole ", err)
